@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable no-shadow */
@@ -11,18 +12,31 @@ export default function Register(props) {
   const [isHideConfirmPassword, setHideConfirmPassword] = useState(true);
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
+  const [fullName, setFullname] = useState('');
+
   const [confirmPassword, setConfirmPassword] = useState('');
+  const onPressFacebookLogo = () => {
+
+  };
+  const onPressGoogleLogo = () => {
+
+  };
   const onPressSignUp = () => {
-    //Do something
     props.navigation.goBack();
     };
-  const getTitleText = isHide => {
+  const onPressLogin = () => {
+      props.navigation.goBack();
+    };
+  const getStateOfPassword = isHide => {
     return isHide ? 'Show' : 'Hide';
   };
   return (
     <View style={styles.container}>
-        <Image style={styles.image}
-          source={require('../../../../assets/logo-removebg.png')}/>
+        <Text style={styles.textTitle}>Fullname</Text>
+        <TextInput style={styles.textInput}
+          placeholder="Name"
+          onChangeText={fullName => setFullname(fullName)}
+        />
         <Text style={styles.textTitle}>Email</Text>
         <TextInput style={styles.textInput}
           placeholder="Your Email"
@@ -36,7 +50,7 @@ export default function Register(props) {
           secureTextEntry={isHidePassword}/>
           <TouchableOpacity style={{justifyContent: 'center', flex:1}}
             onPress={() => setHidePassword(!isHidePassword)}>
-            <Text >{getTitleText(isHidePassword)}</Text>
+            <Text >{getStateOfPassword(isHidePassword)}</Text>
           </TouchableOpacity>
         </View>
         <Text style={styles.textTitle}>Confirm Password</Text>
@@ -47,12 +61,27 @@ export default function Register(props) {
           secureTextEntry={isHideConfirmPassword}/>
           <TouchableOpacity style={{justifyContent: 'center', flex:1}}
             onPress={() => setHideConfirmPassword(!isHideConfirmPassword)}>
-            <Text >{getTitleText(isHideConfirmPassword)}</Text>
+            <Text >{getStateOfPassword(isHideConfirmPassword)}</Text>
           </TouchableOpacity>
         </View>
         <TouchableOpacity style={styles.button} onPress={onPressSignUp}>
           <Text>Sign up!</Text>
         </TouchableOpacity>
+        <Text style={{alignSelf: 'center', marginTop:10, fontSize:16}}>Or continue with</Text>
+        <View style={{flexDirection:'row', justifyContent: 'space-around', alignSelf:'center', width:200, marginTop:20}}>
+          <TouchableOpacity onPress={onPressGoogleLogo}>
+            <Image style={styles.imageLogoItemLogin} source={require('../../../../assets/logo-google.png')}/>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={onPressFacebookLogo}>
+            <Image style={styles.imageLogoItemLogin} source={require('../../../../assets/logo-facebook.png')}/>
+          </TouchableOpacity>
+        </View>
+        <View style={{flexDirection:'row', alignSelf:'center', marginTop:10}}>
+          <Text style={styles.text}>Don't have account?</Text>
+          <TouchableOpacity onPress={onPressLogin}>
+            <Text style={{fontSize:16, color:'cornflowerblue'}}> Log in</Text>
+          </TouchableOpacity>
+        </View>
   </View>
   );
 }

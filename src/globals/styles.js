@@ -5,42 +5,48 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     height: '100%',
-    padding: 10,
+    padding: 30,
     backgroundColor: 'lightskyblue',
   },
-  image: {
+  imageLogoLogin: {
     width: 150,
     height: 150,
     alignSelf: 'center',
   },
   textTitle: {
+    padding:10,
     fontWeight: 'bold',
     fontSize: 20,
   },
   textInput: {
     borderWidth: 1,
-    borderRadius: 15,
+    borderRadius: 28,
     borderColor: 'lightskyblue',
     backgroundColor: 'white',
   },
   passwordInput: {
     flexDirection: 'row',
     borderWidth: 1,
-    borderRadius: 15,
+    borderRadius: 28,
     borderColor: 'lightskyblue',
     backgroundColor: 'white',
   },
   text: {
-    fontSize: 18,
+    fontSize: 16,
   },
   button: {
     alignItems: 'center',
-    backgroundColor: 'springgreen',
+    backgroundColor: 'deepskyblue',
     padding: 10,
-    width: 100,
-    borderRadius: 6,
+    width: 200,
+    borderRadius: 28,
     marginTop: 10,
     alignSelf: 'center',
+  },
+  imageLogoItemLogin: {
+    width: 60,
+    height: 60,
+    borderRadius:30,
   },
 });
 

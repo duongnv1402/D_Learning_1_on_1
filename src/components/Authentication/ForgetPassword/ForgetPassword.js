@@ -3,7 +3,8 @@
 /* eslint-disable no-shadow */
 /* eslint-disable prettier/prettier */
 import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, Image, TextInput} from 'react-native';
+import {View, TouchableOpacity, Image} from 'react-native';
+import {Text, TextInput, Button} from 'react-native-paper';
 import styles from '../../../globals/styles';
 
 export default function ForgetPassword(props) {
@@ -16,9 +17,10 @@ export default function ForgetPassword(props) {
     <View style={styles.container}>
         <Image style={styles.imageLogoLogin}
           source={require('../../../../assets/logo-removedbackground.png')}/>
-        <Text style={styles.textTitle}>Email</Text>
         <TextInput style={styles.textInput}
           placeholder="Your Email"
+          keyboardType="email-address"
+          left={<TextInput.Icon name="email" />}
           onChangeText={userName=>setUserName(userName)}
         />
         <TouchableOpacity style={styles.button} onPress={onPressSubmit}>

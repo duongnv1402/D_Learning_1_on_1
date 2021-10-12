@@ -19,17 +19,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   textInput: {
-    borderWidth: 1,
-    borderRadius: 28,
-    borderColor: 'lightskyblue',
+    marginTop:10,
     backgroundColor: 'white',
   },
   passwordInput: {
+    marginTop:10,
     flexDirection: 'row',
-    borderWidth: 1,
-    borderRadius: 28,
-    borderColor: 'lightskyblue',
-    backgroundColor: 'white',
   },
   text: {
     fontSize: 16,

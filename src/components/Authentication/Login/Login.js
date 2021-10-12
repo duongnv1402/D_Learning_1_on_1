@@ -4,12 +4,14 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable prettier/prettier */
 import React, {useState}  from 'react';
-import {View, Text, Image, TouchableOpacity, TextInput} from 'react-native';
+import {View, Image, TouchableOpacity} from 'react-native';
 import styles from '../../../globals/styles';
+import {Text, TextInput, Button} from 'react-native-paper';
 export default function Login(props) {
   const [isHide, setHide] = useState(true);
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
+  const [showIcon, setShowIcon] = useState('eye');
   const onPressFacebookLogo = () => {
 
   };
@@ -17,7 +19,7 @@ export default function Login(props) {
 
   };
   const getStateOfPassword = isHide => {
-    return isHide ? 'Show' : 'Hide';
+    return isHide ? 'eye-off' : 'eye';
   };
   const onPressForgetPassword = ()=> {
     props.navigation.navigate('ForgetPassword');
@@ -29,22 +31,19 @@ export default function Login(props) {
     <View style={styles.container}>
         <Image style={styles.imageLogoLogin}
           source={require('../../../../assets/logo-removedbackground.png')}/>
-        <Text style={styles.textTitle}>Email</Text>
         <TextInput style={styles.textInput}
           placeholder="Your Email"
           keyboardType="email-address"
+          left={<TextInput.Icon name="email" />}
           onChangeText={userName=>setUserName(userName)}
         />
-        <Text style={styles.textTitle}>Password</Text>
         <View style={styles.passwordInput}>
           <TextInput style={{flex:10}}
           placeholder="Your Password"
+          left={<TextInput.Icon name="key" />}
+          right={<TextInput.Icon onPress={() => setHide(!isHide)} name={getStateOfPassword(isHide)} />}
           onChangeText={password=>setPassword(password)}
           secureTextEntry={isHide}/>
-          <TouchableOpacity style={{justifyContent: 'center', flex:1, margin:10}}
-            onPress={() => setHide(!isHide)}>
-            <Text >{getStateOfPassword(isHide)}</Text>
-          </TouchableOpacity>
         </View>
         <View style={{flexDirection:'row-reverse'}}>
           <TouchableOpacity onPress={onPressForgetPassword} >

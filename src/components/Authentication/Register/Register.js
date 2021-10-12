@@ -4,8 +4,9 @@
 /* eslint-disable no-shadow */
 /* eslint-disable prettier/prettier */
 import React, {useState}  from 'react';
-import {View, Text, Image, TouchableOpacity, TextInput} from 'react-native';
+import {View, Image, TouchableOpacity} from 'react-native';
 import styles from '../../../globals/styles';
+import {Text, TextInput, Button} from 'react-native-paper';
 
 export default function Register(props) {
   const [isHidePassword, setHidePassword] = useState(true);
@@ -13,6 +14,7 @@ export default function Register(props) {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [fullName, setFullname] = useState('');
+  const [showIcon, setShowIcon] = useState('eye');
 
   const [confirmPassword, setConfirmPassword] = useState('');
   const onPressFacebookLogo = () => {
@@ -28,41 +30,38 @@ export default function Register(props) {
       props.navigation.goBack();
     };
   const getStateOfPassword = isHide => {
-    return isHide ? 'Show' : 'Hide';
+    return isHide ? 'eye-off' : 'eye';
   };
   return (
     <View style={styles.container}>
-        <Text style={styles.textTitle}>Fullname</Text>
         <TextInput style={styles.textInput}
-          placeholder="Name"
+          placeholder="Your Full Name"
           onChangeText={fullName => setFullname(fullName)}
+          left={<TextInput.Icon name="account" />}
         />
-        <Text style={styles.textTitle}>Email</Text>
         <TextInput style={styles.textInput}
           placeholder="Your Email"
           onChangeText={userName=>setUserName(userName)}
+          left={<TextInput.Icon name="email" />}
+
         />
-        <Text style={styles.textTitle}>Password</Text>
         <View style={styles.passwordInput}>
           <TextInput style={{flex:10}}
-          placeholder="Your password"
-          onChangeText={password=>setPassword(password)}
-          secureTextEntry={isHidePassword}/>
-          <TouchableOpacity style={{justifyContent: 'center', flex:1}}
-            onPress={() => setHidePassword(!isHidePassword)}>
-            <Text >{getStateOfPassword(isHidePassword)}</Text>
-          </TouchableOpacity>
+            placeholder="Your Password"
+            left={<TextInput.Icon name="key" />}
+            right={<TextInput.Icon onPress={() => setHidePassword(!isHidePassword)} name={getStateOfPassword(isHidePassword)} />}
+            onChangeText={password=>setPassword(password)}
+            secureTextEntry={isHidePassword}/>
         </View>
-        <Text style={styles.textTitle}>Confirm Password</Text>
         <View style={styles.passwordInput}>
           <TextInput style={{flex:10}}
           placeholder="Enter your password again"
           onChangeText={confirmPassword=>setConfirmPassword(confirmPassword)}
-          secureTextEntry={isHideConfirmPassword}/>
-          <TouchableOpacity style={{justifyContent: 'center', flex:1}}
-            onPress={() => setHideConfirmPassword(!isHideConfirmPassword)}>
-            <Text >{getStateOfPassword(isHideConfirmPassword)}</Text>
-          </TouchableOpacity>
+          secureTextEntry={isHideConfirmPassword}
+          left={<TextInput.Icon name="key" />}
+          right={<TextInput.Icon onPress={() => setHideConfirmPassword(!isHideConfirmPassword)}
+          name={getStateOfPassword(isHideConfirmPassword)} />}
+          />
         </View>
         <TouchableOpacity style={styles.button} onPress={onPressSignUp}>
           <Text>Sign up!</Text>

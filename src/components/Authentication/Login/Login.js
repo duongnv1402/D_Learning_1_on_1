@@ -6,12 +6,12 @@
 import React, {useState}  from 'react';
 import {View, Image, TouchableOpacity} from 'react-native';
 import styles from '../../../globals/styles';
-import {Text, TextInput, Button} from 'react-native-paper';
+import {Text, TextInput} from 'react-native-paper';
+
 export default function Login(props) {
   const [isHide, setHide] = useState(true);
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
-  const [showIcon, setShowIcon] = useState('eye');
   const onPressFacebookLogo = () => {
 
   };

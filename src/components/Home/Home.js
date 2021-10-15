@@ -1,12 +1,14 @@
-/* eslint-disable react-native/no-inline-styles */
-/* eslint-disable react/jsx-no-undef */
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import TeacherCard from '../Commons/TeacherCard';
+import TeacherCard from '../Teacher/TeacherCard';
 import {StyleSheet, ScrollView, View, Text, Image, TouchableOpacity} from 'react-native';
-export default function Home() {
+export default function Home(props) {
     const onPressAvatarLogo = () => {
-
+        props.navigation.navigate('Profile');
+    };
+    const onPressSeeAllButton = () => {
+        props.navigation.navigate('Teachers');
     };
   return (
       <View style={styles.Container}>
@@ -30,16 +32,16 @@ export default function Home() {
             </View>
             <View style={{flexDirection:'row',margin:16}}>
                 <Text style={{fontStyle:'italic', flex: 11}}>Recommended Tutors</Text>
-                <TouchableOpacity style={{justifyContent: 'flex-end', flex:2}}>
-                    <Text style={{color:'lightskyblue'}}>See all > </Text>
+                <TouchableOpacity style={{justifyContent: 'flex-end', flex:2}} onPress={onPressSeeAllButton}>
+                    <Text style={{color:'lightskyblue'}}>See all </Text>
                 </TouchableOpacity>
             </View>
-            <TeacherCard />
-            <TeacherCard />
-            <TeacherCard />
-            <TeacherCard />
-            <TeacherCard />
-            <TeacherCard />
+            <TeacherCard nav={props}/>
+            <TeacherCard nav={props}/>
+            <TeacherCard nav={props}/>
+            <TeacherCard nav={props}/>
+            <TeacherCard nav={props}/>
+            <TeacherCard nav={props}/>
         </ScrollView>
       </View>
   );

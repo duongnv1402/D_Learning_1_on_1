@@ -5,9 +5,13 @@
 import React, {useState}  from 'react';
 import {View, StyleSheet, Text, Image, TouchableOpacity} from 'react-native';
 
-export default function TeacherCard() {
+export default function TeacherCard(props) {
+    const navigation = props.nav;
+    const onPressTeacherCard = () => {
+        navigation.navigation.navigate('TeacherDetail');
+    };
     return (
-        <TouchableOpacity style={styles.Container}>
+        <TouchableOpacity style={styles.Container} onPress={onPressTeacherCard}>
             <View style={{flexDirection:'row'}}>
                 <Image style={styles.Image}
                 source={require('../../../assets/logo.png')}/>

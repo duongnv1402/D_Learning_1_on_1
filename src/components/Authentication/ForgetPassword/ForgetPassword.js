@@ -4,7 +4,7 @@
 /* eslint-disable prettier/prettier */
 import React, {useState} from 'react';
 import {View, TouchableOpacity, Image} from 'react-native';
-import {Text, TextInput, Button} from 'react-native-paper';
+import {Text, TextInput} from 'react-native-paper';
 import styles from '../../../globals/styles';
 
 export default function ForgetPassword(props) {

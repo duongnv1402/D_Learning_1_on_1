@@ -1,11 +1,103 @@
 /* eslint-disable prettier/prettier */
-import React from 'react';
-import { View, Text } from 'react-native';
+/* eslint-disable react-native/no-inline-styles */
 
-export default function Setting() {
+import React from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import {Avatar, Button} from 'react-native-paper';
+
+export default function Setting(props) {
+    const onPressProfile = () => {
+        props.navigation.navigate('Profile');
+    };
+    const onPressFeedback = () => {
+        //props.navigation.navigate('Profile');
+    };
+    const onPressBookingHistory = () => {
+        //props.navigation.navigate('Profile');
+    };
+    const onPressSessionHistory = () => {
+        //props.navigation.navigate('Profile');
+    };
+    const onPressAdvancedSetting = () => {
+        //props.navigation.navigate('Profile');
+    };
+    const onPressWebSite = () => {
+        //props.navigation.navigate('Profile');
+    };
+    const onPressFacebook = () => {
+        //props.navigation.navigate('Profile');
+    };
+    const onPressLogout = () => {
+        //props.navigation.navigate('Profile');
+    };
+
     return (
-        <View>
-            <Text>Setting</Text>
-        </View>
+        <ScrollView style={styles.Container}>
+            <TouchableOpacity onPress={onPressProfile} style={styles.HeaderProfile}>
+                <Avatar.Image style={styles.Avatar} size={64} source={require('../../../assets/logo.png')} />
+                <View style={{width: '80%'}}>
+                    <Text style={styles.Title}>Duong Nguyen</Text>
+                    <Text style={styles.SubTitle}>example@example.com</Text>
+                </View>
+            </TouchableOpacity>
+            <TouchableOpacity  onPress={onPressFeedback}>
+                <Button style={styles.Button} icon="account-heart" color="black" uppercase={false}>Feedback</Button>
+            </TouchableOpacity>
+            <TouchableOpacity  onPress={onPressBookingHistory}>
+                <Button style={styles.Button} icon="format-list-bulleted" color="black" uppercase={false}>Booking history</Button>
+            </TouchableOpacity>
+            <TouchableOpacity  onPress={onPressSessionHistory}>
+                <Button style={styles.Button} icon="history" color="black" uppercase={false}>Session history</Button>
+            </TouchableOpacity>
+            <TouchableOpacity  onPress={onPressAdvancedSetting}>
+                <Button style={styles.Button} icon="menu" color="black" uppercase={false}>Advanced Setting</Button>
+            </TouchableOpacity>
+            <TouchableOpacity  onPress={onPressWebSite}>
+                <Button style={styles.Button} icon="web" color="black" uppercase={false}>Ours web site</Button>
+            </TouchableOpacity>
+            <TouchableOpacity  onPress={onPressFacebook}>
+                <Button style={styles.Button} icon="facebook" color="black" uppercase={false}>Facebook</Button>
+            </TouchableOpacity>
+            <TouchableOpacity  onPress={onPressLogout}>
+                <Button style={styles.Button} icon="logout" color="black" uppercase={false}>Logout</Button>
+            </TouchableOpacity>
+        </ScrollView>
     );
 }
+
+const styles = StyleSheet.create({
+    Container: {
+        backgroundColor: 'aliceblue',
+    },
+    HeaderProfile: {
+        flexDirection:'row',
+        alignSelf: 'center',
+        margin: 8,
+        width:'95%',
+        backgroundColor: 'white',
+        borderRadius:10,
+    },
+    Avatar: {
+        alignSelf: 'center',
+        margin: 8,
+    },
+    Title: {
+        margin: 8,
+        fontSize: 18,
+    },
+    SubTitle: {
+        marginLeft: 8,
+        marginTop: 14,
+        flex: 1,
+    },
+    Button: {
+        alignSelf: 'center',
+        alignItems:'flex-start',
+        padding: 4,
+        margin: 8,
+        fontSize: 18,
+        width: '95%',
+        borderRadius:26,
+        backgroundColor:'white',
+    },
+});

@@ -16,6 +16,9 @@ import MessageDialog from './src/components/Message/MessageDialog';
 import Setting from './src/components/Setting/Setting';
 import Upcoming from './src/components/Upcoming/Upcoming';
 import Profile from './src/components/Setting/Profile';
+import Room from './src/components/Room/Room';
+import Courses from './src/components/Courses/Courses';
+import CourseDetail from './src/components/Courses/CourseDetail';
 
 const theme = {
   ...DefaultTheme,
@@ -26,6 +29,7 @@ const theme = {
     accent: '#f1c40f',
   },
 };
+
 const Stack = createNativeStackNavigator();
 
 const Tab = createBottomTabNavigator();
@@ -43,14 +47,14 @@ export default function App() {
                 let iconName;
                 if (route.name === 'Home') {
                   iconName = 'home';
-                } else if (route.name === 'Settings') {
-                  iconName = 'settings';
+                } else if (route.name === 'Courses') {
+                  iconName = 'book';
                 } else if (route.name === 'Message') {
                   iconName = 'chatbubbles';
                 } else if (route.name === 'Teachers') {
-                  iconName = 'person';
+                  iconName = 'people';
                 } else if (route.name === 'Upcoming') {
-                  iconName = 'calendar-outline';
+                  iconName = 'calendar';
                 }
                 return <Ionicons name={iconName} size={size} color={color} />;
               },
@@ -59,9 +63,9 @@ export default function App() {
             })}>
             <Tab.Screen name="Home" component={HomeStack} />
             <Tab.Screen name="Message" component={MessageStack} />
-            <Tab.Screen name="Upcoming" component={Upcoming} />
+            <Tab.Screen name="Upcoming" component={UpcomingStack} />
             <Tab.Screen name="Teachers" component={TeachersStack} />
-            <Tab.Screen name="Settings" component={Setting} />
+            <Tab.Screen name="Courses" component={CoursesStack} />
           </Tab.Navigator>
         </NavigationContainer>
       ) : (
@@ -80,13 +84,31 @@ export default function App() {
   );
 }
 
+function CoursesStack() {
+  return (
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen name="CoursesScreen" component={Courses} />
+      <Stack.Screen name="CourseDetail" component={CourseDetail} />
+    </Stack.Navigator>
+  );
+}
 function HomeStack() {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="HomeScreen" component={Home} />
-      <Stack.Screen name="Profile" component={Profile} />
+      <Stack.Screen name="Setting" component={SettingsStack} />
       <Stack.Screen name="TeacherDetail" component={TeacherDetail} />
       <Stack.Screen name="MessageDialog" component={MessageDialog} />
+      <Stack.Screen name="Room" component={Room} />
+    </Stack.Navigator>
+  );
+}
+function UpcomingStack() {
+  return (
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen name="UpcomingScreen" component={Upcoming} />
+      <Stack.Screen name="Room" component={Room} />
+      <Stack.Screen name="TeacherDetail" component={TeacherDetail} />
     </Stack.Navigator>
   );
 }
@@ -106,6 +128,15 @@ function TeachersStack() {
       <Stack.Screen name="TeachersScreen" component={Teacher} />
       <Stack.Screen name="TeacherDetail" component={TeacherDetail} />
       <Stack.Screen name="MessageDialog" component={MessageDialog} />
+    </Stack.Navigator>
+  );
+}
+
+function SettingsStack() {
+  return (
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen name="SettingScreen" component={Setting} />
+      <Stack.Screen name="Profile" component={Profile} />
     </Stack.Navigator>
   );
 }

@@ -1,18 +1,15 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable no-shadow */
 /* eslint-disable react-native/no-inline-styles */
-/* eslint-disable prettier/prettier */
-import React, {useState}  from 'react';
-import {View, StyleSheet, Text, Image, TouchableOpacity} from 'react-native';
-import {AirbnbRating} from 'react-native-ratings';
-import {Chip} from 'react-native-paper';
+import React, {useState} from 'react';
+import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-export default function TeacherCard(props) {
+export default function CourseCard(props) {
     const navigation = props.nav;
     const [isLoved, setIsLoved] = useState(props.isLoved);
     const onPressTeacherCard = () => {
-        navigation.navigation.navigate('TeacherDetail');
+        navigation.navigation.navigate('CourseDetail');
     };
     const getNameOfHeart = (isLoved) => {
         return isLoved ?  'heart' : 'heart-outline';
@@ -21,13 +18,11 @@ export default function TeacherCard(props) {
         <TouchableOpacity style={styles.Container} onPress={onPressTeacherCard}>
             <View style={{flexDirection:'row', width: '100%'}}>
                 <Image style={styles.Image}
-                source={require('../../../assets/logo.png')}/>
-                <View style={{flex:6}}>
-                    <Text style={styles.Name}>{props.name}</Text>
-                    <AirbnbRating showRating={false} defaultRating={5} isDisabled={false} size={20} color={'red'}/>
-                    <View style={{flexDirection:'row'}}>
-                    <Chip style={{backgroundColor:'deepskyblue'}}>{props.language}</Chip>
-                    </View>
+                source={{uri:'https://cdn4.iconfinder.com/data/icons/logos-3/600/React.js_logo-512.png'}}/>
+                <View style={{flex:4}}>
+                    <Text style={styles.Name}>{props.title}</Text>
+                    <Text style={styles.Description}>{props.description}</Text>
+                    <Text style={styles.Description}>Level: {props.subtitle} - {props.lessonCount} lesson</Text>
                 </View>
                 <Ionicons
                 onPress={() => {setIsLoved(!isLoved);}}
@@ -35,13 +30,6 @@ export default function TeacherCard(props) {
                 name={getNameOfHeart(isLoved)}
                 color="red"/>
             </View>
-            <Text
-            style={styles.Description}>
-            The quick brown fox jumps over the lazy dog.
-            The quick brown fox jumps over the lazy dog.
-            The quick brown fox jumps over the lazy dog.
-            The quick brown fox jumps over the lazy dog.
-            </Text>
         </TouchableOpacity>
     );
 }
@@ -57,15 +45,13 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         },
     Image: {
-        height:70,
-        width:70,
-        borderRadius:35,
+        height:120,
+        width:120,
         margin:8,
-        flex:2,
+        flex:3,
     },
     Name: {
         fontWeight:'bold',
-        alignSelf:'center',
         margin: 8,
         fontSize:16,
     },

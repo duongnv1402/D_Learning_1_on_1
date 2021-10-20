@@ -2,21 +2,21 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import {Avatar} from 'react-native-paper';
+import {Avatar } from 'react-native-paper';
 
 export default function MessageCard(props) {
+    const navigation = props.nav;
     const onPressCard = () => {
-        props.props.navigation.navigate('MessageDialog');
-
+        navigation.navigation.navigate('MessageDialog');
     };
     return (
         <TouchableOpacity onPress={onPressCard} style={styles.Container}>
             <Avatar.Image style={styles.Avatar} size={64} source={require('../../../assets/logo.png')} />
             <View style={{width: '80%'}}>
-                <Text style={styles.TextName}>Name</Text>
+                <Text style={styles.Title}>{props.title}</Text>
                 <View style={{flexDirection:'row', width: '100%'}}>
-                    <Text style={styles.TextMessage}>Hello 😍</Text>
-                    <Text style={styles.TextTime}>at 06:00PM 12/3/2021</Text>
+                    <Text style={styles.SubTitle} numberOfLines={1}>{props.subtitle} </Text>
+                    <Text style={styles.Time}>at {props.time}</Text>
                 </View>
             </View>
         </TouchableOpacity>
@@ -28,21 +28,22 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         margin: 8,
         width:'95%',
+        borderBottomWidth:1,
     },
     Avatar: {
         alignSelf: 'center',
         margin: 8,
     },
-    TextName: {
+    Title: {
         margin: 8,
         fontSize: 18,
     },
-    TextMessage: {
+    SubTitle: {
         marginLeft: 8,
         marginTop: 14,
         flex: 1,
     },
-    TextTime: {
+    Time: {
         marginLeft: 8,
         marginTop: 14,
         flex: 1,

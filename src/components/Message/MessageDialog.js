@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
     Container: {
         width:'100%',
         height:'100%',
+        backgroundColor: 'aliceblue',
     },
     Header: {
         flexDirection:'row',

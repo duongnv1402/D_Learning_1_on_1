@@ -1,34 +1,21 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet, Alert } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 
-export default function UpcomingCard(props) {
+export default function SessionCard(props) {
     const nav = props.nav;
-    const onPressCancel = () => {
-        Alert.alert('Report', 'Do you want to cancel this lesson?',
-        [
-            {
-                text: 'cancel',
-            },
-            {
-                text:'ok',
-                onPress: ()=>{
-                },
-            },
-        ]);
-    };
-    const onPressEnter = () => {
-        nav.navigation.navigate('Room');
-    };
     const onPressTeacherName = () => {
         nav.navigation.navigate('TeacherDetail');
     };
+    const onPressCard = () => {
+        nav.navigation.navigate('Session');
+    };
     return (
-        <View style={styles.Container} >
+        <TouchableOpacity style={styles.Container}  onPress={onPressCard}>
             <View style={{flexDirection:'row'}}>
                 <Image style={styles.Image}
-                source={require('../../../assets/logo.png')}/>
+                source={require('../../../../assets/logo.png')}/>
                 <View>
                     <TouchableOpacity onPress={onPressTeacherName}>
                         <Text style={styles.Name}>{props.name}</Text>
@@ -41,15 +28,7 @@ export default function UpcomingCard(props) {
                     </View>
                 </View>
             </View>
-            <View style={styles.ViewButton}>
-                <TouchableOpacity style={styles.CancelButton} onPress={onPressCancel}>
-                    <Text style={styles.ButtonText}>Cancel</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.EnterButton} onPress={onPressEnter}>
-                    <Text style={styles.ButtonText}>Go to the lesson room</Text>
-                </TouchableOpacity>
-            </View>
-        </View>
+        </TouchableOpacity>
     );
 }
 

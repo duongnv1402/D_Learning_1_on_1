@@ -1,9 +1,9 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet, Alert } from 'react-native';
+import { View, Text, Image, TouchableOpacity, Alert, StyleSheet } from 'react-native';
 
-export default function UpcomingCard(props) {
+export default function BookingCard(props) {
     const nav = props.nav;
     const onPressCancel = () => {
         Alert.alert('Report', 'Do you want to cancel this lesson?',
@@ -28,7 +28,7 @@ export default function UpcomingCard(props) {
         <View style={styles.Container} >
             <View style={{flexDirection:'row'}}>
                 <Image style={styles.Image}
-                source={require('../../../assets/logo.png')}/>
+                source={require('../../../../assets/logo.png')}/>
                 <View>
                     <TouchableOpacity onPress={onPressTeacherName}>
                         <Text style={styles.Name}>{props.name}</Text>
@@ -41,14 +41,14 @@ export default function UpcomingCard(props) {
                     </View>
                 </View>
             </View>
-            <View style={styles.ViewButton}>
+            {props.isOver ? (<View style={styles.ViewButton}>
                 <TouchableOpacity style={styles.CancelButton} onPress={onPressCancel}>
                     <Text style={styles.ButtonText}>Cancel</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.EnterButton} onPress={onPressEnter}>
                     <Text style={styles.ButtonText}>Go to the lesson room</Text>
                 </TouchableOpacity>
-            </View>
+            </View>) : null}
         </View>
     );
 }

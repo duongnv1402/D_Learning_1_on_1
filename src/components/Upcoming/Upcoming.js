@@ -6,13 +6,13 @@ import UpcomingCard from './UpcomingCard';
 export default function Upcoming(props) {
     return (
         <ScrollView style={styles.Container}>
-            <UpcomingCard nav={props} name="Dương Nguyễn" date="14-02-2000" timeStart="08:00" timeEnd="10:00"/>
-            <UpcomingCard nav={props} name="Dương Nguyễn" date="14-02-2000" timeStart="08:00" timeEnd="10:00"/>
-            <UpcomingCard nav={props} name="Dương Nguyễn" date="14-02-2000" timeStart="08:00" timeEnd="10:00"/>
-            <UpcomingCard nav={props} name="Dương Nguyễn" date="14-02-2000" timeStart="08:00" timeEnd="10:00"/>
-            <UpcomingCard nav={props} name="Dương Nguyễn" date="14-02-2000" timeStart="08:00" timeEnd="10:00"/>
-            <UpcomingCard nav={props} name="Dương Nguyễn" date="14-02-2000" timeStart="08:00" timeEnd="10:00"/>
-            <UpcomingCard nav={props} name="Dương Nguyễn" date="14-02-2000" timeStart="08:00" timeEnd="10:00"/>
+            <UpcomingCard nav={props} name="Dương Nguyễn" date="14-02-2022" timeStart="08:00" timeEnd="10:00"/>
+            <UpcomingCard nav={props} name="Dương Nguyễn" date="14-02-2022" timeStart="08:00" timeEnd="10:00"/>
+            <UpcomingCard nav={props} name="Dương Nguyễn" date="14-02-2022" timeStart="08:00" timeEnd="10:00"/>
+            <UpcomingCard nav={props} name="Dương Nguyễn" date="14-02-2022" timeStart="08:00" timeEnd="10:00"/>
+            <UpcomingCard nav={props} name="Dương Nguyễn" date="14-02-2022" timeStart="08:00" timeEnd="10:00"/>
+            <UpcomingCard nav={props} name="Dương Nguyễn" date="14-02-2022" timeStart="08:00" timeEnd="10:00"/>
+            <UpcomingCard nav={props} name="Dương Nguyễn" date="14-02-2022" timeStart="08:00" timeEnd="10:00"/>
         </ScrollView>
     );
 }

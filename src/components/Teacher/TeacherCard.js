@@ -1,5 +1,4 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable no-shadow */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 import React, {useState}  from 'react';
@@ -14,7 +13,7 @@ export default function TeacherCard(props) {
     const onPressTeacherCard = () => {
         navigation.navigation.navigate('TeacherDetail');
     };
-    const getNameOfHeart = (isLoved) => {
+    const getNameOfHeart = () => {
         return isLoved ?  'heart' : 'heart-outline';
     };
     return (
@@ -24,16 +23,15 @@ export default function TeacherCard(props) {
                 source={require('../../../assets/logo.png')}/>
                 <View style={{flex:6}}>
                     <Text style={styles.Name}>{props.name}</Text>
-                    <AirbnbRating showRating={false} defaultRating={5} isDisabled={false} size={20} color={'red'}/>
                     <View style={{flexDirection:'row'}}>
-                    <Chip style={{backgroundColor:'deepskyblue'}}>{props.language}</Chip>
+                        <AirbnbRating showRating={false} defaultRating={props.avgRating} isDisabled={false} size={20}/>
+                        <Text style={{margin: 6}}>({props.rateCount})</Text>
+                    </View>
+                    <View style={{flexDirection:'row', flex:1}}>
+                        <Chip style={{backgroundColor:'deepskyblue'}}>{props.language}</Chip>
                     </View>
                 </View>
-                <Ionicons
-                onPress={() => {setIsLoved(!isLoved);}}
-                size={36}
-                name={getNameOfHeart(isLoved)}
-                color="red"/>
+                <Ionicons onPress={() => {setIsLoved(!isLoved);}} size={36} name={getNameOfHeart(isLoved)} color="red"/>
             </View>
             <Text
             style={styles.Description}>
@@ -65,8 +63,7 @@ const styles = StyleSheet.create({
     },
     Name: {
         fontWeight:'bold',
-        alignSelf:'center',
-        margin: 8,
+        marginTop: 8,
         fontSize:16,
     },
     Description:{

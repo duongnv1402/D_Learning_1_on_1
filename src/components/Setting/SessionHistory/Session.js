@@ -1,38 +1,29 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
-import {ScrollView, View, Text, TouchableOpacity, StyleSheet,Alert, Image} from 'react-native';
+import React from 'react';
+import {ScrollView, View, Text, StyleSheet, Alert, Image} from 'react-native';
 import { Button, Chip } from 'react-native-paper';
-import {AirbnbRating} from 'react-native-ratings';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const EXAMPLE_TEXT = 'The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. ';
 
 export default function TeacherDetail(props) {
-  const [isLoved, setIsLoved] = useState(props.isLoved);
   const onPressMessage = () => {
     props.navigation.navigate('MessageDialog');
   };
-  const getNameOfHeart = () => {
-    return isLoved ?  'heart' : 'heart-outline';
-  };
-    const onPressReport = () => {
-      Alert.alert('Report', 'Do you want to report this account?',
-      [
-          {
-              text: 'cancel',
-          },
-          {
-              text:'ok',
-              onPress: ()=>{
-              },
-          },
-      ]);
-  };
-  const onPressBooking = ()=>{
-    props.navigation.navigate('TeacherSchedule');
-  };
+  const onPressReport = () => {
+    Alert.alert('Report', 'Do you want to report this session?',
+    [
+        {
+            text: 'cancel',
+        },
+        {
+             text:'ok',
+             onPress: ()=>{
+             },
+        },
+    ]);
+};
   return (
     <ScrollView>
       <View style={{width: '100%', height: 250, backgroundColor:'blue'}}>
@@ -41,18 +32,14 @@ export default function TeacherDetail(props) {
         <View style={{flexDirection: 'row'}}>
           <Image
             style={styles.ImageAvatar}
-            source={require('../../../assets/logo.png')}
+            source={require('../../../../assets/logo.png')}
           />
           <View style={{flex:7}}>
             <Text style={styles.Name}>My Name</Text>
             <Text style={styles.Description}>Teacher</Text>
             <Text style={styles.Description}>Viet Nam</Text>
           </View>
-          <Ionicons onPress={() => {setIsLoved(!isLoved);}} size={36} name={getNameOfHeart(isLoved)} color="red"/>
         </View>
-        <TouchableOpacity style={styles.Button} onPress={onPressBooking}>
-            <Text style={{justifyContent: 'center', alignSelf: 'center', fontSize:18}}>Booking</Text>
-        </TouchableOpacity>
         <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
             <Button labelStyle={{fontSize: 30}}
                     icon="android-messages"
@@ -67,23 +54,10 @@ export default function TeacherDetail(props) {
           <Chip style={styles.Chip}>English</Chip>
           <Chip style={styles.Chip}>Vietnamese</Chip>
         </View>
-        <Text style={styles.TextTitle}>Education</Text>
+        <Text style={styles.TextTitle}>Content</Text>
         <Text style={styles.Description}>{EXAMPLE_TEXT}</Text>
-        <Text style={styles.TextTitle}>Experience</Text>
+        <Text style={styles.TextTitle}>Document</Text>
         <Text style={styles.Description}>{EXAMPLE_TEXT}</Text>
-        <Text style={styles.TextTitle}>Interest</Text>
-        <Text style={styles.Description}>{EXAMPLE_TEXT}</Text>
-        <Text style={styles.TextTitle}>Profession</Text>
-        <Text style={styles.Description}>{EXAMPLE_TEXT}</Text>
-        <Text style={styles.TextTitle}>Specialties</Text>
-        <Text style={styles.Description}>{EXAMPLE_TEXT}</Text>
-        <Text style={styles.TextTitle}>Courses</Text>
-        <Text style={styles.Description}>{EXAMPLE_TEXT}</Text>
-        <Text style={styles.TextTitle}>Rating and Comments</Text>
-        <View style={{flexDirection:'row', marginLeft: 8 }}>
-          <AirbnbRating showRating={false} defaultRating={props.avgRating} isDisabled={false} size={20} color={'red'}/>
-          <Text style={{margin: 6}}>(1234)</Text>
-        </View>
       </View>
     </ScrollView>
   );

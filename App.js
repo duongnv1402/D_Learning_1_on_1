@@ -15,11 +15,18 @@ import Message from './src/components/Message/Message';
 import MessageDialog from './src/components/Message/MessageDialog';
 import Setting from './src/components/Setting/Setting';
 import Upcoming from './src/components/Upcoming/Upcoming';
-import Profile from './src/components/Setting/Profile';
+import Profile from './src/components/Setting/Profile/Profile';
 import Room from './src/components/Room/Room';
 import Courses from './src/components/Courses/Courses';
 import CourseDetail from './src/components/Courses/CourseDetail';
-
+import Feedback from './src/components/Setting/Feedback/Feedback';
+import SessionHistory from './src/components/Setting/SessionHistory/SessionHistory';
+import AdvancedSetting from './src/components/Setting/AdvancedSetting';
+import BecomeATeacher from './src/components/Setting/BecomeATeacher';
+import BookingHistory from './src/components/Setting/Booking/BookingHistory';
+import Session from './src/components/Setting/SessionHistory/Session';
+import EditProfile from './src/components/Setting/Profile/EditProfile';
+import TeacherSchedule from './src/components/Teacher/TeacherSchedule';
 const theme = {
   ...DefaultTheme,
   roundness: 2,
@@ -98,6 +105,7 @@ function HomeStack() {
       <Stack.Screen name="HomeScreen" component={Home} />
       <Stack.Screen name="Setting" component={SettingsStack} />
       <Stack.Screen name="TeacherDetail" component={TeacherDetail} />
+      <Stack.Screen name="TeacherSchedule" component={TeacherSchedule} />
       <Stack.Screen name="MessageDialog" component={MessageDialog} />
       <Stack.Screen name="Room" component={Room} />
     </Stack.Navigator>
@@ -128,6 +136,7 @@ function TeachersStack() {
       <Stack.Screen name="TeachersScreen" component={Teacher} />
       <Stack.Screen name="TeacherDetail" component={TeacherDetail} />
       <Stack.Screen name="MessageDialog" component={MessageDialog} />
+      <Stack.Screen name="TeacherSchedule" component={TeacherSchedule} />
     </Stack.Navigator>
   );
 }
@@ -137,6 +146,13 @@ function SettingsStack() {
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="SettingScreen" component={Setting} />
       <Stack.Screen name="Profile" component={Profile} />
+      <Stack.Screen name="EditProfile" component={EditProfile} />
+      <Stack.Screen name="Feedback" component={Feedback} />
+      <Stack.Screen name="BookingHistory" component={BookingHistory} />
+      <Stack.Screen name="SessionHistory" component={SessionHistory} />
+      <Stack.Screen name="AdvancedSetting" component={AdvancedSetting} />
+      <Stack.Screen name="BecomeATeacher" component={BecomeATeacher} />
+      <Stack.Screen name="Session" component={Session} />
     </Stack.Navigator>
   );
 }

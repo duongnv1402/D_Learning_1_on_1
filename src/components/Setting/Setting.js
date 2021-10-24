@@ -10,16 +10,19 @@ export default function Setting(props) {
         props.navigation.navigate('Profile');
     };
     const onPressFeedback = () => {
-        //props.navigation.navigate('Profile');
+        props.navigation.navigate('Feedback');
     };
     const onPressBookingHistory = () => {
-        //props.navigation.navigate('Profile');
+        props.navigation.navigate('BookingHistory');
     };
     const onPressSessionHistory = () => {
-        //props.navigation.navigate('Profile');
+        props.navigation.navigate('SessionHistory');
     };
     const onPressAdvancedSetting = () => {
-        //props.navigation.navigate('Profile');
+        props.navigation.navigate('AdvancedSetting');
+    };
+    const onPressBecomeATeacher = () => {
+        props.navigation.navigate('BecomeATeacher');
     };
     const onPressWebSite = () => {
         //props.navigation.navigate('Profile');
@@ -51,6 +54,9 @@ export default function Setting(props) {
             </TouchableOpacity>
             <TouchableOpacity  onPress={onPressAdvancedSetting}>
                 <Button style={styles.Button} icon="menu" color="black" uppercase={false}>Advanced Setting</Button>
+            </TouchableOpacity>
+            <TouchableOpacity  onPress={onPressBecomeATeacher}>
+                <Button style={styles.Button} icon="account-tie" color="black" uppercase={false}>Become a Teacher</Button>
             </TouchableOpacity>
             <TouchableOpacity  onPress={onPressWebSite}>
                 <Button style={styles.Button} icon="web" color="black" uppercase={false}>Ours web site</Button>

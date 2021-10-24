@@ -7,7 +7,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
 export default function Home(props) {
-    const onPressAvatarLogo = () => {
+    const onPressMenu = () => {
         props.navigation.navigate('Setting');
     };
     const onPressSeeAllButton = () => {
@@ -20,8 +20,8 @@ export default function Home(props) {
       <View style={styles.Container}>
           <View style={styles.Header}>
               <Text style={{fontWeight:'bold', fontSize:16, marginTop:20, marginLeft:16, flex:10}}>Home</Text>
-              <TouchableOpacity style={{justifyContent: 'center', marginRight:8}} onPress={onPressAvatarLogo}>
-                <Ionicons on size={36} name="menu" color="gray"/>
+              <TouchableOpacity style={{justifyContent: 'center', marginRight:8}} onPress={onPressMenu}>
+                <Ionicons size={36} name="menu" color="gray"/>
               </TouchableOpacity>
           </View>
         <ScrollView style={styles.Container}>
@@ -39,12 +39,12 @@ export default function Home(props) {
                     <Text style={{color:'lightskyblue'}}>See all </Text>
                 </TouchableOpacity>
             </View>
-            <TeacherCard nav={props} name ="Duong Nguyen" language="English" isLoved = {false} />
-            <TeacherCard nav={props} name ="Duong Nguyen" language="English" isLoved = {true}/>
-            <TeacherCard nav={props} name ="Duong Nguyen" language="English" isLoved = {false}/>
-            <TeacherCard nav={props} name ="Duong Nguyen" language="English" isLoved = {false}/>
-            <TeacherCard nav={props} name ="Duong Nguyen" language="English" isLoved = {false}/>
-            <TeacherCard nav={props} name ="Duong Nguyen" language="English" isLoved = {true}/>
+            <TeacherCard nav={props} name ="Duong Nguyen" avgRating={4} rateCount={1234} language="English" isLoved = {false} />
+            <TeacherCard nav={props} name ="Duong Nguyen" avgRating={4} rateCount={1234} language="English" isLoved = {true}/>
+            <TeacherCard nav={props} name ="Duong Nguyen" avgRating={4} rateCount={1234} language="English" isLoved = {false}/>
+            <TeacherCard nav={props} name ="Duong Nguyen" avgRating={4} rateCount={1234} language="English" isLoved = {false}/>
+            <TeacherCard nav={props} name ="Duong Nguyen" avgRating={4} rateCount={1234} language="English" isLoved = {false}/>
+            <TeacherCard nav={props} name ="Duong Nguyen" avgRating={4} rateCount={1234} language="English" isLoved = {true}/>
         </ScrollView>
       </View>
   );

@@ -11,7 +11,7 @@ export default function CourseCard(props) {
     const onPressTeacherCard = () => {
         navigation.navigation.navigate('CourseDetail');
     };
-    const getNameOfHeart = (isLoved) => {
+    const getNameOfHeartIcon = (isLoved) => {
         return isLoved ?  'heart' : 'heart-outline';
     };
     return (
@@ -20,15 +20,13 @@ export default function CourseCard(props) {
                 <Image style={styles.Image}
                 source={{uri:'https://cdn4.iconfinder.com/data/icons/logos-3/600/React.js_logo-512.png'}}/>
                 <View style={{flex:4}}>
-                    <Text style={styles.Name}>{props.title}</Text>
+                    <View style={{flexDirection:'row'}}>
+                        <Text style={styles.Name}>Duong Nguyen</Text>
+                        <Ionicons onPress={() => {setIsLoved(!isLoved);}} size={36} name={getNameOfHeartIcon(isLoved)} color="red"/>
+                    </View>
                     <Text style={styles.Description}>{props.description}</Text>
                     <Text style={styles.Description}>Level: {props.subtitle} - {props.lessonCount} lesson</Text>
                 </View>
-                <Ionicons
-                onPress={() => {setIsLoved(!isLoved);}}
-                size={36}
-                name={getNameOfHeart(isLoved)}
-                color="red"/>
             </View>
         </TouchableOpacity>
     );
@@ -54,6 +52,7 @@ const styles = StyleSheet.create({
         fontWeight:'bold',
         margin: 8,
         fontSize:16,
+        flex:1,
     },
     Description:{
         margin:8,

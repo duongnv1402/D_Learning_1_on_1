@@ -13,7 +13,7 @@ export default function TeacherCard(props) {
     const onPressTeacherCard = () => {
         navigation.navigation.navigate('TeacherDetail');
     };
-    const getNameOfHeart = () => {
+    const getNameOfHeartIcon = () => {
         return isLoved ?  'heart' : 'heart-outline';
     };
     return (
@@ -22,16 +22,18 @@ export default function TeacherCard(props) {
                 <Image style={styles.Image}
                 source={require('../../../assets/logo.png')}/>
                 <View style={{flex:6}}>
-                    <Text style={styles.Name}>{props.name}</Text>
+                    <View style={{flexDirection:'row'}}>
+                        <Text style={styles.Name}>{props.name}</Text>
+                        <Ionicons onPress={() => {setIsLoved(!isLoved);}} size={36} name={getNameOfHeartIcon(isLoved)} color="red"/>
+                    </View>
                     <View style={{flexDirection:'row'}}>
                         <AirbnbRating showRating={false} defaultRating={props.avgRating} isDisabled={false} size={20}/>
                         <Text style={{margin: 6}}>({props.rateCount})</Text>
                     </View>
-                    <View style={{flexDirection:'row', flex:1}}>
+                    <View style={{flexDirection:'row'}}>
                         <Chip style={{backgroundColor:'deepskyblue'}}>{props.language}</Chip>
                     </View>
                 </View>
-                <Ionicons onPress={() => {setIsLoved(!isLoved);}} size={36} name={getNameOfHeart(isLoved)} color="red"/>
             </View>
             <Text
             style={styles.Description}>
@@ -65,6 +67,7 @@ const styles = StyleSheet.create({
         fontWeight:'bold',
         marginTop: 8,
         fontSize:16,
+        flex:1,
     },
     Description:{
         margin:8,

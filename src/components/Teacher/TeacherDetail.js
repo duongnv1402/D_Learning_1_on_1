@@ -14,7 +14,7 @@ export default function TeacherDetail(props) {
   const onPressMessage = () => {
     props.navigation.navigate('MessageDialog');
   };
-  const getNameOfHeart = () => {
+  const getNameOfHeartIcon = () => {
     return isLoved ?  'heart' : 'heart-outline';
   };
     const onPressReport = () => {
@@ -38,17 +38,19 @@ export default function TeacherDetail(props) {
       <View style={{width: '100%', height: 250, backgroundColor:'blue'}}>
       </View>
       <View style={styles.Container}>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{flexDirection: 'row', width: '100%'}}>
           <Image
             style={styles.ImageAvatar}
             source={require('../../../assets/logo.png')}
           />
           <View style={{flex:7}}>
-            <Text style={styles.Name}>My Name</Text>
+            <View style={{flexDirection:'row'}}>
+              <Text style={styles.Name}>Duong Nguyen</Text>
+              <Ionicons onPress={() => {setIsLoved(!isLoved);}} size={36} name={getNameOfHeartIcon(isLoved)} color="red"/>
+            </View>
             <Text style={styles.Description}>Teacher</Text>
             <Text style={styles.Description}>Viet Nam</Text>
           </View>
-          <Ionicons onPress={() => {setIsLoved(!isLoved);}} size={36} name={getNameOfHeart(isLoved)} color="red"/>
         </View>
         <TouchableOpacity style={styles.Button} onPress={onPressBooking}>
             <Text style={{justifyContent: 'center', alignSelf: 'center', fontSize:18}}>Booking</Text>
@@ -61,6 +63,7 @@ export default function TeacherDetail(props) {
                     icon="alert-circle"
                     onPress={onPressReport}/>
         </View>
+        <Text style={styles.TextTitle}>Introduction</Text>
         <Text style={styles.Description}>{EXAMPLE_TEXT}</Text>
         <Text style={styles.TextTitle}>Language</Text>
         <View style={{flexDirection: 'row'}}>
@@ -78,7 +81,7 @@ export default function TeacherDetail(props) {
         <Text style={styles.TextTitle}>Specialties</Text>
         <Text style={styles.Description}>{EXAMPLE_TEXT}</Text>
         <Text style={styles.TextTitle}>Courses</Text>
-        <Text style={styles.Description}>{EXAMPLE_TEXT}</Text>
+        <Text style={styles.Description}>React Native</Text>
         <Text style={styles.TextTitle}>Rating and Comments</Text>
         <View style={{flexDirection:'row', marginLeft: 8 }}>
           <AirbnbRating showRating={false} defaultRating={props.avgRating} isDisabled={false} size={20} color={'red'}/>
@@ -114,6 +117,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     margin: 8,
     fontSize: 16,
+    flex: 1,
   },
   Description: {
     marginLeft: 8,

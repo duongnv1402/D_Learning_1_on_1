@@ -17,7 +17,7 @@ export default function FeedbackCard(props) {
                     </View>
                 </View>
             </View>
-            <Text style={styles.Description}>{props.comment}</Text>
+            <Text style={styles.Description}>{props.content}</Text>
         </View>
     );
 }

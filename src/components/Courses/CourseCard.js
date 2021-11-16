@@ -18,10 +18,10 @@ export default function CourseCard(props) {
         <TouchableOpacity style={styles.Container} onPress={onPressTeacherCard}>
             <View style={{flexDirection:'row', width: '100%'}}>
                 <Image style={styles.Image}
-                source={{uri:'https://cdn4.iconfinder.com/data/icons/logos-3/600/React.js_logo-512.png'}}/>
+                source={{uri:props.imgUrl}}/>
                 <View style={{flex:4}}>
                     <View style={{flexDirection:'row'}}>
-                        <Text style={styles.Name}>Duong Nguyen</Text>
+                        <Text style={styles.Name}>{props.name}</Text>
                         <Ionicons onPress={() => {setIsLoved(!isLoved);}} size={36} name={getNameOfHeartIcon(isLoved)} color="red"/>
                     </View>
                     <Text style={styles.Description}>{props.description}</Text>

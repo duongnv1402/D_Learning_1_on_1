@@ -1,12 +1,57 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
-import { ScrollView, View, StyleSheet } from 'react-native';
+import { ScrollView, View, StyleSheet, FlatList } from 'react-native';
 import { Searchbar, Menu } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import TeacherCard from './TeacherCard';
 
 export default function Teacher(props) {
+    const teachers = [
+        {
+            id: 1,
+            name: 'Duong Nguyen',
+            avgRating: 4,
+            rateCount:1234,
+            language:'English',
+            isLoved: false,
+        },
+        {
+            id: 2,
+            name: 'Duong Nguyen',
+            avgRating: 4,
+            rateCount:1234,
+            language:'English',
+            isLoved: false,
+        },
+        {
+            id: 3,
+            name: 'Duong Nguyen',
+            avgRating: 4,
+            rateCount:1234,
+            language:'English',
+            isLoved: false,
+        },
+        {
+            id: 4,
+            name: 'Duong Nguyen',
+            avgRating: 4,
+            rateCount:1234,
+            language:'English',
+            isLoved: false,
+        },
+        {
+            id: 5,
+            name: 'Duong Nguyen',
+            avgRating: 4,
+            rateCount:1234,
+            language:'English',
+            isLoved: false,
+        },
+    ];
+    const renderItem = ({item}) => (
+    <TeacherCard nav={props} name = {item.name} avgRating={item.avgRating} rateCount={item.rateCount} language={item.language} isLoved = {item.isLoved} />
+    );
     const [searchQuery, setSearchQuery] = useState('');
     const [visible, setVisible] = useState(false);
     const closeMenu = ()=> {
@@ -36,15 +81,9 @@ export default function Teacher(props) {
                     </Menu>
                 </View>
             </View>
-            <ScrollView>
-                <TeacherCard nav={props} name ="Duong Nguyen" language="English" avgRating={4} rateCount={1234} isLoved = {true}/>
-                <TeacherCard nav={props} name ="Duong Nguyen" language="English" avgRating={4} rateCount={1234} isLoved = {false}/>
-                <TeacherCard nav={props} name ="Duong Nguyen" language="English" avgRating={4} rateCount={1234} isLoved = {false}/>
-                <TeacherCard nav={props} name ="Duong Nguyen" language="English" avgRating={4} rateCount={1234} isLoved = {false}/>
-                <TeacherCard nav={props} name ="Duong Nguyen" language="English" avgRating={4} rateCount={1234} isLoved = {false}/>
-                <TeacherCard nav={props} name ="Duong Nguyen" language="English" avgRating={4} rateCount={1234} isLoved = {false}/>
-                <TeacherCard nav={props} name ="Duong Nguyen" language="English" avgRating={4} rateCount={1234} isLoved = {false}/>
-            </ScrollView>
+            <FlatList
+            data={teachers}
+            renderItem = {renderItem} />
         </View>
     );
 }

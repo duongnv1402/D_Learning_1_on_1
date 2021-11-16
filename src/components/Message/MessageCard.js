@@ -11,7 +11,7 @@ export default function MessageCard(props) {
     };
     return (
         <TouchableOpacity onPress={onPressCard} style={styles.Container}>
-            <Avatar.Image style={styles.Avatar} size={64} source={require('../../../assets/logo.png')} />
+            <Avatar.Image style={styles.Avatar} size={64} source={{uri:props.avatarUrl}} />
             <View style={{width: '80%'}}>
                 <Text style={styles.Title}>{props.title}</Text>
                 <View style={{flexDirection:'row', width: '100%'}}>

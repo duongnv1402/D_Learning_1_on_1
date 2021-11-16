@@ -2,7 +2,7 @@
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
-import {ScrollView, View, Text, StyleSheet} from 'react-native';
+import {ScrollView, View, Text, StyleSheet, Image} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const EXAMPLE_TEXT = 'The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. ';
@@ -14,7 +14,7 @@ export default function CoursesDetail(props) {
   };
   return (
     <ScrollView>
-      <View style={{width: '100%', height: 250, backgroundColor:'blue'}}></View>
+      <Image style={{width: '100%', height: 300, backgroundColor:'blue'}} source={{uri:'https://camblycurriculumicons.s3.amazonaws.com/5e2b895e541a832674533c18?h=d41d8cd98f00b204e9800998ecf8427e'}}></Image>
       <View style={styles.Container}>
         <View style={{flexDirection: 'row'}}>
           <View style={{flex:7}}>

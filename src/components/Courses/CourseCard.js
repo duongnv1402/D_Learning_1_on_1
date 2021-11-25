@@ -4,12 +4,13 @@
 import React, {useState} from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { ScreenKey } from '../../globals/constants';
 
 export default function CourseCard(props) {
     const navigation = props.nav;
     const [isLoved, setIsLoved] = useState(props.isLoved);
     const onPressTeacherCard = () => {
-        navigation.navigation.navigate('CourseDetail');
+        navigation.navigation.navigate(ScreenKey.CourseDetail);
     };
     const getNameOfHeartIcon = (isLoved) => {
         return isLoved ?  'heart' : 'heart-outline';

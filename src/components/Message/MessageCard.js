@@ -3,11 +3,12 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import {Avatar } from 'react-native-paper';
+import { ScreenKey } from '../../globals/constants';
 
 export default function MessageCard(props) {
     const navigation = props.nav;
     const onPressCard = () => {
-        navigation.navigation.navigate('MessageDialog');
+        navigation.navigation.navigate(ScreenKey.MessageDialog);
     };
     return (
         <TouchableOpacity onPress={onPressCard} style={styles.Container}>

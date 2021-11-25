@@ -6,13 +6,14 @@ import {ScrollView, View, Text, TouchableOpacity, StyleSheet,Alert, Image} from 
 import { Button, Chip } from 'react-native-paper';
 import {AirbnbRating} from 'react-native-ratings';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { ScreenKey } from '../../globals/constants';
 
 const EXAMPLE_TEXT = 'The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. ';
 
 export default function TeacherDetail(props) {
   const [isLoved, setIsLoved] = useState(props.isLoved);
   const onPressMessage = () => {
-    props.navigation.navigate('MessageDialog');
+    props.navigation.navigate(ScreenKey.MessageDialog);
   };
   const getNameOfHeartIcon = () => {
     return isLoved ?  'heart' : 'heart-outline';
@@ -31,7 +32,7 @@ export default function TeacherDetail(props) {
       ]);
   };
   const onPressBooking = ()=>{
-    props.navigation.navigate('TeacherSchedule');
+    props.navigation.navigate(ScreenKey.TeacherSchedule);
   };
   return (
     <ScrollView>

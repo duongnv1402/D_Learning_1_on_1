@@ -64,7 +64,6 @@ export default function BookingHistory(props) {
     ];
     const renderItem = ({item}) => (
         <BookingCard nav={props} name={item.name} date={item.date} timeStart={item.timeStart} timeEnd={item.timeEnd} isOver={item.isOver}/>
-
     );
     return (
         <FlatList data={data}

@@ -4,11 +4,12 @@
 import React from 'react';
 import {View, ScrollView, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { ScreenKey } from '../../../globals/constants';
 
 const TEXT = 'The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog.';
 export default function Profile(props) {
   const onPressEdit = ()=>{
-    props.navigation.navigate('EditProfile');
+    props.navigation.navigate(ScreenKey.EditProfile);
 
   };
   return (

@@ -4,25 +4,26 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import {Avatar, Button} from 'react-native-paper';
+import { ScreenKey } from '../../globals/constants';
 
 export default function Setting(props) {
     const onPressProfile = () => {
-        props.navigation.navigate('Profile');
+        props.navigation.navigate(ScreenKey.Profile);
     };
     const onPressFeedback = () => {
-        props.navigation.navigate('Feedback');
+        props.navigation.navigate(ScreenKey.Feedback);
     };
     const onPressBookingHistory = () => {
-        props.navigation.navigate('BookingHistory');
+        props.navigation.navigate(ScreenKey.BookingHistory);
     };
     const onPressSessionHistory = () => {
-        props.navigation.navigate('SessionHistory');
+        props.navigation.navigate(ScreenKey.SessionHistory);
     };
     const onPressAdvancedSetting = () => {
-        props.navigation.navigate('AdvancedSetting');
+        props.navigation.navigate(ScreenKey.AdvancedSetting);
     };
     const onPressBecomeATeacher = () => {
-        props.navigation.navigate('BecomeATeacher');
+        props.navigation.navigate(ScreenKey.BecomeATeacher);
     };
     const onPressWebSite = () => {
         //props.navigation.navigate('Profile');

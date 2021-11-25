@@ -2,7 +2,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, Alert, StyleSheet } from 'react-native';
-
+import { ScreenKey } from '../../../globals/constants';
 export default function BookingCard(props) {
     const nav = props.nav;
     const onPressCancel = () => {
@@ -19,10 +19,10 @@ export default function BookingCard(props) {
         ]);
     };
     const onPressEnter = () => {
-        nav.navigation.navigate('Room');
+        nav.navigation.navigate(ScreenKey.Room);
     };
     const onPressTeacherName = () => {
-        nav.navigation.navigate('TeacherDetail');
+        nav.navigation.navigate(ScreenKey.TeacherDetail);
     };
     return (
         <View style={styles.Container} >

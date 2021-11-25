@@ -4,12 +4,12 @@
 import React from 'react';
 import {ScrollView, View, Text, StyleSheet, Alert, Image} from 'react-native';
 import { Button, Chip } from 'react-native-paper';
-
+import { ScreenKey } from '../../../globals/constants';
 const EXAMPLE_TEXT = 'The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. ';
 
 export default function TeacherDetail(props) {
   const onPressMessage = () => {
-    props.navigation.navigate('MessageDialog');
+    props.navigation.navigate(ScreenKey.MessageDialog);
   };
   const onPressReport = () => {
     Alert.alert('Report', 'Do you want to report this session?',

@@ -2,7 +2,7 @@
 /* eslint-disable react-native/no-inline-styles */
 
 import React, {useState} from 'react';
-import { View, ScrollView, StyleSheet, FlatList } from 'react-native';
+import { View,  StyleSheet, FlatList } from 'react-native';
 import { Searchbar, Menu } from 'react-native-paper';
 import CourseCard from './CourseCard';
 import Ionicons from 'react-native-vector-icons/Ionicons';

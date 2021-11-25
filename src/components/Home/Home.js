@@ -4,6 +4,7 @@ import React from 'react';
 import TeacherCard from '../Teacher/TeacherCard';
 import {StyleSheet, View, Text, TouchableOpacity, FlatList, SafeAreaView} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { ScreenKey } from '../../globals/constants';
 
 
 export default function Home(props) {
@@ -53,13 +54,13 @@ export default function Home(props) {
     <TeacherCard nav={props} name = {item.name} avgRating={item.avgRating} rateCount={item.rateCount} language={item.language} isLoved = {item.isLoved} />
     );
     const onPressMenu = () => {
-        props.navigation.navigate('Setting');
+        props.navigation.navigate(ScreenKey.Setting);
     };
     const onPressSeeAllButton = () => {
-        props.navigation.navigate('Teachers');
+        props.navigation.navigate(ScreenKey.Teachers);
     };
     const onPressEnterRoom = () => {
-        props.navigation.navigate('Room');
+        props.navigation.navigate(ScreenKey.Room);
     };
   return (
       <View style={styles.Container}>

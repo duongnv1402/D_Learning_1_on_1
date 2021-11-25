@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
-import { ScrollView, View, StyleSheet, FlatList } from 'react-native';
+import { View, StyleSheet, FlatList } from 'react-native';
 import { Searchbar, Menu } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import TeacherCard from './TeacherCard';

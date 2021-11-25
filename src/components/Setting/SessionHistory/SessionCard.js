@@ -2,14 +2,15 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { ScreenKey } from '../../../globals/constants';
 
 export default function SessionCard(props) {
     const nav = props.nav;
     const onPressTeacherName = () => {
-        nav.navigation.navigate('TeacherDetail');
+        nav.navigation.navigate(ScreenKey.TeacherDetail);
     };
     const onPressCard = () => {
-        nav.navigation.navigate('Session');
+        nav.navigation.navigate(ScreenKey.Session);
     };
     return (
         <TouchableOpacity style={styles.Container}  onPress={onPressCard}>

@@ -30,7 +30,6 @@ export default function TeacherSchedule() {
     };
 
     const handleConfirm = (date) => {
-        //console.log('A date has been picked: ', date);
         hideDateTimePicker();
     };
     return (

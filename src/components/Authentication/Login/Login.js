@@ -7,8 +7,19 @@ import React, {useState}  from 'react';
 import {View, Image, TouchableOpacity} from 'react-native';
 import styles from '../../../globals/styles';
 import {Text, TextInput} from 'react-native-paper';
+import { ScreenKey } from '../../../globals/constants';
 
 export default function Login(props) {
+  const accounts = [
+    {
+      userName:'duongnv1402',
+      password:'123456',
+    },
+    {
+      userName:'duongnguyen',
+      password:'123456',
+    },
+  ];
   const [isHide, setHide] = useState(true);
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
@@ -18,6 +29,13 @@ export default function Login(props) {
   const onPressGoogleLogo = () => {
 
   };
+  const checkAccount = () => {
+    for ( var account in accounts) {if (userName === account.userName && password === account.password) {return true;}}
+    return false;
+  };
+  // const onPressLogin = () => {
+  //   if(checkAccount()) ;
+  // };
   const getStateOfPassword = isHide => {
     return isHide ? 'eye-off' : 'eye';
   };
@@ -25,7 +43,7 @@ export default function Login(props) {
     props.navigation.navigate('ForgetPassword');
   };
   const onPressSignUp = ()=> {
-    props.navigation.navigate('Register');
+    props.navigation.navigate(ScreenKey.Register);
   };
   return (
     <View style={styles.container}>

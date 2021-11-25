@@ -6,12 +6,13 @@ import {View, StyleSheet, Text, Image, TouchableOpacity} from 'react-native';
 import {AirbnbRating} from 'react-native-ratings';
 import {Chip} from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { ScreenKey } from '../../globals/constants';
 
 export default function TeacherCard(props) {
     const navigation = props.nav;
     const [isLoved, setIsLoved] = useState(props.isLoved);
     const onPressTeacherCard = () => {
-        navigation.navigation.navigate('TeacherDetail');
+        navigation.navigation.navigate(ScreenKey.TeacherDetail);
     };
     const getNameOfHeartIcon = () => {
         return isLoved ?  'heart' : 'heart-outline';

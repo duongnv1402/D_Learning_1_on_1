@@ -19,13 +19,13 @@ export default function SessionCard(props) {
                 source={require('../../../../assets/logo.png')}/>
                 <View>
                     <TouchableOpacity onPress={onPressTeacherName}>
-                        <Text style={styles.Name}>{props.name}</Text>
+                        <Text style={styles.Name}>{props.item.name}</Text>
                     </TouchableOpacity>
                     <View style={styles.Description}>
-                        <Text style={styles.Date}>{props.date} </Text>
-                        <Text style={styles.TimeStart}>{props.timeStart} </Text>
+                        <Text style={styles.Date}>{props.item.date} </Text>
+                        <Text style={styles.TimeStart}>{props.item.timeStart} </Text>
                         <Text> - </Text>
-                        <Text style={styles.TimeEnd}>{props.timeEnd}</Text>
+                        <Text style={styles.TimeEnd}>{props.item.timeEnd}</Text>
                     </View>
                 </View>
             </View>

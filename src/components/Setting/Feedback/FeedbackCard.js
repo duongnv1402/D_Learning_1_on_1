@@ -11,13 +11,13 @@ export default function FeedbackCard(props) {
                 <Image style={styles.Image}
                 source={require('../../../../assets/logo.png')}/>
                 <View style={{flex:6}}>
-                    <Text style={styles.Name}>{props.name}</Text>
+                    <Text style={styles.Name}>{props.item.name}</Text>
                     <View style={{flexDirection:'row'}}>
-                        <AirbnbRating showRating={false} defaultRating={props.ratings} isDisabled={true} size={20}/>
+                        <AirbnbRating showRating={false} defaultRating={props.item.ratings} isDisabled={true} size={20}/>
                     </View>
                 </View>
             </View>
-            <Text style={styles.Description}>{props.content}</Text>
+            <Text style={styles.Description}>{props.item.content}</Text>
         </View>
     );
 }

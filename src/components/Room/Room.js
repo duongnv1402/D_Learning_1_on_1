@@ -1,8 +1,6 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-alert */
-import React, {useState} from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, StyleSheet, Text, LogBox} from 'react-native';
 import CountDown from 'react-native-countdown-component';
 import moment from 'moment';
 
@@ -16,17 +14,29 @@ export default function Room() {
     var seconds = parseInt(diff.seconds(), 10);
     return hours * 60 * 60 + minutes * 60 + seconds;
   });
+  useEffect(() => {
+    let interval = setInterval(() => {
+      setTotalDuration(lastTimerCount => {
+          lastTimerCount <= 1 && clearInterval(interval);
+          return lastTimerCount - 1;
+      });
+    }, 1000); //each count lasts for a second
+    //cleanup the interval on complete
+    return () => clearInterval(interval);
+  }, []);
+  LogBox.ignoreLogs(['EventEmitter.removeListener']);
+
   return (
     <View style={styles.Container}>
-      <Text>Next lesson:</Text>
+      <Text style={styles.Text}>Next lesson:</Text>
       <CountDown
         until={totalDuration}
         //duration of countdown in seconds
         timetoShow={('H', 'M', 'S')}
         //formate to show
-        onFinish={() => alert('finished')}
+        onFinish={null}
         //on Finish call
-        onPress={() => alert('hello')}
+        onPress={null}
         //on Press call
         size={20}
       />
@@ -38,5 +48,10 @@ const styles = StyleSheet.create({
     width:'100%',
     height:'100%',
     backgroundColor: 'aliceblue',
-},
+    justifyContent: 'center',
+  },
+  Text: {
+    alignSelf: 'center',
+     fontSize: 18,
+  },
 });

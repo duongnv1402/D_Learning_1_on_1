@@ -1,18 +1,17 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import { ScrollView, View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
 import {Avatar, Button} from 'react-native-paper';
 
-export default function MessageDialog() {
+export default function MessageDialog({route}) {
     const onClickSend = () => {
     };
     return (
         <View style={styles.Container}>
             <View style={styles.Header}>
-                <Avatar.Image style={styles.Avatar} size={48} source={require('../../../assets/logo.png')} />
+                <Avatar.Image style={styles.Avatar} size={48} source={{uri:route.params.url}} />
                 <View >
-                    <Text style={styles.TextName}>Name</Text>
+                    <Text style={styles.TextName}>{route.params.name}</Text>
                     <Text style={styles.TextType}>Teacher</Text>
                 </View>
             </View>
@@ -20,7 +19,7 @@ export default function MessageDialog() {
             <View style={styles.Footer}>
                 <TextInput style={styles.Input} placeholder="Message" />
                 <TouchableOpacity style={styles.Button} onClick={onClickSend} >
-                    <Button labelStyle={{fontSize: 25}} icon="send" />
+                    <Button labelStyle={styles.ButtonStyle} icon="send" />
                 </TouchableOpacity>
             </View>
         </View>
@@ -65,5 +64,8 @@ const styles = StyleSheet.create({
         alignItems:'center',
         width: 30,
         height: 50,
+    },
+    ButtonStyle: {
+        fontSize: 25,
     },
 });

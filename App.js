@@ -78,10 +78,7 @@ export default function App() {
         </NavigationContainer>
       ) : (
         <NavigationContainer>
-          <Stack.Navigator
-            screenOptions={{
-              headerShown: false,
-            }}>
+          <Stack.Navigator screenOptions={{headerShown: false}}>
             <Stack.Screen name= {ScreenKey.Login} component={Login} />
             <Stack.Screen name= {ScreenKey.Register} component={Register} />
             <Stack.Screen name= {ScreenKey.ForgetPassword} component={ForgetPassword} />

@@ -11,46 +11,46 @@ export default function Teacher(props) {
         {
             id: 1,
             name: 'Duong Nguyen',
-            avgRating: 4,
-            rateCount:1234,
+            avgRating: 3,
+            rateCount:53,
             language:'English',
-            isLoved: false,
+            isLoved: true,
         },
         {
             id: 2,
-            name: 'Duong Nguyen',
+            name: 'Nam Nguyen',
             avgRating: 4,
-            rateCount:1234,
+            rateCount: 1234,
             language:'English',
             isLoved: false,
         },
         {
             id: 3,
-            name: 'Duong Nguyen',
+            name: 'Tuan Pham',
             avgRating: 4,
-            rateCount:1234,
+            rateCount: 225,
             language:'English',
             isLoved: false,
         },
         {
             id: 4,
-            name: 'Duong Nguyen',
+            name: 'Trinh Nguyen',
             avgRating: 4,
-            rateCount:1234,
-            language:'English',
-            isLoved: false,
+            rateCount: 1234,
+            language:'Vietnamese',
+            isLoved: true,
         },
         {
             id: 5,
-            name: 'Duong Nguyen',
+            name: 'Tuan Tran',
             avgRating: 4,
-            rateCount:1234,
+            rateCount: 996,
             language:'English',
             isLoved: false,
         },
     ];
     const renderItem = ({item}) => (
-    <TeacherCard nav={props} name = {item.name} avgRating={item.avgRating} rateCount={item.rateCount} language={item.language} isLoved = {item.isLoved} />
+    <TeacherCard nav={props} item={item} />
     );
     const [searchQuery, setSearchQuery] = useState('');
     const [visible, setVisible] = useState(false);

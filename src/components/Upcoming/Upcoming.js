@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { FlatList, StyleSheet } from 'react-native';
+import { FlatList, StyleSheet, View, Text } from 'react-native';
 import UpcomingCard from './UpcomingCard';
 
 export default function Upcoming(props) {
@@ -56,18 +56,35 @@ export default function Upcoming(props) {
         },
     ];
     const renderItem = ({item}) => (
-        <UpcomingCard nav={props} name={item.name} date={item.date} timeStart={item.timeStart} timeEnd={item.timeEnd}/>
+        <UpcomingCard nav={props} item={item}/>
     );
     return (
+        <View>
+            <View style={styles.HeaderBar}>
+                <Text style={styles.HeaderText}>Upcoming</Text>
+            </View>
         <FlatList style={styles.Container}
-        data={data}
-        renderItem={renderItem} />
+            data={data}
+            renderItem={renderItem} />
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
     Container: {
-        height:'100%',
+        height:'93%',
         backgroundColor: 'aliceblue',
+    },
+    HeaderText: {
+        fontWeight:'bold',
+        fontSize:16,
+        marginLeft:16,
+        flex:10,
+        alignSelf: 'center',
+    },
+    HeaderBar:{
+        flexDirection:'row',
+        height:50,
+        backgroundColor:'white',
     },
 });

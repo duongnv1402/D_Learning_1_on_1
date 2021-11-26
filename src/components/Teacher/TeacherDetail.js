@@ -46,7 +46,7 @@ export default function TeacherDetail(props) {
           />
           <View style={{flex:7}}>
             <View style={{flexDirection:'row'}}>
-              <Text style={styles.Name}>Duong Nguyen</Text>
+              <Text style={styles.Name}>{props.name}</Text>
               <Ionicons onPress={() => {setIsLoved(!isLoved);}} size={36} name={getNameOfHeartIcon(isLoved)} color="red"/>
             </View>
             <Text style={styles.Description}>Teacher</Text>

@@ -1,9 +1,8 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable react-native/no-inline-styles */
 
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
-import {Avatar, Button} from 'react-native-paper';
+import {Avatar, Button, Divider} from 'react-native-paper';
 import { ScreenKey } from '../../globals/constants';
 
 export default function Setting(props) {
@@ -39,7 +38,7 @@ export default function Setting(props) {
         <ScrollView style={styles.Container}>
             <TouchableOpacity onPress={onPressProfile} style={styles.HeaderProfile}>
                 <Avatar.Image style={styles.Avatar} size={64} source={require('../../../assets/logo.png')} />
-                <View style={{width: '80%'}}>
+                <View style={styles.HeaderRightView}>
                     <Text style={styles.Title}>Duong Nguyen</Text>
                     <Text style={styles.SubTitle}>example@example.com</Text>
                 </View>
@@ -59,14 +58,15 @@ export default function Setting(props) {
             <TouchableOpacity  onPress={onPressBecomeATeacher}>
                 <Button style={styles.Button} icon="account-tie" color="black" uppercase={false}>Become a Teacher</Button>
             </TouchableOpacity>
-            <TouchableOpacity  onPress={onPressWebSite}>
+            <Divider />
+            {/* <TouchableOpacity  onPress={onPressWebSite}>
                 <Button style={styles.Button} icon="web" color="black" uppercase={false}>Ours web site</Button>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity  onPress={onPressFacebook}>
                 <Button style={styles.Button} icon="facebook" color="black" uppercase={false}>Facebook</Button>
             </TouchableOpacity>
             <TouchableOpacity  onPress={onPressLogout}>
-                <Button style={styles.Button} icon="logout" color="black" uppercase={false}>Logout</Button>
+                <Button style={styles.LogoutButton} icon="logout" color="black" uppercase={false}>Logout</Button>
             </TouchableOpacity>
         </ScrollView>
     );
@@ -83,6 +83,9 @@ const styles = StyleSheet.create({
         width:'95%',
         backgroundColor: 'white',
         borderRadius:10,
+    },
+    HeaderRightView: {
+        width: '80%',
     },
     Avatar: {
         alignSelf: 'center',
@@ -101,10 +104,20 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         alignItems:'flex-start',
         padding: 4,
-        margin: 8,
+        margin: 16,
         fontSize: 18,
         width: '95%',
         borderRadius:26,
         backgroundColor:'white',
+    },
+    LogoutButton: {
+        alignSelf: 'center',
+        alignItems:'flex-start',
+        padding: 4,
+        margin: 16,
+        fontSize: 18,
+        width: '95%',
+        borderRadius:26,
+        backgroundColor:'tomato',
     },
 });

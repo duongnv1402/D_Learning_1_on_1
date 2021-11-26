@@ -1,5 +1,4 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable react-native/no-inline-styles */
 
 import React from 'react';
 import {View, ScrollView, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
@@ -47,8 +46,8 @@ export default function Profile(props) {
 
 const styles = StyleSheet.create({
   Container:{
-    width:'100%',
     height:'100%',
+    margin: 16,
   },
   Image: {
     height:90,
@@ -59,7 +58,6 @@ const styles = StyleSheet.create({
   },
   HeaderProfile:{
     flexDirection:'row',
-    width:'100%',
   },
   Name: {
     fontWeight:'bold',

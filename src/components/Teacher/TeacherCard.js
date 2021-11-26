@@ -9,30 +9,33 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { ScreenKey } from '../../globals/constants';
 
 export default function TeacherCard(props) {
-    const navigation = props.nav;
-    const [isLoved, setIsLoved] = useState(props.isLoved);
-    const onPressTeacherCard = () => {
-        navigation.navigation.navigate(ScreenKey.TeacherDetail);
-    };
+    const [isLoved, setIsLoved] = useState(props.item.isLoved);
+    // const onPressTeacherCard = () => {
+    //     navigation.navigation.navigate(ScreenKey.TeacherDetail, {
+    //         name: props.item.name,
+    //     });
+    // };
     const getNameOfHeartIcon = () => {
         return isLoved ?  'heart' : 'heart-outline';
     };
     return (
-        <TouchableOpacity style={styles.Container} onPress={onPressTeacherCard}>
+        <TouchableOpacity style={styles.Container} onPress={()=>{
+            props.onPressTeacherCard(props.item);
+        }}>
             <View style={{flexDirection:'row', width: '100%'}}>
                 <Image style={styles.Image}
                 source={require('../../../assets/logo.png')}/>
                 <View style={{flex:6}}>
                     <View style={{flexDirection:'row'}}>
-                        <Text style={styles.Name}>{props.name}</Text>
+                        <Text style={styles.Name}>{props.item.name}</Text>
                         <Ionicons onPress={() => {setIsLoved(!isLoved);}} size={36} name={getNameOfHeartIcon(isLoved)} color="red"/>
                     </View>
                     <View style={{flexDirection:'row'}}>
-                        <AirbnbRating showRating={false} defaultRating={props.avgRating} isDisabled={false} size={20}/>
-                        <Text style={{margin: 6}}>({props.rateCount})</Text>
+                        <AirbnbRating showRating={false} defaultRating={props.item.avgRating} isDisabled={false} size={20}/>
+                        <Text style={{margin: 6}}>({props.item.rateCount})</Text>
                     </View>
                     <View style={{flexDirection:'row'}}>
-                        <Chip style={{backgroundColor:'deepskyblue'}}>{props.language}</Chip>
+                        <Chip style={{backgroundColor:'deepskyblue'}}>{props.item.language}</Chip>
                     </View>
                 </View>
             </View>

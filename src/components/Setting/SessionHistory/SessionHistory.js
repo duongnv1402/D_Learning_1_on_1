@@ -56,7 +56,7 @@ export default function SessionHistory(props) {
         },
     ];
     const renderItem = ({item}) => (
-        <SessionCard nav={props} name={item.name} date={item.date} timeStart={item.timeStart} timeEnd={item.timeEnd} />
+        <SessionCard nav={props} item={item} />
     );
     return (
         <FlatList data={data}

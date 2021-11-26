@@ -49,7 +49,7 @@ export default function Feedback() {
         },
     ];
     const renderItem = ({item}) => (
-        <FeedbackCard name={item.name} content={item.content} ratings={item.ratings}/>
+        <FeedbackCard name={item.name} item={item}/>
     );
     return (
         <FlatList

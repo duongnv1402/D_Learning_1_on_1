@@ -1,12 +1,12 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { View, StyleSheet, FlatList } from 'react-native';
+import { View, StyleSheet, FlatList, SafeAreaView } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import MessageCard from './MessageCard';
 
 
 export default function Message(props) {
-    const user = [
+    const users = [
         {
             id: 1,
             avatarUrl: 'https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/239732778_2864726213792769_9066963956251065581_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=lLviv4IdvtoAX8l3AZY&_nc_ht=scontent.fsgn2-4.fna&oh=645d6b1394d246c7af3d22001e1e4904&oe=6198D6D7',
@@ -56,23 +56,33 @@ export default function Message(props) {
             messages: 'Xin chao, ban co khoe khong',
             time: '14-02-2021 08:00 AM',
         },
+        {
+            id: 8,
+            avatarUrl: 'https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/239732778_2864726213792769_9066963956251065581_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=lLviv4IdvtoAX8l3AZY&_nc_ht=scontent.fsgn2-4.fna&oh=645d6b1394d246c7af3d22001e1e4904&oe=6198D6D7',
+            name: 'Trang Pham',
+            messages: 'Xin chao, ban co khoe khong',
+            time: '14-02-2021 08:00 AM',
+        },
     ];
     const renderItem = ({item}) => (
-        <MessageCard nav={props} avatarUrl = {item.avatarUrl} title ={item.name} subtitle={item.messages} time ={item.time}/>
+        <MessageCard nav={props} item={item}/>
     );
     const [searchQuery, setSearchQuery] = React.useState('');
 
   const onChangeSearch = query => setSearchQuery(query);
     return (
-        <View style={styles.Container}>
+        <View >
             <Searchbar
-            placeholder="Search messages"
-            onChangeText={onChangeSearch}
-            value={searchQuery} />
-            <FlatList
-            data={user}
-            renderItem={renderItem}
-             />
+                placeholder="Search messages"
+                onChangeText={onChangeSearch}
+                value={searchQuery}
+            />
+            <SafeAreaView style={styles.Container}>
+                <FlatList
+                data={users}
+                renderItem={renderItem}
+                />
+            </SafeAreaView>
         </View>
     );
 }
@@ -80,7 +90,7 @@ export default function Message(props) {
 const styles = StyleSheet.create({
     Container: {
         backgroundColor: 'aliceblue',
-        height: '100%',
+        height: '93%',
         },
     }
 );

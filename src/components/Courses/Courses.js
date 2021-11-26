@@ -82,7 +82,7 @@ export default function Courses(props) {
         },
     ];
     const renderItem = ({item}) => (
-        <CourseCard nav = {props} name={item.name} title={item.true} imgUrl={item.imgUrl} subtitle={item.subtitle} description={item.description} isLoved={item.isLoved} lessonCount={item.lessonCount}/>
+        <CourseCard nav = {props} item={item}/>
     );
     const [searchQuery, setSearchQuery] = useState('');
     const [visible, setVisible] = useState(false);

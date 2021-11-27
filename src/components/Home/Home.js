@@ -15,6 +15,7 @@ export default function Home(props) {
             rateCount:53,
             language:'English',
             isLoved: true,
+            avatarUrl: 'https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/239732778_2864726213792769_9066963956251065581_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=lLviv4IdvtoAX8l3AZY&_nc_ht=scontent.fsgn2-4.fna&oh=645d6b1394d246c7af3d22001e1e4904&oe=6198D6D7',
         },
         {
             id: 2,
@@ -23,6 +24,7 @@ export default function Home(props) {
             rateCount: 1234,
             language:'English',
             isLoved: false,
+            avatarUrl: 'https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/239732778_2864726213792769_9066963956251065581_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=lLviv4IdvtoAX8l3AZY&_nc_ht=scontent.fsgn2-4.fna&oh=645d6b1394d246c7af3d22001e1e4904&oe=6198D6D7',
         },
         {
             id: 3,
@@ -31,6 +33,7 @@ export default function Home(props) {
             rateCount: 225,
             language:'English',
             isLoved: false,
+            avatarUrl: 'https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/239732778_2864726213792769_9066963956251065581_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=lLviv4IdvtoAX8l3AZY&_nc_ht=scontent.fsgn2-4.fna&oh=645d6b1394d246c7af3d22001e1e4904&oe=6198D6D7',
         },
         {
             id: 4,
@@ -39,6 +42,7 @@ export default function Home(props) {
             rateCount: 1234,
             language:'Vietnamese',
             isLoved: true,
+            avatarUrl: 'https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/239732778_2864726213792769_9066963956251065581_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=lLviv4IdvtoAX8l3AZY&_nc_ht=scontent.fsgn2-4.fna&oh=645d6b1394d246c7af3d22001e1e4904&oe=6198D6D7',
         },
         {
             id: 5,
@@ -47,6 +51,7 @@ export default function Home(props) {
             rateCount: 996,
             language:'English',
             isLoved: false,
+            avatarUrl: 'https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/239732778_2864726213792769_9066963956251065581_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=lLviv4IdvtoAX8l3AZY&_nc_ht=scontent.fsgn2-4.fna&oh=645d6b1394d246c7af3d22001e1e4904&oe=6198D6D7',
         },
     ];
     const renderItem = ({item}) => (

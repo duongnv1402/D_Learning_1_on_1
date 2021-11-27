@@ -40,7 +40,7 @@ export default function Login(props) {
     return isHide ? 'eye-off' : 'eye';
   };
   const onPressForgetPassword = ()=> {
-    props.navigation.navigate('ForgetPassword');
+    props.navigation.navigate(ScreenKey.ForgetPassword);
   };
   const onPressSignUp = ()=> {
     props.navigation.navigate(ScreenKey.Register);

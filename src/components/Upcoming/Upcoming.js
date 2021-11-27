@@ -1,7 +1,8 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { FlatList, StyleSheet, View, Text } from 'react-native';
+import { FlatList, StyleSheet, View, Text, Alert } from 'react-native';
 import UpcomingCard from './UpcomingCard';
+import {ScreenKey} from '../../globals/constants';
 
 export default function Upcoming(props) {
     const data = [
@@ -11,6 +12,7 @@ export default function Upcoming(props) {
             date: '14-02-2022',
             timeStart: '08:00',
             timeEnd: '10:00',
+            avatarUrl: 'https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/239732778_2864726213792769_9066963956251065581_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=lLviv4IdvtoAX8l3AZY&_nc_ht=scontent.fsgn2-4.fna&oh=645d6b1394d246c7af3d22001e1e4904&oe=6198D6D7',
         },
         {
             id: 2,
@@ -18,6 +20,7 @@ export default function Upcoming(props) {
             date: '14-02-2022',
             timeStart: '08:00',
             timeEnd: '10:00',
+            avatarUrl: 'https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/239732778_2864726213792769_9066963956251065581_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=lLviv4IdvtoAX8l3AZY&_nc_ht=scontent.fsgn2-4.fna&oh=645d6b1394d246c7af3d22001e1e4904&oe=6198D6D7',
         },
         {
             id: 3,
@@ -25,6 +28,7 @@ export default function Upcoming(props) {
             date: '14-02-2022',
             timeStart: '08:00',
             timeEnd: '10:00',
+            avatarUrl: 'https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/239732778_2864726213792769_9066963956251065581_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=lLviv4IdvtoAX8l3AZY&_nc_ht=scontent.fsgn2-4.fna&oh=645d6b1394d246c7af3d22001e1e4904&oe=6198D6D7',
         },
         {
             id: 4,
@@ -32,6 +36,7 @@ export default function Upcoming(props) {
             date: '14-02-2022',
             timeStart: '08:00',
             timeEnd: '10:00',
+            avatarUrl: 'https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/239732778_2864726213792769_9066963956251065581_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=lLviv4IdvtoAX8l3AZY&_nc_ht=scontent.fsgn2-4.fna&oh=645d6b1394d246c7af3d22001e1e4904&oe=6198D6D7',
         },
         {
             id: 5,
@@ -39,6 +44,7 @@ export default function Upcoming(props) {
             date: '14-02-2022',
             timeStart: '08:00',
             timeEnd: '10:00',
+            avatarUrl: 'https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/239732778_2864726213792769_9066963956251065581_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=lLviv4IdvtoAX8l3AZY&_nc_ht=scontent.fsgn2-4.fna&oh=645d6b1394d246c7af3d22001e1e4904&oe=6198D6D7',
         },
         {
             id: 6,
@@ -46,6 +52,7 @@ export default function Upcoming(props) {
             date: '14-02-2022',
             timeStart: '08:00',
             timeEnd: '10:00',
+            avatarUrl: 'https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/239732778_2864726213792769_9066963956251065581_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=lLviv4IdvtoAX8l3AZY&_nc_ht=scontent.fsgn2-4.fna&oh=645d6b1394d246c7af3d22001e1e4904&oe=6198D6D7',
         },
         {
             id: 7,
@@ -53,11 +60,28 @@ export default function Upcoming(props) {
             date: '14-02-2022',
             timeStart: '08:00',
             timeEnd: '10:00',
+            avatarUrl: 'https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/239732778_2864726213792769_9066963956251065581_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=lLviv4IdvtoAX8l3AZY&_nc_ht=scontent.fsgn2-4.fna&oh=645d6b1394d246c7af3d22001e1e4904&oe=6198D6D7',
         },
     ];
     const renderItem = ({item}) => (
-        <UpcomingCard nav={props} item={item}/>
+        <UpcomingCard nav={props} item={item} onPressCancel={onPressCancel} onPressEnter={onPressEnter}/>
     );
+    const onPressCancel = () => {
+        Alert.alert('Report', 'Do you want to cancel this lesson?',
+        [
+            {
+                text: 'cancel',
+            },
+            {
+                text:'ok',
+                onPress: ()=>{
+                },
+            },
+        ]);
+    };
+    const onPressEnter = () => {
+        props.navigation.navigate(ScreenKey.Room);
+    };
     return (
         <View>
             <View style={styles.HeaderBar}>

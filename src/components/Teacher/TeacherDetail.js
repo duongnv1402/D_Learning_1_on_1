@@ -2,8 +2,8 @@
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
-import {ScrollView, View, Text, TouchableOpacity, StyleSheet,Alert, Image} from 'react-native';
-import { Button, Chip } from 'react-native-paper';
+import {ScrollView, View, Text, TouchableOpacity, StyleSheet,Alert} from 'react-native';
+import { Button, Chip, Avatar } from 'react-native-paper';
 import {AirbnbRating} from 'react-native-ratings';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { ScreenKey } from '../../globals/constants';
@@ -11,7 +11,8 @@ import { ScreenKey } from '../../globals/constants';
 const EXAMPLE_TEXT = 'The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. ';
 
 export default function TeacherDetail(props) {
-  const [isLoved, setIsLoved] = useState(props.isLoved);
+  let item = props.route.params.item;
+  const [isLoved, setIsLoved] = useState(item.isLoved);
   const onPressMessage = () => {
     props.navigation.navigate(ScreenKey.MessageDialog);
   };
@@ -40,17 +41,15 @@ export default function TeacherDetail(props) {
       </View>
       <View style={styles.Container}>
         <View style={{flexDirection: 'row', width: '100%'}}>
-          <Image
-            style={styles.ImageAvatar}
-            source={require('../../../assets/logo.png')}
-          />
+        <Avatar.Image style={styles.Avatar} size={76} source={{uri:item.avatarUrl}}  />
+
           <View style={{flex:7}}>
             <View style={{flexDirection:'row'}}>
-              <Text style={styles.Name}>{props.name}</Text>
+              <Text style={styles.Name}>{item.name}</Text>
               <Ionicons onPress={() => {setIsLoved(!isLoved);}} size={36} name={getNameOfHeartIcon(isLoved)} color="red"/>
             </View>
             <Text style={styles.Description}>Teacher</Text>
-            <Text style={styles.Description}>Viet Nam</Text>
+            <Text style={styles.Description}>{item.language}</Text>
           </View>
         </View>
         <TouchableOpacity style={styles.Button} onPress={onPressBooking}>
@@ -107,12 +106,9 @@ const styles = StyleSheet.create({
     marginTop: 10,
     alignSelf: 'center',
   },
-  ImageAvatar: {
-    height: 70,
-    width: 70,
-    borderRadius: 35,
+  Avatar: {
+    alignSelf: 'center',
     margin: 8,
-    flex:2,
   },
   Name: {
     fontWeight: 'bold',

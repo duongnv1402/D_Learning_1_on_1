@@ -9,14 +9,19 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 export default function TeacherSchedule() {
     const myEvents = [
         {
-        id: 1,
-        description: 'Booked',
-        startDate: new Date(2021, 10, 24, 12, 0),
-        endDate: new Date(2021, 10, 24, 14, 0),
-        color: 'blue',
-        // ... more properties if needed,
+            id: 1,
+            description: 'Booked',
+            startDate: new Date(2021, 10, 24, 12, 0),
+            endDate: new Date(2021, 10, 24, 14, 0),
+            color: 'deepskyblue',
         },
-        // More events...
+        {
+            id: 2,
+            description: 'Booked',
+            startDate: new Date(2021, 10, 24, 14, 0),
+            endDate: new Date(2021, 10, 24, 18, 0),
+            color: 'deepskyblue',
+            },// More events...
     ];
 
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -42,7 +47,7 @@ export default function TeacherSchedule() {
             </View>
             <WeekView
             events={myEvents}
-            selectedDate={new Date(2021,10,22)}
+            selectedDate={new Date()}
             numberOfDays={7}
             hoursInDisplay={30}
             />

@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
   Container: {
     alignSelf: 'center',
     margin: 8,
+    backgroundColor: 'aliceblue',
   },
   Name: {
     fontWeight: 'bold',

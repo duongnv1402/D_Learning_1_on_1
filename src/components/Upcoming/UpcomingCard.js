@@ -1,41 +1,19 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet, Alert } from 'react-native';
-import { ScreenKey } from '../../globals/constants';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Avatar } from 'react-native-paper';
 
 export default function UpcomingCard(props) {
-    const nav = props.nav;
-    const onPressCancel = () => {
-        Alert.alert('Report', 'Do you want to cancel this lesson?',
-        [
-            {
-                text: 'cancel',
-            },
-            {
-                text:'ok',
-                onPress: ()=>{
-                },
-            },
-        ]);
-    };
-    const onPressEnter = () => {
-        nav.navigation.navigate(ScreenKey.Room);
-    };
-    const onPressTeacherName = () => {
-        nav.navigation.navigate(ScreenKey.TeacherDetail);
-    };
+
     return (
         <View style={styles.Container} >
             <View style={{flexDirection:'row'}}>
-                <Image style={styles.Image}
-                source={require('../../../assets/logo.png')}/>
+                <Avatar.Image style={styles.Avatar} size={64} source={{uri:props.item.avatarUrl}} />
                 <View>
-                    <TouchableOpacity onPress={onPressTeacherName}>
-                        <Text style={styles.Name}>{props.item.name}</Text>
-                    </TouchableOpacity>
+                    <Text style={styles.Name}>{props.item.name}</Text>
                     <View style={styles.Description}>
-                        <Text style={styles.Date}>{props.item.date} </Text>
+                        <Text >{props.item.date} </Text>
                         <Text style={styles.TimeStart}>{props.item.timeStart} </Text>
                         <Text> - </Text>
                         <Text style={styles.TimeEnd}>{props.item.timeEnd}</Text>
@@ -43,10 +21,10 @@ export default function UpcomingCard(props) {
                 </View>
             </View>
             <View style={styles.ViewButton}>
-                <TouchableOpacity style={styles.CancelButton} onPress={onPressCancel}>
+                <TouchableOpacity style={styles.CancelButton} onPress={props.onPressCancel}>
                     <Text style={styles.ButtonText}>Cancel</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.EnterButton} onPress={onPressEnter}>
+                <TouchableOpacity style={styles.EnterButton} onPress={props.onPressEnter}>
                     <Text style={styles.ButtonText}>Go to the lesson room</Text>
                 </TouchableOpacity>
             </View>
@@ -64,11 +42,9 @@ const styles = StyleSheet.create({
         elevation: 2,
         backgroundColor: 'white',
         },
-    Image: {
-        height:70,
-        width:70,
-        borderRadius:35,
-        margin:8,
+    Avatar: {
+        alignSelf: 'center',
+        margin: 8,
     },
     Name: {
         fontWeight:'bold',

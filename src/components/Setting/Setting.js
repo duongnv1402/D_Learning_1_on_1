@@ -37,7 +37,7 @@ export default function Setting(props) {
     return (
         <ScrollView style={styles.Container}>
             <TouchableOpacity onPress={onPressProfile} style={styles.HeaderProfile}>
-                <Avatar.Image style={styles.Avatar} size={64} source={require('../../../assets/logo.png')} />
+                <Avatar.Image style={styles.Avatar} size={82} source={{uri:'https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/239732778_2864726213792769_9066963956251065581_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=lLviv4IdvtoAX8l3AZY&_nc_ht=scontent.fsgn2-4.fna&oh=645d6b1394d246c7af3d22001e1e4904&oe=6198D6D7'}} />
                 <View style={styles.HeaderRightView}>
                     <Text style={styles.Title}>Duong Nguyen</Text>
                     <Text style={styles.SubTitle}>example@example.com</Text>
@@ -59,9 +59,9 @@ export default function Setting(props) {
                 <Button style={styles.Button} icon="account-tie" color="black" uppercase={false}>Become a Teacher</Button>
             </TouchableOpacity>
             <Divider />
-            {/* <TouchableOpacity  onPress={onPressWebSite}>
+            <TouchableOpacity  onPress={onPressWebSite}>
                 <Button style={styles.Button} icon="web" color="black" uppercase={false}>Ours web site</Button>
-            </TouchableOpacity> */}
+            </TouchableOpacity>
             <TouchableOpacity  onPress={onPressFacebook}>
                 <Button style={styles.Button} icon="facebook" color="black" uppercase={false}>Facebook</Button>
             </TouchableOpacity>
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         alignItems:'flex-start',
         padding: 4,
-        margin: 16,
+        margin: 12,
         fontSize: 18,
         width: '95%',
         borderRadius:26,

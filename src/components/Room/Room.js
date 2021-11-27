@@ -15,14 +15,19 @@ export default function Room() {
     return hours * 60 * 60 + minutes * 60 + seconds;
   });
   useEffect(() => {
-    let interval = setInterval(() => {
-      setTotalDuration(lastTimerCount => {
-          lastTimerCount <= 1 && clearInterval(interval);
-          return lastTimerCount - 1;
-      });
-    }, 1000); //each count lasts for a second
-    //cleanup the interval on complete
-    return () => clearInterval(interval);
+    let isMounted = true;
+    if (isMounted) {
+      var interval = setInterval(() => {
+        setTotalDuration(lastTimerCount => {
+            lastTimerCount <= 1 && clearInterval(interval);
+            return lastTimerCount - 1;
+        });
+      }, 1000);
+    }
+    return () => {
+      isMounted = false;
+      clearInterval(interval);
+    };
   }, []);
   LogBox.ignoreLogs(['EventEmitter.removeListener']);
 
@@ -31,13 +36,9 @@ export default function Room() {
       <Text style={styles.Text}>Next lesson:</Text>
       <CountDown
         until={totalDuration}
-        //duration of countdown in seconds
         timetoShow={('H', 'M', 'S')}
-        //formate to show
         onFinish={null}
-        //on Finish call
         onPress={null}
-        //on Press call
         size={20}
       />
     </View>

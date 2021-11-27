@@ -48,33 +48,20 @@ export default function App() {
     <PaperProvider theme={theme}>
       {isSigned ? (
         <NavigationContainer>
-          <Tab.Navigator
-            screenOptions={({route}) => ({
-              headerShown: false,
-              tabBarIcon: ({color, size}) => {
-                let iconName;
-                if (route.name === ScreenKey.Home) {
-                  iconName = 'home';
-                } else if (route.name === ScreenKey.Courses) {
-                  iconName = 'book';
-                } else if (route.name === ScreenKey.Message) {
-                  iconName = 'chatbubbles';
-                } else if (route.name === ScreenKey.Teachers) {
-                  iconName = 'people';
-                } else if (route.name === ScreenKey.Upcoming) {
-                  iconName = 'calendar';
-                }
-                return <Ionicons name={iconName} size={size} color={color} />;
-              },
-              tabBarActiveTintColor: 'lightskyblue',
-              tabBarInactiveTintColor: 'gray',
-            })}>
-            <Tab.Screen name= {ScreenKey.Home} component={HomeStack} />
-            <Tab.Screen name= {ScreenKey.Message} component={MessageStack} />
-            <Tab.Screen name= {ScreenKey.Upcoming} component={UpcomingStack} />
-            <Tab.Screen name= {ScreenKey.Teachers} component={TeachersStack} />
-            <Tab.Screen name= {ScreenKey.Courses} component={CoursesStack} />
-          </Tab.Navigator>
+          <Stack.Navigator screenOptions={{headerShown: false}}>
+            <Stack.Screen name= {ScreenKey.HomeTabs} component={HomeTabs} />
+            <Stack.Screen name= {ScreenKey.HomeScreen} component={Home} />
+            <Stack.Screen name= {ScreenKey.Setting} component={SettingsStack} />
+            <Stack.Screen name= {ScreenKey.TeacherDetail} component={TeacherDetail} />
+            <Stack.Screen name= {ScreenKey.TeacherSchedule} component={TeacherSchedule} />
+            <Stack.Screen name= {ScreenKey.MessageScreen} component={Message} />
+            <Stack.Screen name= {ScreenKey.MessageDialog} component={MessageDialog} />
+            <Stack.Screen name= {ScreenKey.UpcomingScreen} component={Upcoming} />
+            <Stack.Screen name= {ScreenKey.Room} component={Room} />
+            <Stack.Screen name= {ScreenKey.TeachersScreen} component={Teacher} />
+            <Stack.Screen name={ScreenKey.CoursesScreen} component={Courses} />
+            <Stack.Screen name= {ScreenKey.CourseDetail} component={CourseDetail} />
+          </Stack.Navigator>
         </NavigationContainer>
       ) : (
         <NavigationContainer>
@@ -89,54 +76,34 @@ export default function App() {
   );
 }
 
-function CoursesStack() {
-  return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
-      <Stack.Screen name={ScreenKey.CoursesScreen} component={Courses} />
-      <Stack.Screen name= {ScreenKey.CourseDetail} component={CourseDetail} />
-    </Stack.Navigator>
-  );
-}
-function HomeStack() {
-  return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
-      <Stack.Screen name= {ScreenKey.HomeScreen} component={Home} />
-      <Stack.Screen name= {ScreenKey.Setting} component={SettingsStack} />
-      <Stack.Screen name= {ScreenKey.TeacherDetail} component={TeacherDetail} />
-      <Stack.Screen name= {ScreenKey.TeacherSchedule} component={TeacherSchedule} />
-      <Stack.Screen name= {ScreenKey.MessageDialog} component={MessageDialog} />
-      <Stack.Screen name= {ScreenKey.Room} component={Room} />
-    </Stack.Navigator>
-  );
-}
-function UpcomingStack() {
-  return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
-      <Stack.Screen name= {ScreenKey.UpcomingScreen} component={Upcoming} />
-      <Stack.Screen name= {ScreenKey.Room} component={Room} />
-      <Stack.Screen name= {ScreenKey.TeacherDetail} component={TeacherDetail} />
-    </Stack.Navigator>
-  );
-}
-
-function MessageStack() {
-  return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
-      <Stack.Screen name= {ScreenKey.MessageScreen} component={Message} />
-      <Stack.Screen name= {ScreenKey.MessageDialog} component={MessageDialog} />
-    </Stack.Navigator>
-  );
-}
-
-function TeachersStack() {
-  return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
-      <Stack.Screen name= {ScreenKey.TeachersScreen} component={Teacher} />
-      <Stack.Screen name= {ScreenKey.TeacherDetail} component={TeacherDetail} />
-      <Stack.Screen name= {ScreenKey.MessageDialog} component={MessageDialog} />
-      <Stack.Screen name= {ScreenKey.TeacherSchedule} component={TeacherSchedule} />
-    </Stack.Navigator>
-  );
+function HomeTabs() {
+  return <Tab.Navigator
+  screenOptions={({route}) => ({
+    headerShown: false,
+    tabBarIcon: ({color, size}) => {
+      let iconName;
+      if (route.name === ScreenKey.Home) {
+        iconName = 'home';
+      } else if (route.name === ScreenKey.Courses) {
+        iconName = 'book';
+      } else if (route.name === ScreenKey.Message) {
+        iconName = 'chatbubbles';
+      } else if (route.name === ScreenKey.Teachers) {
+        iconName = 'people';
+      } else if (route.name === ScreenKey.Upcoming) {
+        iconName = 'calendar';
+      }
+      return <Ionicons name={iconName} size={size} color={color} />;
+    },
+    tabBarActiveTintColor: 'lightskyblue',
+    tabBarInactiveTintColor: 'gray',
+  })}>
+  <Tab.Screen name= {ScreenKey.Home} component={Home} />
+  <Tab.Screen name= {ScreenKey.Message} component={Message} />
+  <Tab.Screen name= {ScreenKey.Upcoming} component={Upcoming} />
+  <Tab.Screen name= {ScreenKey.Teachers} component={Teacher} />
+  <Tab.Screen name= {ScreenKey.Courses} component={Courses} />
+</Tab.Navigator>;
 }
 
 function SettingsStack() {

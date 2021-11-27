@@ -2,19 +2,14 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 import React, {useState}  from 'react';
-import {View, StyleSheet, Text, Image, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {AirbnbRating} from 'react-native-ratings';
-import {Chip} from 'react-native-paper';
+import {Avatar, Chip} from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { ScreenKey } from '../../globals/constants';
 
 export default function TeacherCard(props) {
     const [isLoved, setIsLoved] = useState(props.item.isLoved);
-    // const onPressTeacherCard = () => {
-    //     navigation.navigation.navigate(ScreenKey.TeacherDetail, {
-    //         name: props.item.name,
-    //     });
-    // };
+
     const getNameOfHeartIcon = () => {
         return isLoved ?  'heart' : 'heart-outline';
     };
@@ -23,15 +18,14 @@ export default function TeacherCard(props) {
             props.onPressTeacherCard(props.item);
         }}>
             <View style={{flexDirection:'row', width: '100%'}}>
-                <Image style={styles.Image}
-                source={require('../../../assets/logo.png')}/>
+                <Avatar.Image style={styles.Avatar} size={64} source={{uri:props.item.avatarUrl}}  />
                 <View style={{flex:6}}>
                     <View style={{flexDirection:'row'}}>
                         <Text style={styles.Name}>{props.item.name}</Text>
                         <Ionicons onPress={() => {setIsLoved(!isLoved);}} size={36} name={getNameOfHeartIcon(isLoved)} color="red"/>
                     </View>
                     <View style={{flexDirection:'row'}}>
-                        <AirbnbRating showRating={false} defaultRating={props.item.avgRating} isDisabled={false} size={20}/>
+                        <AirbnbRating showRating={false} defaultRating={props.item.avgRating} isDisabled={true} size={20}/>
                         <Text style={{margin: 6}}>({props.item.rateCount})</Text>
                     </View>
                     <View style={{flexDirection:'row'}}>
@@ -60,12 +54,9 @@ const styles = StyleSheet.create({
         elevation: 2,
         backgroundColor: 'white',
         },
-    Image: {
-        height:70,
-        width:70,
-        borderRadius:35,
-        margin:8,
-        flex:2,
+    Avatar: {
+        alignSelf: 'center',
+        margin: 8,
     },
     Name: {
         fontWeight:'bold',

@@ -1,11 +1,14 @@
 /* eslint-disable prettier/prettier */
 
-import React from 'react';
+import React,{useContext} from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import {Avatar, Button, Divider} from 'react-native-paper';
 import { ScreenKey } from '../../globals/constants';
+import { AuthContext } from '../../globals/context';
 
 export default function Setting(props) {
+    const {logOut} = useContext(AuthContext);
+
     const onPressProfile = () => {
         props.navigation.navigate(ScreenKey.Profile);
     };
@@ -30,12 +33,9 @@ export default function Setting(props) {
     const onPressFacebook = () => {
         //props.navigation.navigate('Profile');
     };
-    const onPressLogout = () => {
-        //props.navigation.navigate('Profile');
-    };
 
     return (
-        <ScrollView style={styles.Container}>
+        <View style={styles.Container}>
             <TouchableOpacity onPress={onPressProfile} style={styles.HeaderProfile}>
                 <Avatar.Image style={styles.Avatar} size={82} source={{uri:'https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/239732778_2864726213792769_9066963956251065581_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=lLviv4IdvtoAX8l3AZY&_nc_ht=scontent.fsgn2-4.fna&oh=645d6b1394d246c7af3d22001e1e4904&oe=6198D6D7'}} />
                 <View style={styles.HeaderRightView}>
@@ -65,16 +65,17 @@ export default function Setting(props) {
             <TouchableOpacity  onPress={onPressFacebook}>
                 <Button style={styles.Button} icon="facebook" color="black" uppercase={false}>Facebook</Button>
             </TouchableOpacity>
-            <TouchableOpacity  onPress={onPressLogout}>
+            <TouchableOpacity onPress={()=>{logOut();}}>
                 <Button style={styles.LogoutButton} icon="logout" color="black" uppercase={false}>Logout</Button>
             </TouchableOpacity>
-        </ScrollView>
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
     Container: {
         backgroundColor: 'aliceblue',
+        flex: 1,
     },
     HeaderProfile: {
         flexDirection:'row',

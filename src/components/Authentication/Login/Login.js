@@ -3,39 +3,39 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable no-unused-vars */
 /* eslint-disable prettier/prettier */
-import React, {useState}  from 'react';
+import React, {useContext, useState}  from 'react';
 import {View, Image, TouchableOpacity} from 'react-native';
 import styles from '../../../globals/styles';
-import {Text, TextInput} from 'react-native-paper';
+import {Text, TextInput, Snackbar } from 'react-native-paper';
 import { ScreenKey } from '../../../globals/constants';
+import { AuthContext } from '../../../globals/context';
 
 export default function Login(props) {
-  const accounts = [
-    {
-      userName:'duongnv1402',
-      password:'123456',
-    },
-    {
-      userName:'duongnguyen',
-      password:'123456',
-    },
-  ];
+
   const [isHide, setHide] = useState(true);
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
+  const [status, setStatus] = useState(null);
+  const renderSnackBar = (status) => {
+    if (!status) {
+      return <View />;
+    }
+    else if (status.status === 200){
+      return <Text>Login success!</Text>;
+    }
+    else {
+      return <Text>{status.messages}</Text>;
+    }
+  };
   const onPressFacebookLogo = () => {
 
   };
   const onPressGoogleLogo = () => {
 
   };
-  const checkAccount = () => {
-    for ( var account in accounts) {if (userName === account.userName && password === account.password) {return true;}}
-    return false;
-  };
-  // const onPressLogin = () => {
-  //   if(checkAccount()) ;
-  // };
+
+  const {logIn} = useContext(AuthContext);
+
   const getStateOfPassword = isHide => {
     return isHide ? 'eye-off' : 'eye';
   };
@@ -68,7 +68,7 @@ export default function Login(props) {
             <Text style={{fontSize:15, color:'cornflowerblue', marginTop:6}}> Forgot Password?</Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={()=>{logIn(userName, password);}}>
           <Text style={styles.text}>Log in</Text>
         </TouchableOpacity>
         <Text style={{alignSelf: 'center', marginTop:10, fontSize:16}}>Or continue with</Text>
@@ -86,6 +86,7 @@ export default function Login(props) {
             <Text style={{fontSize:16, color:'cornflowerblue'}}> Sign up</Text>
           </TouchableOpacity>
         </View>
+        {renderSnackBar(status)}
   </View>
   );
 }

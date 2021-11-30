@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, {useState} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -28,6 +28,8 @@ import Session from './src/components/Setting/SessionHistory/Session';
 import EditProfile from './src/components/Setting/Profile/EditProfile';
 import TeacherSchedule from './src/components/Teacher/TeacherSchedule';
 import { ScreenKey } from './src/globals/constants';
+import { AuthContext } from './src/globals/context';
+
 const theme = {
   ...DefaultTheme,
   roundness: 2,
@@ -44,8 +46,17 @@ const Tab = createBottomTabNavigator();
 
 export default function App() {
   const [isSigned, setIsSigned] = useState(true);
+  const authContext = useMemo(() => ({
+    logIn: (userName, password) => {
+      if (userName === 'admin' && password === '123456') {setIsSigned(true);}
+    },
+    logOut: () => { 
+      setIsSigned(false);
+    },
+  }));
   return (
     <PaperProvider theme={theme}>
+      <AuthContext.Provider value={authContext}>
       {isSigned ? (
         <NavigationContainer>
           <Stack.Navigator screenOptions={{headerShown: false}}>
@@ -72,6 +83,7 @@ export default function App() {
           </Stack.Navigator>
         </NavigationContainer>
       )}
+      </AuthContext.Provider>
     </PaperProvider>
   );
 }

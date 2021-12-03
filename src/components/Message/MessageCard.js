@@ -2,21 +2,13 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import {Avatar } from 'react-native-paper';
-import { ScreenKey } from '../../globals/constants';
 
 export default function MessageCard(props) {
-    const navigation = props.nav;
-    const onPressCard = () => {
-        navigation.navigation.navigate(ScreenKey.MessageDialog, {
-            url: props.item.avatarUrl,
-            name: props.item.name,
-        });
-    };
     return (
-        <TouchableOpacity onPress={onPressCard} style={styles.Container}>
-            <Avatar.Image style={styles.Avatar} size={56} source={{uri:props.item.avatarUrl}} />
+        <TouchableOpacity onPress={()=>{props.onPressMessageCard(props.item.id);}} style={styles.Container}>
+            <Avatar.Image style={styles.Avatar} size={56} source={{uri:props.item.user.avatarUrl}} />
             <View style={styles.RightView}>
-                <Text style={styles.Title}>{props.item.name}</Text>
+                <Text style={styles.Title}>{props.item.user.name}</Text>
                 <View style={styles.BottomText}>
                     <Text style={styles.SubTitle} numberOfLines={1}>{props.item.messages} </Text>
                     <Text >at {props.item.time}</Text>

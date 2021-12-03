@@ -1,20 +1,22 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable react/self-closing-comp */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
-import {ScrollView, View, Text, TouchableOpacity, StyleSheet,Alert} from 'react-native';
+import {ScrollView, View, Text, TouchableOpacity, StyleSheet, Alert, Image} from 'react-native';
 import { Button, Chip, Avatar } from 'react-native-paper';
 import {AirbnbRating} from 'react-native-ratings';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { ScreenKey } from '../../globals/constants';
+import { users } from '../../models/users';
+import {teachers} from '../../models/teachers';
 
 const EXAMPLE_TEXT = 'The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. ';
 
 export default function TeacherDetail(props) {
-  let item = props.route.params.item;
+  const item = props.route.params.item;
+  const user = users.find(u => u.id === item.id);
   const [isLoved, setIsLoved] = useState(item.isLoved);
-  const onPressMessage = () => {
-    props.navigation.navigate(ScreenKey.MessageDialog);
+  const onPressMessage = (id) => {
+    props.navigation.navigate(ScreenKey.MessageDialog, {id});
   };
   const getNameOfHeartIcon = () => {
     return isLoved ?  'heart' : 'heart-outline';
@@ -32,33 +34,44 @@ export default function TeacherDetail(props) {
           },
       ]);
   };
-  const onPressBooking = ()=>{
+  const onPressSchedule = ()=>{
     props.navigation.navigate(ScreenKey.TeacherSchedule);
   };
   return (
     <ScrollView>
-      <View style={{width: '100%', height: 250, backgroundColor:'blue'}}>
+      <View style={styles.Cover}>
+      <Image style={styles.Cover} source={{uri:user.coverUrl}}  />
       </View>
       <View style={styles.Container}>
         <View style={{flexDirection: 'row', width: '100%'}}>
-        <Avatar.Image style={styles.Avatar} size={76} source={{uri:item.avatarUrl}}  />
+        <Avatar.Image style={styles.Avatar} size={76} source={{uri:user.avatarUrl}}  />
 
           <View style={{flex:7}}>
             <View style={{flexDirection:'row'}}>
-              <Text style={styles.Name}>{item.name}</Text>
-              <Ionicons onPress={() => {setIsLoved(!isLoved);}} size={36} name={getNameOfHeartIcon(isLoved)} color="red"/>
+              <Text style={styles.Name}>{user.name}</Text>
+              <Ionicons
+                onPress={
+                    () => {
+                      let pos = teachers.findIndex(u => u.id === user.id);
+                      teachers[pos].isLoved = !teachers[pos].isLoved;
+                      setIsLoved(!isLoved);
+                    }
+                }
+                size={36}
+                name={getNameOfHeartIcon(isLoved)}
+                color="red"/>
             </View>
             <Text style={styles.Description}>Teacher</Text>
             <Text style={styles.Description}>{item.language}</Text>
           </View>
         </View>
-        <TouchableOpacity style={styles.Button} onPress={onPressBooking}>
-            <Text style={{justifyContent: 'center', alignSelf: 'center', fontSize:18}}>Booking</Text>
+        <TouchableOpacity style={styles.Button} onPress={onPressSchedule}>
+            <Text style={{justifyContent: 'center', alignSelf: 'center', fontSize:18}}>Schedule</Text>
         </TouchableOpacity>
         <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
-            <Button labelStyle={{fontSize: 30}}
+            <Button labelStyle={{fontSize: 30, justifyContent: 'center', alignItems: 'center'}}
                     icon="android-messages"
-                    onPress={onPressMessage}/>
+                    onPress={()=>{onPressMessage(user.id);}}/>
             <Button labelStyle={{fontSize: 30}}
                     icon="alert-circle"
                     onPress={onPressReport}/>
@@ -97,12 +110,16 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     margin: 8,
   },
+  Cover: {
+    width: '100%',
+    height: 250,
+  },
   Button: {
     alignItems: 'center',
     backgroundColor: 'deepskyblue',
     padding: 10,
     width: 250,
-    borderRadius: 28,
+    borderRadius: 15,
     marginTop: 10,
     alignSelf: 'center',
   },

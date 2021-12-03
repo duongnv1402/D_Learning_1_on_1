@@ -3,15 +3,17 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Avatar } from 'react-native-paper';
+import { users } from '../../models/users';
 
 export default function UpcomingCard(props) {
+    const user = users.find(u => u.id === props.item.id);
 
     return (
         <View style={styles.Container} >
             <View style={{flexDirection:'row'}}>
-                <Avatar.Image style={styles.Avatar} size={64} source={{uri:props.item.avatarUrl}} />
+                <Avatar.Image style={styles.Avatar} size={64} source={{uri:user.avatarUrl}} />
                 <View>
-                    <Text style={styles.Name}>{props.item.name}</Text>
+                    <Text style={styles.Name}>{user.name}</Text>
                     <View style={styles.Description}>
                         <Text >{props.item.date} </Text>
                         <Text style={styles.TimeStart}>{props.item.timeStart} </Text>
@@ -21,7 +23,7 @@ export default function UpcomingCard(props) {
                 </View>
             </View>
             <View style={styles.ViewButton}>
-                <TouchableOpacity style={styles.CancelButton} onPress={props.onPressCancel}>
+                <TouchableOpacity style={styles.CancelButton} onPress={()=>{props.onPressCancel(props.item);}}>
                     <Text style={styles.ButtonText}>Cancel</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.EnterButton} onPress={props.onPressEnter}>

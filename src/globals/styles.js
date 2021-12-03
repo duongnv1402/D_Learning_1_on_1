@@ -43,6 +43,10 @@ const styles = StyleSheet.create({
     height: 60,
     borderRadius:30,
   },
+  splashScreen: {
+    flex: 1,
+    justifyContent: 'center',
+  },
 });
 
 export default styles;

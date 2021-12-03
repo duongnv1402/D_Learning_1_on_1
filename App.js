@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, useMemo, useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -29,6 +30,8 @@ import EditProfile from './src/components/Setting/Profile/EditProfile';
 import TeacherSchedule from './src/components/Teacher/TeacherSchedule';
 import { ScreenKey } from './src/globals/constants';
 import { AuthContext } from './src/globals/context';
+import { ActivityIndicator, View, Image, Alert } from 'react-native';
+import styles from './src/globals/styles';
 
 const theme = {
   ...DefaultTheme,
@@ -46,14 +49,43 @@ const Tab = createBottomTabNavigator();
 
 export default function App() {
   const [isSigned, setIsSigned] = useState(true);
+  const [isLoading, setLoading] = useState(true);
   const authContext = useMemo(() => ({
     logIn: (userName, password) => {
-      if (userName === 'admin' && password === '123456') {setIsSigned(true);}
+      if (userName === 'Admin') {
+        if (password === '123456') {setIsSigned(true);}
+        else if (password !== ''){
+          Alert.alert('Incorrect Password', 'Your password is incorrect, please try again', [{text:'ok'}]);
+        }
+        else {
+          Alert.alert('Password is empty', 'Please enter your password', [{text:'ok'}]);
+        }
+      }
+      else {
+        Alert.alert('Login failed', 'Please try again', [{text:'ok'}]);
+      }
     },
-    logOut: () => { 
+    logOut: () => {
       setIsSigned(false);
     },
   }));
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
+
+  if ( isLoading ) {
+    return (
+      <View style={styles.splashScreen}>
+        <Image style={styles.imageLogoLogin}
+          source={require('./assets/logo-removedbackground.png')}/>
+        <ActivityIndicator />
+      </View>
+    );
+  }
+
   return (
     <PaperProvider theme={theme}>
       <AuthContext.Provider value={authContext}>

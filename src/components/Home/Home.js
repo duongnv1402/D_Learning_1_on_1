@@ -1,59 +1,14 @@
 /* eslint-disable prettier/prettier */
-import React from 'react';
+import React, {useState} from 'react';
 import TeacherCard from '../Teacher/TeacherCard';
 import {StyleSheet, View, Text, TouchableOpacity, FlatList, SafeAreaView} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { ScreenKey } from '../../globals/constants';
 import {Chip} from 'react-native-paper';
+import {teachers} from '../../models/teachers';
 
 export default function Home(props) {
-    const teachers = [
-        {
-            id: 1,
-            name: 'Duong Nguyen',
-            avgRating: 3,
-            rateCount:53,
-            language:'English',
-            isLoved: true,
-            avatarUrl: 'https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/239732778_2864726213792769_9066963956251065581_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=lLviv4IdvtoAX8l3AZY&_nc_ht=scontent.fsgn2-4.fna&oh=645d6b1394d246c7af3d22001e1e4904&oe=6198D6D7',
-        },
-        {
-            id: 2,
-            name: 'Nam Nguyen',
-            avgRating: 4,
-            rateCount: 1234,
-            language:'English',
-            isLoved: false,
-            avatarUrl: 'https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/239732778_2864726213792769_9066963956251065581_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=lLviv4IdvtoAX8l3AZY&_nc_ht=scontent.fsgn2-4.fna&oh=645d6b1394d246c7af3d22001e1e4904&oe=6198D6D7',
-        },
-        {
-            id: 3,
-            name: 'Tuan Pham',
-            avgRating: 4,
-            rateCount: 225,
-            language:'English',
-            isLoved: false,
-            avatarUrl: 'https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/239732778_2864726213792769_9066963956251065581_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=lLviv4IdvtoAX8l3AZY&_nc_ht=scontent.fsgn2-4.fna&oh=645d6b1394d246c7af3d22001e1e4904&oe=6198D6D7',
-        },
-        {
-            id: 4,
-            name: 'Trinh Nguyen',
-            avgRating: 4,
-            rateCount: 1234,
-            language:'Vietnamese',
-            isLoved: true,
-            avatarUrl: 'https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/239732778_2864726213792769_9066963956251065581_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=lLviv4IdvtoAX8l3AZY&_nc_ht=scontent.fsgn2-4.fna&oh=645d6b1394d246c7af3d22001e1e4904&oe=6198D6D7',
-        },
-        {
-            id: 5,
-            name: 'Tuan Tran',
-            avgRating: 4,
-            rateCount: 996,
-            language:'English',
-            isLoved: false,
-            avatarUrl: 'https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/239732778_2864726213792769_9066963956251065581_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=lLviv4IdvtoAX8l3AZY&_nc_ht=scontent.fsgn2-4.fna&oh=645d6b1394d246c7af3d22001e1e4904&oe=6198D6D7',
-        },
-    ];
+    const [data, setData] = useState(teachers);
     const renderItem = ({item}) => (
     <TeacherCard item={item} onPressTeacherCard={onPressTeacherCard}/>
     );
@@ -67,7 +22,7 @@ export default function Home(props) {
         props.navigation.navigate(ScreenKey.Teachers);
     };
     const onPressEnterRoom = () => {
-        props.navigation.navigate(ScreenKey.Room);
+        props.navigation.navigate(ScreenKey.Room,{startDate: '2021-12-23 08:00:00'});
     };
   return (
       <View style={styles.Container}>
@@ -96,7 +51,7 @@ export default function Home(props) {
                         </View>
                 </View>
             }
-            data = {teachers}
+            data = {data}
             renderItem = {renderItem}
             />
         </SafeAreaView>

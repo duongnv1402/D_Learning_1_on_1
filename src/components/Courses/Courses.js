@@ -2,85 +2,15 @@
 /* eslint-disable react-native/no-inline-styles */
 
 import React, {useState} from 'react';
-import { View,  StyleSheet, FlatList } from 'react-native';
+import { View,  StyleSheet, FlatList, Text, LogBox } from 'react-native';
 import { Searchbar, Menu } from 'react-native-paper';
 import CourseCard from './CourseCard';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
+import {courses} from '../../models/courses';
 
 export default function Courses(props) {
-    const courses = [
-        {
-            id: 1,
-            name: 'Duong Pham',
-            title: 'React Native Courses',
-            imgUrl: 'https://camblycurriculumicons.s3.amazonaws.com/5e2b895e541a832674533c18?h=d41d8cd98f00b204e9800998ecf8427e',
-            levels: 'Beginner',
-            description: 'The quick brown fox jumped over the lazy dog',
-            lessonCount: 4,
-            isLoved: true,
-        },
-        {
-            id: 2,
-            name: 'Hai Nguyen',
-            title: 'React Native Courses',
-            imgUrl: 'https://camblycurriculumicons.s3.amazonaws.com/5e2b895e541a832674533c18?h=d41d8cd98f00b204e9800998ecf8427e',
-            levels: 'Beginner',
-            description: 'The quick brown fox jumped over the lazy dog',
-            lessonCount: 4,
-            isLoved: true,
-        },
-        {
-            id: 3,
-            name: 'Tuam Pham',
-            title: 'React Native Courses',
-            imgUrl: 'https://camblycurriculumicons.s3.amazonaws.com/5e2b895e541a832674533c18?h=d41d8cd98f00b204e9800998ecf8427e',
-            levels: 'Beginner',
-            description: 'The quick brown fox jumped over the lazy dog',
-            lessonCount: 4,
-            isLoved: false,
-        },
-        {
-            id: 4,
-            name: 'An Nguyen',
-            title: 'React Native Courses',
-            imgUrl: 'https://camblycurriculumicons.s3.amazonaws.com/5e2b895e541a832674533c18?h=d41d8cd98f00b204e9800998ecf8427e',
-            levels: 'Beginner',
-            description: 'The quick brown fox jumped over the lazy dog',
-            lessonCount: 4,
-            isLoved: true,
-        },
-        {
-            id: 5,
-            name: 'Duc Nguyen',
-            title: 'React Native Courses',
-            imgUrl: 'https://camblycurriculumicons.s3.amazonaws.com/5e2b895e541a832674533c18?h=d41d8cd98f00b204e9800998ecf8427e',
-            levels: 'Beginner',
-            description: 'The quick brown fox jumped over the lazy dog',
-            lessonCount: 4,
-            isLoved: false,
-        },
-        {
-            id: 6,
-            name: 'Quynh Pham',
-            title: 'React Native Courses',
-            imgUrl: 'https://camblycurriculumicons.s3.amazonaws.com/5e2b895e541a832674533c18?h=d41d8cd98f00b204e9800998ecf8427e',
-            levels: 'Beginner',
-            description: 'The quick brown fox jumped over the lazy dog',
-            lessonCount: 4,
-            isLoved: false,
-        },
-        {
-            id: 7,
-            name: 'Duong Nguyen',
-            title: 'React Native Courses',
-            imgUrl: 'https://camblycurriculumicons.s3.amazonaws.com/5e2b895e541a832674533c18?h=d41d8cd98f00b204e9800998ecf8427e',
-            levels: 'Beginner',
-            description: 'The quick brown fox jumped over the lazy dog',
-            lessonCount: 4,
-            isLoved: true,
-        },
-    ];
+    const [filteredCourses, setFilteredCourses] = useState(courses);
+
     const renderItem = ({item}) => (
         <CourseCard nav = {props} item={item}/>
     );
@@ -92,7 +22,21 @@ export default function Courses(props) {
     const openMenu = ()=> {
         setVisible(true);
     };
-    const onChangeSearch = query => setSearchQuery(query);
+    const onChangeSearch = (query) => {
+        if (query) {
+            const newData = courses.filter(
+              function (item) {
+                const itemData = item.name.toLowerCase();
+                const textData = query.toLowerCase();
+                return itemData.indexOf(textData) > -1;
+            });
+            setFilteredCourses(newData);
+        }
+        else {setFilteredCourses(courses);}
+        setSearchQuery(query);
+    };
+    LogBox.ignoreLogs(['EventEmitter.removeListener']);
+
     return (
         <View style={styles.Container}>
             <View style={{flexDirection:'row'}}>
@@ -107,15 +51,42 @@ export default function Courses(props) {
                         visible={visible}
                         onDismiss={closeMenu}
                         anchor={<Ionicons  onPress={openMenu} size={36} name="options" color="gray"/>}>
-                        <Menu.Item onPress={() => {}} title="Name" />
-                        <Menu.Item onPress={() => {}} title="Level" />
-                        <Menu.Item onPress={() => {}} title="Loved" />
+                        <Menu.Item onPress={
+                                () => {
+                                    setFilteredCourses(courses.sort(function(a, b) {
+                                        if (a.name < b.name) { return -1; }
+                                        if (a.name > b.name) { return 1; }
+                                        return 0;
+                                    }));
+                                    closeMenu();
+                                }
+                            } title="Name" />
+                        <Menu.Item
+                            onPress={
+                                () => {
+                                    setFilteredCourses(courses.sort(function(a, b) { return b.lessonCount - a.lessonCount;}));
+                                    closeMenu();
+                                }
+                            }
+                            title="Lessons" />
+                        <Menu.Item onPress={
+                            () => {
+                                setFilteredCourses(courses.sort(function(a, b) { return b.isLoved - a.isLoved;}));
+                                closeMenu();
+                            }
+                        } title="Loved" />
                     </Menu>
                 </View>
             </View>
-            <FlatList
-            data={courses}
-            renderItem={renderItem} />
+            {filteredCourses.length === 0 ?
+                (<View style = {styles.Container2}>
+                    <Text style={styles.CenterText}>{searchQuery} is not found</Text>
+                    <Text style={styles.MiddleLeftText}>Recommended Courses</Text>
+                    <FlatList data={courses} renderItem = {renderItem} />
+                </View>
+                ) :
+                (<FlatList data={filteredCourses} renderItem = {renderItem} />)
+            }
         </View>
     );
 }
@@ -123,6 +94,19 @@ export default function Courses(props) {
 const styles = StyleSheet.create({
     Container: {
         height:'100%',
+        backgroundColor: 'aliceblue',
+    },
+    CenterText: {
+        alignSelf: 'center',
+        margin: 8,
+    },
+    MiddleLeftText: {
+        fontStyle: 'italic',
+        color: 'lightskyblue',
+        alignItems: 'flex-start',
+        marginLeft: 16,
+    },
+    Container2: {
         backgroundColor: 'aliceblue',
     },
 });

@@ -1,17 +1,18 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import {AirbnbRating} from 'react-native-ratings';
-
+import { users } from '../../../models/users';
+import { Avatar } from 'react-native-paper';
 export default function FeedbackCard(props) {
+    const user = users.find(u => u.id === props.item.id);
     return (
         <View style={styles.Container} >
             <View style={{flexDirection:'row', width: '100%'}}>
-                <Image style={styles.Image}
-                source={require('../../../../assets/logo.png')}/>
+                <Avatar.Image style={styles.Avatar} size={76} source={{uri:user.avatarUrl}}  />
                 <View style={{flex:6}}>
-                    <Text style={styles.Name}>{props.item.name}</Text>
+                    <Text style={styles.Name}>{user.name}</Text>
                     <View style={{flexDirection:'row'}}>
                         <AirbnbRating showRating={false} defaultRating={props.item.ratings} isDisabled={true} size={20}/>
                     </View>
@@ -32,13 +33,10 @@ const styles = StyleSheet.create({
         elevation: 2,
         backgroundColor: 'white',
         },
-    Image: {
-        height:70,
-        width:70,
-        borderRadius:35,
-        margin:8,
-        flex:2,
-    },
+    Avatar: {
+            alignSelf: 'center',
+            margin: 8,
+        },
     Name: {
         fontWeight:'bold',
         marginTop: 8,

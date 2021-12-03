@@ -1,7 +1,8 @@
 /* eslint-disable prettier/prettier */
 
 import React from 'react';
-import {View, ScrollView, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, ScrollView, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import { Avatar } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { ScreenKey } from '../../../globals/constants';
 
@@ -14,7 +15,7 @@ export default function Profile(props) {
   return (
     <ScrollView style={styles.Container}>
       <View style={styles.HeaderProfile}>
-        <Image style={styles.Image} source={require('../../../../assets/logo.png')} />
+        <Avatar.Image style={styles.Avatar} size={82} source={{uri:'https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/239732778_2864726213792769_9066963956251065581_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=lLviv4IdvtoAX8l3AZY&_nc_ht=scontent.fsgn2-4.fna&oh=645d6b1394d246c7af3d22001e1e4904&oe=6198D6D7'}} />
         <View style={{flex:5}}>
           <Text style={styles.Name}>Nguyễn Dương</Text>
           <Text style={styles.SDT}>0123456789</Text>
@@ -49,12 +50,9 @@ const styles = StyleSheet.create({
     height:'100%',
     margin: 16,
   },
-  Image: {
-    height:90,
-    width:90,
-    borderRadius:45,
-    margin:16,
-    flex:2,
+  Avatar: {
+    alignSelf: 'center',
+    margin: 8,
   },
   HeaderProfile:{
     flexDirection:'row',

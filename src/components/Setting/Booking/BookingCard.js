@@ -1,51 +1,31 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, Alert, StyleSheet } from 'react-native';
-import { ScreenKey } from '../../../globals/constants';
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 export default function BookingCard(props) {
-    const nav = props.nav;
-    const onPressCancel = () => {
-        Alert.alert('Report', 'Do you want to cancel this lesson?',
-        [
-            {
-                text: 'cancel',
-            },
-            {
-                text:'ok',
-                onPress: ()=>{
-                },
-            },
-        ]);
-    };
-    const onPressEnter = () => {
-        nav.navigation.navigate(ScreenKey.Room);
-    };
-    const onPressTeacherName = () => {
-        nav.navigation.navigate(ScreenKey.TeacherDetail);
-    };
+
     return (
         <View style={styles.Container} >
             <View style={{flexDirection:'row'}}>
                 <Image style={styles.Image}
                 source={require('../../../../assets/logo.png')}/>
                 <View>
-                    <TouchableOpacity onPress={onPressTeacherName}>
-                        <Text style={styles.Name}>{props.name}</Text>
+                    <TouchableOpacity onPress={()=>{props.onPressTeacherName;}}>
+                        <Text style={styles.Name}>{props.item.name}</Text>
                     </TouchableOpacity>
                     <View style={styles.Description}>
-                        <Text style={styles.Date}>{props.date} </Text>
-                        <Text style={styles.TimeStart}>{props.timeStart} </Text>
+                        <Text >{props.item.date} </Text>
+                        <Text style={styles.TimeStart}>{props.item.timeStart} </Text>
                         <Text> - </Text>
-                        <Text style={styles.TimeEnd}>{props.timeEnd}</Text>
+                        <Text style={styles.TimeEnd}>{props.item.timeEnd}</Text>
                     </View>
                 </View>
             </View>
-            {props.isOver ? (<View style={styles.ViewButton}>
-                <TouchableOpacity style={styles.CancelButton} onPress={onPressCancel}>
+            {props.item.isOver ? (<View style={styles.ViewButton}>
+                <TouchableOpacity style={styles.CancelButton} onPress={()=>{props.onPressCancel(props.item);}}>
                     <Text style={styles.ButtonText}>Cancel</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.EnterButton} onPress={onPressEnter}>
+                <TouchableOpacity style={styles.EnterButton} onPress={()=>{props.onPressEnter(props.item.date + ' ' + props.item.timeStart);}}>
                     <Text style={styles.ButtonText}>Go to the lesson room</Text>
                 </TouchableOpacity>
             </View>) : null}

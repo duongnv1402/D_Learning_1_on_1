@@ -6,10 +6,11 @@ import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {AirbnbRating} from 'react-native-ratings';
 import {Avatar, Chip} from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
+import {users} from '../../models/users';
+import {teachers} from '../../models/teachers';
 export default function TeacherCard(props) {
     const [isLoved, setIsLoved] = useState(props.item.isLoved);
-
+    var user = users.find(u => u.id === props.item.id);
     const getNameOfHeartIcon = () => {
         return isLoved ?  'heart' : 'heart-outline';
     };
@@ -18,11 +19,21 @@ export default function TeacherCard(props) {
             props.onPressTeacherCard(props.item);
         }}>
             <View style={{flexDirection:'row', width: '100%'}}>
-                <Avatar.Image style={styles.Avatar} size={64} source={{uri:props.item.avatarUrl}}  />
+                <Avatar.Image style={styles.Avatar} size={64} source={{uri:user.avatarUrl}}  />
                 <View style={{flex:6}}>
                     <View style={{flexDirection:'row'}}>
-                        <Text style={styles.Name}>{props.item.name}</Text>
-                        <Ionicons onPress={() => {setIsLoved(!isLoved);}} size={36} name={getNameOfHeartIcon(isLoved)} color="red"/>
+                        <Text style={styles.Name}>{user.name}</Text>
+                        <Ionicons
+                            onPress={
+                                () => {
+                                    setIsLoved(!isLoved);
+                                    let pos = teachers.findIndex(u => u.id === props.item.id);
+                                    teachers[pos].isLoved = !teachers[pos].isLoved;
+                                }
+                            }
+                            size={36}
+                            name={getNameOfHeartIcon(isLoved)}
+                            color="red"/>
                     </View>
                     <View style={{flexDirection:'row'}}>
                         <AirbnbRating showRating={false} defaultRating={props.item.avgRating} isDisabled={true} size={20}/>

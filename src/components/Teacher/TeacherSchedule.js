@@ -5,25 +5,9 @@ import React, {useState} from 'react';
 import { ScrollView, Text, StyleSheet, TouchableOpacity, View } from 'react-native';
 import WeekView from 'react-native-week-view';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import {events} from '../../models/events';
 
 export default function TeacherSchedule() {
-    const myEvents = [
-        {
-            id: 1,
-            description: 'Booked',
-            startDate: new Date(2021, 10, 24, 12, 0),
-            endDate: new Date(2021, 10, 24, 14, 0),
-            color: 'deepskyblue',
-        },
-        {
-            id: 2,
-            description: 'Booked',
-            startDate: new Date(2021, 10, 24, 14, 0),
-            endDate: new Date(2021, 10, 24, 18, 0),
-            color: 'deepskyblue',
-            },// More events...
-    ];
-
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
     const showDateTimePicker = () => {
@@ -35,6 +19,15 @@ export default function TeacherSchedule() {
     };
 
     const handleConfirm = (date) => {
+        console.log(date.toLocaleString());
+        let event = {
+            id: events.length + 1,
+            description: 'Booked',
+            startDate: date,
+            endDate: new Date(date.getFullYear(), date.getMonth() + 1, date.getDate(), 2, 0, 0),
+            color: 'deepskyblue',
+        };
+        events.push(event);
         hideDateTimePicker();
     };
     return (
@@ -46,10 +39,10 @@ export default function TeacherSchedule() {
                 </TouchableOpacity>
             </View>
             <WeekView
-            events={myEvents}
-            selectedDate={new Date()}
+            events={events}
+            selectedDate={new Date(Date.now())}
             numberOfDays={7}
-            hoursInDisplay={30}
+            hoursInDisplay={27}
             />
             <DateTimePickerModal
             isVisible={isDatePickerVisible}

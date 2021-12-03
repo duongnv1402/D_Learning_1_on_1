@@ -1,75 +1,43 @@
 /* eslint-disable prettier/prettier */
-import React from 'react';
-import { View, StyleSheet, FlatList, SafeAreaView } from 'react-native';
+import React, {useState} from 'react';
+import { View, StyleSheet, FlatList, SafeAreaView, Text } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import MessageCard from './MessageCard';
-
+import {messages} from '../../models/messages';
+import { users } from '../../models/users';
+import { ScreenKey } from '../../globals/constants';
 
 export default function Message(props) {
-    const users = [
-        {
-            id: 1,
-            avatarUrl: 'https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/239732778_2864726213792769_9066963956251065581_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=lLviv4IdvtoAX8l3AZY&_nc_ht=scontent.fsgn2-4.fna&oh=645d6b1394d246c7af3d22001e1e4904&oe=6198D6D7',
-            name: 'An Nguyen',
-            messages: 'Xin chao, ban co khoe khong',
-            time: '14-02-2021 08:00 AM',
-        },
-        {
-            id: 2,
-            avatarUrl: 'https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/239732778_2864726213792769_9066963956251065581_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=lLviv4IdvtoAX8l3AZY&_nc_ht=scontent.fsgn2-4.fna&oh=645d6b1394d246c7af3d22001e1e4904&oe=6198D6D7',
-            name: 'Minh Nguyen',
-            messages: 'Xin chao',
-            time: '14-02-2021 08:00 AM',
-        },
-        {
-            id: 3,
-            avatarUrl: 'https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/239732778_2864726213792769_9066963956251065581_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=lLviv4IdvtoAX8l3AZY&_nc_ht=scontent.fsgn2-4.fna&oh=645d6b1394d246c7af3d22001e1e4904&oe=6198D6D7',
-            name: 'Tuan Pham',
-            messages: 'Xin chao, ban co khoe khong',
-            time: '14-02-2021 08:00 AM',
-        },
-        {
-            id: 4,
-            avatarUrl: 'https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/239732778_2864726213792769_9066963956251065581_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=lLviv4IdvtoAX8l3AZY&_nc_ht=scontent.fsgn2-4.fna&oh=645d6b1394d246c7af3d22001e1e4904&oe=6198D6D7',
-            name: 'Lam Vu',
-            messages: 'Love you',
-            time: '14-02-2021 08:00 AM',
-        },
-        {
-            id: 5,
-            avatarUrl: 'https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/239732778_2864726213792769_9066963956251065581_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=lLviv4IdvtoAX8l3AZY&_nc_ht=scontent.fsgn2-4.fna&oh=645d6b1394d246c7af3d22001e1e4904&oe=6198D6D7',
-            name: 'Hai Nguyen',
-            messages: 'Hi',
-            time: '14-02-2021 08:00 AM',
-        },
-        {
-            id: 6,
-            avatarUrl: 'https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/239732778_2864726213792769_9066963956251065581_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=lLviv4IdvtoAX8l3AZY&_nc_ht=scontent.fsgn2-4.fna&oh=645d6b1394d246c7af3d22001e1e4904&oe=6198D6D7',
-            name: 'Pham Duc',
-            messages: 'Xin chao, ban co khoe khong',
-            time: '14-02-2021 08:00 AM',
-        },
-        {
-            id: 7,
-            avatarUrl: 'https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/239732778_2864726213792769_9066963956251065581_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=lLviv4IdvtoAX8l3AZY&_nc_ht=scontent.fsgn2-4.fna&oh=645d6b1394d246c7af3d22001e1e4904&oe=6198D6D7',
-            name: 'Duong Nguyen',
-            messages: 'Xin chao, ban co khoe khong',
-            time: '14-02-2021 08:00 AM',
-        },
-        {
-            id: 8,
-            avatarUrl: 'https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/239732778_2864726213792769_9066963956251065581_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=lLviv4IdvtoAX8l3AZY&_nc_ht=scontent.fsgn2-4.fna&oh=645d6b1394d246c7af3d22001e1e4904&oe=6198D6D7',
-            name: 'Trang Pham',
-            messages: 'Xin chao, ban co khoe khong',
-            time: '14-02-2021 08:00 AM',
-        },
-    ];
-    const renderItem = ({item}) => (
-        <MessageCard nav={props} item={item}/>
-    );
-    const [searchQuery, setSearchQuery] = React.useState('');
+    const data = messages.map(ms =>{
+        const user = users.find(u => u.id === ms.id);
+        return {...ms, user};
+    });
+    const [filteredMessages, setFilteredMessages] = useState(data);
 
-  const onChangeSearch = query => setSearchQuery(query);
+    const renderItem = ({item}) => (
+        <MessageCard nav={props} item={item} onPressMessageCard={onPressMessageCard}/>
+    );
+
+    const onPressMessageCard = (id) => {
+        props.navigation.navigate(ScreenKey.MessageDialog, {id});
+    };
+
+    const onChangeSearch = (query) => {
+        if (query) {
+            const newData = data.filter(
+              function (item) {
+                const itemData = item.user.name.toLowerCase();
+                const textData = query.toLowerCase();
+                return itemData.indexOf(textData) > -1;
+            });
+            setFilteredMessages(newData);
+        }
+        else {setFilteredMessages(data);}
+        setSearchQuery(query);
+    };
+
+    const [searchQuery, setSearchQuery] = useState('');
+
     return (
         <View >
             <Searchbar
@@ -78,10 +46,15 @@ export default function Message(props) {
                 value={searchQuery}
             />
             <SafeAreaView style={styles.Container}>
-                <FlatList
-                data={users}
-                renderItem={renderItem}
-                />
+            {filteredMessages.length === 0 ?
+                (<View style = {styles.Container2}>
+                    <Text style={styles.CenterText}>{searchQuery} is not found</Text>
+                    <Text style={styles.MiddleLeftText}>Recent messages</Text>
+                    <FlatList data={data} renderItem = {renderItem} />
+                </View>
+                ) :
+                (<FlatList data={filteredMessages} renderItem = {renderItem} />)
+            }
             </SafeAreaView>
         </View>
     );
@@ -92,5 +65,18 @@ const styles = StyleSheet.create({
         backgroundColor: 'aliceblue',
         height: '93%',
         },
-    }
+    Container2: {
+            backgroundColor: 'aliceblue',
+        },
+    CenterText: {
+            alignSelf: 'center',
+            margin: 8,
+        },
+    MiddleLeftText: {
+            fontStyle: 'italic',
+            color: 'lightskyblue',
+            alignItems: 'flex-start',
+            marginLeft: 16,
+        },
+    },
 );

@@ -1,12 +1,11 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable no-shadow */
 /* eslint-disable react-native/no-inline-styles */
-/* eslint-disable no-unused-vars */
 /* eslint-disable prettier/prettier */
 import React, {useContext, useState}  from 'react';
 import {View, Image, TouchableOpacity} from 'react-native';
 import styles from '../../../globals/styles';
-import {Text, TextInput, Snackbar } from 'react-native-paper';
+import {Text, TextInput } from 'react-native-paper';
 import { ScreenKey } from '../../../globals/constants';
 import { AuthContext } from '../../../globals/context';
 
@@ -15,18 +14,7 @@ export default function Login(props) {
   const [isHide, setHide] = useState(true);
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
-  const [status, setStatus] = useState(null);
-  const renderSnackBar = (status) => {
-    if (!status) {
-      return <View />;
-    }
-    else if (status.status === 200){
-      return <Text>Login success!</Text>;
-    }
-    else {
-      return <Text>{status.messages}</Text>;
-    }
-  };
+
   const onPressFacebookLogo = () => {
 
   };
@@ -86,7 +74,6 @@ export default function Login(props) {
             <Text style={{fontSize:16, color:'cornflowerblue'}}> Sign up</Text>
           </TouchableOpacity>
         </View>
-        {renderSnackBar(status)}
   </View>
   );
 }

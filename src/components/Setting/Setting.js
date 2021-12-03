@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 
 import React,{useContext} from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import {Avatar, Button, Divider} from 'react-native-paper';
 import { ScreenKey } from '../../globals/constants';
 import { AuthContext } from '../../globals/context';

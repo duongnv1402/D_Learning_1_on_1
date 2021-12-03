@@ -6,57 +6,15 @@ import { Searchbar, Menu } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import TeacherCard from './TeacherCard';
 import {ScreenKey} from '../../globals/constants';
+import {teachers} from '../../models/teachers';
+import {users} from '../../models/users';
 
 export default function Teacher(props) {
-    const defaultTeachers = [
-        {
-            id: 1,
-            name: 'Duong Nguyen',
-            avgRating: 3,
-            rateCount:53,
-            language:'English',
-            isLoved: true,
-            avatarUrl: 'https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/239732778_2864726213792769_9066963956251065581_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=lLviv4IdvtoAX8l3AZY&_nc_ht=scontent.fsgn2-4.fna&oh=645d6b1394d246c7af3d22001e1e4904&oe=6198D6D7',
-        },
-        {
-            id: 2,
-            name: 'Nam Nguyen',
-            avgRating: 4,
-            rateCount: 1234,
-            language:'English',
-            isLoved: false,
-            avatarUrl: 'https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/239732778_2864726213792769_9066963956251065581_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=lLviv4IdvtoAX8l3AZY&_nc_ht=scontent.fsgn2-4.fna&oh=645d6b1394d246c7af3d22001e1e4904&oe=6198D6D7',
-        },
-        {
-            id: 3,
-            name: 'Tuan Pham',
-            avgRating: 4,
-            rateCount: 225,
-            language:'English',
-            isLoved: false,
-            avatarUrl: 'https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/239732778_2864726213792769_9066963956251065581_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=lLviv4IdvtoAX8l3AZY&_nc_ht=scontent.fsgn2-4.fna&oh=645d6b1394d246c7af3d22001e1e4904&oe=6198D6D7',
-        },
-        {
-            id: 4,
-            name: 'Trinh Nguyen',
-            avgRating: 4,
-            rateCount: 1234,
-            language:'Vietnamese',
-            isLoved: true,
-            avatarUrl: 'https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/239732778_2864726213792769_9066963956251065581_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=lLviv4IdvtoAX8l3AZY&_nc_ht=scontent.fsgn2-4.fna&oh=645d6b1394d246c7af3d22001e1e4904&oe=6198D6D7',
-        },
-        {
-            id: 5,
-            name: 'Tuan Tran',
-            avgRating: 4,
-            rateCount: 996,
-            language:'English',
-            isLoved: false,
-            avatarUrl: 'https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/239732778_2864726213792769_9066963956251065581_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=lLviv4IdvtoAX8l3AZY&_nc_ht=scontent.fsgn2-4.fna&oh=645d6b1394d246c7af3d22001e1e4904&oe=6198D6D7',
-        },
-    ];
-
-    const [filteredTeachers, setFilteredTeachers] = useState(defaultTeachers);
+    const data = teachers.map(teacher =>{
+        const user = users.find(u => u.id === teacher.id);
+        return {...teacher, user};
+    });
+    const [filteredTeachers, setFilteredTeachers] = useState(data);
 
     const renderItem = ({item}) => (
     <TeacherCard nav={props} item={item} onPressTeacherCard={onPressTeacherCard}/>
@@ -66,29 +24,31 @@ export default function Teacher(props) {
         props.navigation.navigate(ScreenKey.TeacherDetail, {item});
     };
 
-    const [searchQuery, setSearchQuery] = useState('');
-    const [visible, setVisible] = useState(false);
-    const closeMenu = ()=> {
-        setVisible(false);
-    };
-    const openMenu = ()=> {
-        setVisible(true);
-    };
     const onChangeSearch = (query) => {
         if (query) {
-            const newData = defaultTeachers.filter(
+            const newData = data.filter(
               function (item) {
-                const itemData = item.name ? item.name.toLowerCase() : ''.toLowerCase();
+                const itemData = item.user.name.toLowerCase();
                 const textData = query.toLowerCase();
                 return itemData.indexOf(textData) > -1;
             });
             setFilteredTeachers(newData);
         }
-        else {setFilteredTeachers(defaultTeachers);}
+        else {setFilteredTeachers(data);}
         setSearchQuery(query);
     };
-    LogBox.ignoreLogs(['EventEmitter.removeListener']);
 
+    const [searchQuery, setSearchQuery] = useState('');
+    const [visible, setVisible] = useState(false);
+
+    const closeMenu = ()=> {
+        setVisible(false);
+    };
+
+    const openMenu = ()=> {
+        setVisible(true);
+    };
+    LogBox.ignoreLogs(['EventEmitter.removeListener']);
     return (
         <View style={styles.Container}>
             <View style={{flexDirection:'row'}}>
@@ -105,19 +65,28 @@ export default function Teacher(props) {
                         anchor={<Ionicons  onPress={openMenu} size={36} name="options" color="gray"/>}>
                         <Menu.Item onPress={
                                 () => {
-                                    setFilteredTeachers(defaultTeachers.sort(function(a, b) { return b.name - a.name;}));
+                                    setFilteredTeachers(data.sort(function(a, b) {
+                                        if (a.user.name < b.user.name) { return -1; }
+                                        if (a.user.name > b.user.name) { return 1; }
+                                        return 0;
+                                    }));
                                     closeMenu();
                                 }
                             } title="Name" />
                         <Menu.Item
                             onPress={
                                 () => {
-                                    setFilteredTeachers(defaultTeachers.sort(function(a, b) { return b.rateCount - a.rateCount;}));
+                                    setFilteredTeachers(data.sort(function(a, b) { return b.avgRating - a.avgRating;}));
                                     closeMenu();
                                 }
                             }
                             title="Ratings" />
-                        <Menu.Item onPress={() => {closeMenu();}} title="Loved" />
+                        <Menu.Item onPress={
+                            () => {
+                                setFilteredTeachers(data.sort(function(a, b) { return b.isLoved - a.isLoved;}));
+                                closeMenu();
+                            }
+                        } title="Loved" />
                     </Menu>
                 </View>
             </View>
@@ -125,7 +94,7 @@ export default function Teacher(props) {
                 (<View style = {styles.Container2}>
                     <Text style={styles.CenterText}>{searchQuery} is not found</Text>
                     <Text style={styles.MiddleLeftText}>Recommended Tutors</Text>
-                    <FlatList data={defaultTeachers} renderItem = {renderItem} />
+                    <FlatList data={data} renderItem = {renderItem} />
                 </View>
                 ) :
                 (<FlatList data={filteredTeachers} renderItem = {renderItem} />)
@@ -140,16 +109,16 @@ const styles = StyleSheet.create({
         backgroundColor: 'aliceblue',
     },
     CenterText: {
-        alignSelf: 'center',
-        margin: 8,
+            alignSelf: 'center',
+            margin: 8,
     },
     MiddleLeftText: {
-        fontStyle: 'italic',
-        color: 'lightskyblue',
-        alignItems: 'flex-start',
-        marginLeft: 16,
+            fontStyle: 'italic',
+            color: 'lightskyblue',
+            alignItems: 'flex-start',
+            marginLeft: 16,
     },
     Container2: {
-        backgroundColor: 'aliceblue',
+            backgroundColor: 'aliceblue',
     },
 });

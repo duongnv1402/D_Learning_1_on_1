@@ -1,17 +1,34 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable no-unused-vars */
 /* eslint-disable no-shadow */
 /* eslint-disable prettier/prettier */
 import React, {useState} from 'react';
-import {View, TouchableOpacity, Image} from 'react-native';
+import {View, TouchableOpacity, Image, Alert} from 'react-native';
 import {Text, TextInput} from 'react-native-paper';
 import styles from '../../../globals/styles';
 
 export default function ForgetPassword(props) {
-  const [userName, setUserName] = useState('');
+  const [email, setEmail] = useState('');
   const onPressSubmit = () => {
-  //Do something
-  props.navigation.goBack();
+    if (email) {
+      Alert.alert('Successfully', 'Please check your email and try again?',
+      [
+          {
+              text:'ok',
+              onPress: ()=>{
+                props.navigation.goBack();
+              },
+          },
+      ]);
+    }
+    else {
+      Alert.alert('Failed', 'Please check your email and try again',
+      [
+          {
+              text:'ok',
+              onPress: null,
+          },
+      ]);
+    }
   };
   return (
     <View style={styles.container}>
@@ -21,7 +38,7 @@ export default function ForgetPassword(props) {
           placeholder="Your Email"
           keyboardType="email-address"
           left={<TextInput.Icon name="email" />}
-          onChangeText={userName=>setUserName(userName)}
+          onChangeText={email=>setEmail(email)}
         />
         <TouchableOpacity style={styles.button} onPress={onPressSubmit}>
           <Text>Submit</Text>

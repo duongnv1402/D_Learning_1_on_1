@@ -48,7 +48,7 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export default function App() {
-  const [isSigned, setIsSigned] = useState(true);
+  const [isSigned, setIsSigned] = useState(false);
   const [isLoading, setLoading] = useState(true);
   const authContext = useMemo(() => ({
     logIn: (userName, password) => {

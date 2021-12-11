@@ -2,14 +2,13 @@
 /* eslint-disable react-native/no-inline-styles */
 
 import React, {useState} from 'react';
-import { ScrollView, Text, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { ScrollView, Text, StyleSheet, TouchableOpacity, View, Alert } from 'react-native';
 import WeekView from 'react-native-week-view';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {events} from '../../models/events';
 
-export default function TeacherSchedule() {
+export default function TeacherSchedule(props) {
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-
     const showDateTimePicker = () => {
         setDatePickerVisibility(true);
     };
@@ -19,16 +18,24 @@ export default function TeacherSchedule() {
     };
 
     const handleConfirm = (date) => {
-        console.log(date.toLocaleString());
         let event = {
             id: events.length + 1,
             description: 'Booked',
             startDate: date,
-            endDate: new Date(date.getFullYear(), date.getMonth() + 1, date.getDate(), 2, 0, 0),
+            endDate: new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours() + 2, date.getMinutes(), date.getSeconds()),
             color: 'deepskyblue',
         };
         events.push(event);
         hideDateTimePicker();
+        Alert.alert('Success', 'Successful booking',
+      [
+          {
+              text:'ok',
+              onPress: ()=>{
+                    props.navigation.goBack();
+              },
+          },
+      ]);
     };
     return (
         <ScrollView>
@@ -42,7 +49,7 @@ export default function TeacherSchedule() {
             events={events}
             selectedDate={new Date(Date.now())}
             numberOfDays={7}
-            hoursInDisplay={27}
+            hoursInDisplay={30}
             />
             <DateTimePickerModal
             isVisible={isDatePickerVisible}

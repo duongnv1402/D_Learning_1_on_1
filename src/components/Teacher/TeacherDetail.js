@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
+
 import React, {useState} from 'react';
 import {ScrollView, View, Text, TouchableOpacity, StyleSheet, Alert, Image} from 'react-native';
 import { Button, Chip, Avatar } from 'react-native-paper';
@@ -14,6 +15,7 @@ const EXAMPLE_TEXT = 'The quick brown fox jumped over the lazy dog. The quick br
 export default function TeacherDetail(props) {
   const item = props.route.params.item;
   const user = users.find(u => u.id === item.id);
+  console.log(item.id);
   const [isLoved, setIsLoved] = useState(item.isLoved);
   const onPressMessage = (id) => {
     props.navigation.navigate(ScreenKey.MessageDialog, {id});

@@ -4,27 +4,34 @@
 import React, {useState} from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { ScreenKey } from '../../globals/constants';
+import {courses} from '../../models/courses';
 
 export default function CourseCard(props) {
-    const navigation = props.nav;
     const [isLoved, setIsLoved] = useState(props.item.isLoved);
-    const onPressTeacherCard = () => {
-        navigation.navigation.navigate(ScreenKey.CourseDetail);
-    };
+
     const getNameOfHeartIcon = (isLoved) => {
         return isLoved ?  'heart' : 'heart-outline';
     };
     return (
-        <TouchableOpacity style={styles.Container} onPress={onPressTeacherCard}>
+        <TouchableOpacity style={styles.Container} onPress={()=>{props.onPressTeacherCard(props.item);}}>
             <View style={{flexDirection:'row', width: '100%'}}>
                 <Image style={styles.Image}
                 source={{uri:props.item.imgUrl}}/>
                 <View style={{flex:4}}>
                     <View style={{flexDirection:'row'}}>
-                        <Text style={styles.Name}>{props.item.name}</Text>
-                        <Ionicons onPress={() => {setIsLoved(!isLoved);}} size={36} name={getNameOfHeartIcon(isLoved)} color="red"/>
+                        <Text style={styles.Title}>{props.item.title}</Text>
+                        <Ionicons
+                            onPress={
+                                () => {
+                                    setIsLoved(!isLoved);
+                                    let pos = courses.findIndex(u => u.id === props.item.id);
+                                    courses[pos].isLoved = !courses[pos].isLoved;
+                                }
+                            }
+                            size={36}
+                            name={getNameOfHeartIcon(isLoved)} color="red"/>
                     </View>
+                    <Text style={styles.Author}>{props.item.author}</Text>
                     <Text style={styles.Description}>{props.item.description}</Text>
                     <Text style={styles.Description}>Level: {props.item.levels} - {props.item.lessonCount} lesson</Text>
                 </View>
@@ -49,13 +56,17 @@ const styles = StyleSheet.create({
         margin:8,
         flex:3,
     },
-    Name: {
+    Title: {
         fontWeight:'bold',
         margin: 8,
         fontSize:16,
         flex:1,
     },
+    Author: {
+        margin: 8,
+        fontSize: 16,
+    },
     Description:{
-        margin:8,
+        margin: 8,
     },
 });

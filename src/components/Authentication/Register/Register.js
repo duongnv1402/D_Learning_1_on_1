@@ -1,12 +1,11 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable no-unused-vars */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable no-shadow */
 /* eslint-disable prettier/prettier */
 import React, {useState}  from 'react';
-import {View, Image, TouchableOpacity} from 'react-native';
+import {View, Image, TouchableOpacity, Alert} from 'react-native';
 import styles from '../../../globals/styles';
-import {Text, TextInput, Button} from 'react-native-paper';
+import {Text, TextInput} from 'react-native-paper';
 
 export default function Register(props) {
   const [isHidePassword, setHidePassword] = useState(true);
@@ -14,8 +13,6 @@ export default function Register(props) {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [fullName, setFullname] = useState('');
-  const [showIcon, setShowIcon] = useState('eye');
-
   const [confirmPassword, setConfirmPassword] = useState('');
   const onPressFacebookLogo = () => {
 
@@ -24,7 +21,39 @@ export default function Register(props) {
 
   };
   const onPressSignUp = () => {
-    props.navigation.goBack();
+    if (userName && password && fullName && confirmPassword) {
+      if (confirmPassword === password) {
+        Alert.alert('Successfully', 'Back to login screen',
+        [
+            {
+                text:'ok',
+                onPress: ()=>{
+                  props.navigation.goBack();
+                },
+            },
+        ]);
+      }
+      else {
+        Alert.alert('Failed', 'Password and confirm password do not match',
+        [
+            {
+                text:'ok',
+                onPress: ()=>{
+                },
+            },
+        ]);
+      }
+    }
+    else {
+      Alert.alert('Failed', 'Please try again',
+      [
+          {
+              text:'ok',
+              onPress: ()=>{
+              },
+          },
+      ]);
+    }
     };
   const onPressLogin = () => {
       props.navigation.goBack();

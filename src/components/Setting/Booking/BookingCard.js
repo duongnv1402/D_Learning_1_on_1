@@ -1,17 +1,19 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Avatar } from 'react-native-paper';
+import {users} from '../../../models/users';
 export default function BookingCard(props) {
-
+    const user = users.find(u => u.id === props.item.id);
     return (
         <View style={styles.Container} >
             <View style={{flexDirection:'row'}}>
-                <Image style={styles.Image}
-                source={require('../../../../assets/logo.png')}/>
+                <Avatar.Image style={styles.Avatar} size={64} source={{uri:user.avatarUrl}} />
+
                 <View>
-                    <TouchableOpacity onPress={()=>{props.onPressTeacherName;}}>
-                        <Text style={styles.Name}>{props.item.name}</Text>
+                    <TouchableOpacity onPress={()=>{props.onPressTeacherName(props.item);}}>
+                        <Text style={styles.Name}>{user.name}</Text>
                     </TouchableOpacity>
                     <View style={styles.Description}>
                         <Text >{props.item.date} </Text>
@@ -43,11 +45,9 @@ const styles = StyleSheet.create({
         elevation: 2,
         backgroundColor: 'white',
         },
-    Image: {
-        height:70,
-        width:70,
-        borderRadius:35,
-        margin:8,
+    Avatar: {
+        alignSelf: 'center',
+        margin: 8,
     },
     Name: {
         fontWeight:'bold',

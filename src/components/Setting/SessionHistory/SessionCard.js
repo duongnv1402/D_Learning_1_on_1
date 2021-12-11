@@ -2,27 +2,21 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
-import { ScreenKey } from '../../../globals/constants';
-
+import {users} from '../../../models/users';
 export default function SessionCard(props) {
-    const nav = props.nav;
-    const onPressTeacherName = () => {
-        nav.navigation.navigate(ScreenKey.TeacherDetail);
-    };
-    const onPressCard = () => {
-        nav.navigation.navigate(ScreenKey.Session);
-    };
+    const user = users.find(u => u.id === props.item.id);
+
     return (
-        <TouchableOpacity style={styles.Container}  onPress={onPressCard}>
+        <TouchableOpacity style={styles.Container}  onPress={()=>{props.onPressCard(props.item);}}>
             <View style={{flexDirection:'row'}}>
                 <Image style={styles.Image}
-                source={require('../../../../assets/logo.png')}/>
+                source={{uri:user.avatarUrl}}/>
                 <View>
-                    <TouchableOpacity onPress={onPressTeacherName}>
-                        <Text style={styles.Name}>{props.item.name}</Text>
+                    <TouchableOpacity onPress={()=>{props.onPressTeacherName(props.item);}}>
+                        <Text style={styles.Name}>{user.name}</Text>
                     </TouchableOpacity>
                     <View style={styles.Description}>
-                        <Text style={styles.Date}>{props.item.date} </Text>
+                        <Text >{props.item.date} </Text>
                         <Text style={styles.TimeStart}>{props.item.timeStart} </Text>
                         <Text> - </Text>
                         <Text style={styles.TimeEnd}>{props.item.timeEnd}</Text>
@@ -57,6 +51,7 @@ const styles = StyleSheet.create({
     Description:{
         flexDirection:'row',
         margin:8,
+        marginTop: 24,
     },
     TimeStart:{
         color:'deepskyblue',

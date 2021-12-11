@@ -7,8 +7,8 @@ import {bookingHistory} from '../../../models/bookingHistory';
 
 export default function BookingHistory(props) {
     const [data, setData] = useState(bookingHistory);
-    const onPressEnter = () => {
-        props.navigation.navigate(ScreenKey.Room);
+    const onPressEnter = (date) => {
+        props.navigation.navigate(ScreenKey.Room, {startDate: date});
     };
     const onPressCancel = (item) => {
         Alert.alert('Cancel?', 'Do you want to cancel this lesson?',
@@ -20,13 +20,16 @@ export default function BookingHistory(props) {
                 text:'ok',
                 onPress: ()=>{
                     setData(bookingHistory.filter( i => i.id !== item.id));
-                    console.log(data);
                 },
             },
         ]);
     };
+    const onPressTeacherName = (item) => {
+        props.navigation.navigate(ScreenKey.TeacherDetail, {item});
+    };
+
     const renderItem = ({item}) => (
-        <BookingCard item={item} onPressEnter={onPressEnter}  onPressCancel={onPressCancel}/>
+        <BookingCard item={item} onPressEnter={onPressEnter} onPressTeacherName={onPressTeacherName} onPressCancel={onPressCancel}/>
     );
     return (
         <View>

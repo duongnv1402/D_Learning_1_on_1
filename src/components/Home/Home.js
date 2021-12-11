@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, {useState} from 'react';
+import React from 'react';
 import TeacherCard from '../Teacher/TeacherCard';
 import {StyleSheet, View, Text, TouchableOpacity, FlatList, SafeAreaView} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -8,7 +8,6 @@ import {Chip} from 'react-native-paper';
 import {teachers} from '../../models/teachers';
 
 export default function Home(props) {
-    const [data, setData] = useState(teachers);
     const renderItem = ({item}) => (
     <TeacherCard item={item} onPressTeacherCard={onPressTeacherCard}/>
     );
@@ -51,7 +50,7 @@ export default function Home(props) {
                         </View>
                 </View>
             }
-            data = {data}
+            data = {teachers}
             renderItem = {renderItem}
             />
         </SafeAreaView>

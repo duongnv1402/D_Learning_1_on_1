@@ -20,7 +20,7 @@ export default function AdvancedSetting() {
       </List.Accordion>
       <View style={{flexDirection:'row', margin:18, justifyContent: 'space-between'}}>
         <Text >Dark mode</Text>
-        <Switch value={isSwitchOn} onValueChange={onToggleSwitch} color="blue" />
+        <Switch value={isSwitchOn} onValueChange={onToggleSwitch} color="lightskyblue" />
       </View>
     </List.Section>
     );

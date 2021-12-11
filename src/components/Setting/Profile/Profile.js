@@ -1,8 +1,9 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-native/no-inline-styles */
 
 import React from 'react';
 import {View, ScrollView, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import { Avatar } from 'react-native-paper';
+import { Avatar, TextInput } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { ScreenKey } from '../../../globals/constants';
 
@@ -25,21 +26,45 @@ export default function Profile(props) {
           <Ionicons size={36} name="create" color="gray"/>
         </TouchableOpacity>
       </View>
-      <Text style={styles.TextTitle}>Date of Birth</Text>
+      <View style={styles.RowView}>
+        <TextInput.Icon name="cake-variant" color="lightskyblue"/>
+        <Text style={styles.TextTitle}>Date of Birth</Text>
+      </View>
       <Text style={styles.Description}>14-02-2000</Text>
-      <Text style={styles.TextTitle}>From</Text>
+      <View style={styles.RowView}>
+        <TextInput.Icon name="map-marker" color="lightskyblue"/>
+        <Text style={styles.TextTitle}>From</Text>
+      </View>
       <Text style={styles.Description}>Viet Nam</Text>
-      <Text style={styles.TextTitle}>Education</Text>
+      <View style={styles.RowView}>
+        <TextInput.Icon name="book-open-variant" color="lightskyblue"/>
+        <Text style={styles.TextTitle}>Education</Text>
+      </View>
       <Text style={styles.Description}>{TEXT}</Text>
-      <Text style={styles.TextTitle}>Experience</Text>
+      <View style={styles.RowView}>
+        <TextInput.Icon name="chart-line-variant" color="lightskyblue"/>
+        <Text style={styles.TextTitle}>Experience</Text>
+      </View>
       <Text style={styles.Description}>{TEXT}</Text>
-      <Text style={styles.TextTitle}>Interest</Text>
+      <View style={styles.RowView}>
+        <TextInput.Icon name="check-circle-outline" color="lightskyblue"/>
+        <Text style={styles.TextTitle}>Interest</Text>
+      </View>
       <Text style={styles.Description}>{TEXT}</Text>
-      <Text style={styles.TextTitle}>Profession</Text>
+      <View style={styles.RowView}>
+        <TextInput.Icon name="account-check-outline" color="lightskyblue"/>
+        <Text style={styles.TextTitle}>Profession</Text>
+      </View>
       <Text style={styles.Description}>{TEXT}</Text>
-      <Text style={styles.TextTitle}>Specialties</Text>
+      <View style={styles.RowView}>
+        <TextInput.Icon name="account-box-outline" color="lightskyblue"/>
+        <Text style={styles.TextTitle}>Specialties</Text>
+      </View>
       <Text style={styles.Description}>{TEXT}</Text>
-      <Text style={styles.TextTitle}>Courses</Text>
+      <View style={styles.RowView}>
+        <TextInput.Icon name="view-list" color="lightskyblue"/>
+        <Text style={styles.TextTitle}>Courses</Text>
+      </View>
       <Text style={styles.Description}>{TEXT}</Text>
     </ScrollView>
   );
@@ -49,6 +74,10 @@ const styles = StyleSheet.create({
   Container:{
     height:'100%',
     margin: 16,
+  },
+  RowView: {
+    flexDirection:'row',
+    alignItems: 'center',
   },
   Avatar: {
     alignSelf: 'center',
@@ -79,5 +108,6 @@ const styles = StyleSheet.create({
     margin: 8,
     fontSize: 16,
     fontWeight: 'bold',
+    marginLeft: 30,
   },
 });

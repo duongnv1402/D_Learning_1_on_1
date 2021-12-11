@@ -2,11 +2,11 @@
 /* eslint-disable react-native/no-inline-styles */
 
 import React, {useState} from 'react';
-import {ScrollView, View, Text, StyleSheet, TouchableOpacity, TextInput} from 'react-native';
+import {ScrollView, View, Text, StyleSheet, TouchableOpacity, TextInput, Alert} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const TEXT = 'The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog.';
-export default function BecomeATeacher() {
+export default function BecomeATeacher(props) {
     const onPressUploadCertificate = () => {
         setIsUploadedCertificate(true);
     };
@@ -16,6 +16,15 @@ export default function BecomeATeacher() {
     const onPressCancel = () => {
     };
     const onPressSave = () => {
+      Alert.alert('Report', 'Do you want to report this session?',
+    [
+        {
+             text:'ok',
+             onPress: ()=>{
+              props.navigation.goBack();
+             },
+        },
+    ]);
     };
     const [isUploadedCertificate, setIsUploadedCertificate] = useState(false);
     const [isUploadedVideo, setIsUploadedVideo] = useState(false);
@@ -65,6 +74,7 @@ const styles = StyleSheet.create({
   Container:{
     width:'100%',
     height:'100%',
+    backgroundColor: 'aliceblue',
   },
   Image: {
     height:90,

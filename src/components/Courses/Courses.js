@@ -7,12 +7,15 @@ import { Searchbar, Menu } from 'react-native-paper';
 import CourseCard from './CourseCard';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {courses} from '../../models/courses';
+import { ScreenKey } from '../../globals/constants';
 
 export default function Courses(props) {
     const [filteredCourses, setFilteredCourses] = useState(courses);
-
+    const onPressTeacherCard = (item) => {
+        props.navigation.navigate(ScreenKey.CourseDetail, {item});
+    };
     const renderItem = ({item}) => (
-        <CourseCard nav = {props} item={item}/>
+        <CourseCard item={item} onPressTeacherCard={onPressTeacherCard}/>
     );
     const [searchQuery, setSearchQuery] = useState('');
     const [visible, setVisible] = useState(false);
@@ -26,7 +29,7 @@ export default function Courses(props) {
         if (query) {
             const newData = courses.filter(
               function (item) {
-                const itemData = item.name.toLowerCase();
+                const itemData = item.title.toLowerCase();
                 const textData = query.toLowerCase();
                 return itemData.indexOf(textData) > -1;
             });
@@ -54,8 +57,8 @@ export default function Courses(props) {
                         <Menu.Item onPress={
                                 () => {
                                     setFilteredCourses(courses.sort(function(a, b) {
-                                        if (a.name < b.name) { return -1; }
-                                        if (a.name > b.name) { return 1; }
+                                        if (a.title < b.title) { return -1; }
+                                        if (a.title > b.title) { return 1; }
                                         return 0;
                                     }));
                                     closeMenu();

@@ -10,7 +10,7 @@ import {Text, TextInput} from 'react-native-paper';
 export default function Register(props) {
   const [isHidePassword, setHidePassword] = useState(true);
   const [isHideConfirmPassword, setHideConfirmPassword] = useState(true);
-  const [userName, setUserName] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fullName, setFullname] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -20,18 +20,58 @@ export default function Register(props) {
   const onPressGoogleLogo = () => {
 
   };
-  const onPressSignUp = () => {
-    if (userName && password && fullName && confirmPassword) {
+
+  const onPressSignUp = async() => {
+    if (email && password && fullName && confirmPassword) {
       if (confirmPassword === password) {
-        Alert.alert('Successfully', 'Back to login screen',
-        [
-            {
-                text:'ok',
-                onPress: ()=>{
-                  props.navigation.goBack();
-                },
-            },
-        ]);
+        const response = await fetch('https://sandbox.api.lettutor.com/auth/register', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password,
+          }),
+        });
+        const json = await response.json();
+        if (response.status === 201) {
+          //console.log(json.tokens.access.token);
+          Alert.alert('Verify account', 'Press OK to verify your account!',
+          [
+              {
+                  text:'ok',
+                  onPress: ()=>{
+                    const url = 'https://sandbox.api.lettutor.com/auth/verifyAccount?token=' + json.tokens.access.token;
+                    fetch(url, {
+                      method: 'GET',
+                    });
+                  },
+              },
+          ]);
+
+          Alert.alert('Register Successfully', 'Thank you for your subscription!',
+          [
+              {
+                  text:'ok',
+                  // onPress: ()=>{
+                  //   props.navigation.goBack();
+                  // },
+              },
+          ]);
+        }
+        else {
+          Alert.alert('Failed', json.message,
+          [
+              {
+                  text:'ok',
+                  // onPress: ()=>{
+                  //   props.navigation.goBack();
+                  // },
+              },
+          ]);
+        }
       }
       else {
         Alert.alert('Failed', 'Password and confirm password do not match',
@@ -45,7 +85,7 @@ export default function Register(props) {
       }
     }
     else {
-      Alert.alert('Failed', 'Please try again',
+      Alert.alert('Failed', 'Please fill in all fields',
       [
           {
               text:'ok',
@@ -70,7 +110,7 @@ export default function Register(props) {
         />
         <TextInput style={styles.textInput}
           placeholder="Your Email"
-          onChangeText={userName=>setUserName(userName)}
+          onChangeText={email=>setEmail(email)}
           left={<TextInput.Icon name="email" />}
 
         />
@@ -105,7 +145,7 @@ export default function Register(props) {
           </TouchableOpacity>
         </View>
         <View style={{flexDirection:'row', alignSelf:'center', marginTop:10}}>
-          <Text style={styles.text}>Don't have account?</Text>
+          <Text style={styles.text}>Have account?</Text>
           <TouchableOpacity onPress={onPressLogin}>
             <Text style={{fontSize:16, color:'cornflowerblue'}}> Log in</Text>
           </TouchableOpacity>

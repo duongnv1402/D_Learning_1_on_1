@@ -12,7 +12,7 @@ import { AuthContext } from '../../../globals/context';
 export default function Login(props) {
 
   const [isHide, setHide] = useState(true);
-  const [userName, setUserName] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const onPressFacebookLogo = () => {
@@ -41,7 +41,7 @@ export default function Login(props) {
           placeholder="Your Email"
           keyboardType="email-address"
           left={<TextInput.Icon name="email" />}
-          onChangeText={userName=>setUserName(userName)}
+          onChangeText={email=>setEmail(email)}
         />
         <View style={styles.passwordInput}>
           <TextInput style={{flex:10}}
@@ -56,7 +56,7 @@ export default function Login(props) {
             <Text style={{fontSize:15, color:'cornflowerblue', marginTop:6}}> Forgot Password?</Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity style={styles.button} onPress={()=>{logIn(userName, password);}}>
+        <TouchableOpacity style={styles.button} onPress={()=>{logIn(email, password);}}>
           <Text style={styles.text}>Log in</Text>
         </TouchableOpacity>
         <Text style={{alignSelf: 'center', marginTop:10, fontSize:16}}>Or continue with</Text>

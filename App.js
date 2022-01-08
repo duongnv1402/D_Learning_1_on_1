@@ -50,19 +50,30 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   const [isSigned, setIsSigned] = useState(false);
   const [isLoading, setLoading] = useState(true);
+
   const authContext = useMemo(() => ({
-    logIn: (userName, password) => {
-      if (userName === 'Admin') {
-        if (password === '123456') {setIsSigned(true);}
-        else if (password !== ''){
-          Alert.alert('Incorrect Password', 'Your password is incorrect, please try again', [{text:'ok'}]);
-        }
+    logIn: async (email, password) => {
+      const response = await fetch('https://sandbox.api.lettutor.com/auth/login', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+    });
+    const json = await response.json();
+
+      if (response) {
+        if (response.status === 200) {setIsSigned(true);}
         else {
-          Alert.alert('Password is empty', 'Please enter your password', [{text:'ok'}]);
+          Alert.alert('Failed', json.message, [{text:'ok'}]);
         }
       }
       else {
-        Alert.alert('Login failed', 'Please try again', [{text:'ok'}]);
+        Alert.alert('ailed', 'Please try again', [{text:'ok'}]);
       }
     },
     logOut: () => {

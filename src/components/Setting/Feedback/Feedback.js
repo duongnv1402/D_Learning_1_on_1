@@ -10,8 +10,8 @@ export default function Feedback() {
     return (
         <View style={styles.Container}>
              <FlatList
-        data={feedbacks}
-        renderItem={renderItem} />
+                data={feedbacks}
+                renderItem={renderItem} />
         </View>
     );
 }

@@ -8,26 +8,34 @@ import styles from '../../../globals/styles';
 
 export default function ForgetPassword(props) {
   const [email, setEmail] = useState('');
-  const onPressSubmit = () => {
+  const onPressSubmit = async () => {
     if (email) {
-      Alert.alert('Successfully', 'Please check your email and try again?',
-      [
-          {
-              text:'ok',
-              onPress: ()=>{
-                props.navigation.goBack();
-              },
+      try {
+        const response = await fetch('https://sandbox.api.lettutor.com/user/forgotPassword', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
           },
-      ]);
-    }
-    else {
-      Alert.alert('Failed', 'Please check your email and try again',
-      [
-          {
-              text:'ok',
-              onPress: null,
-          },
-      ]);
+          body: JSON.stringify({
+            email: email,
+          }),
+          });
+        const json = await response.json();
+        if (response) {
+          if (response.status === 200) {
+            Alert.alert('Success', json.message, [{text:'ok'}]);
+          }
+          else {
+            Alert.alert('Failed', json.message, [{text:'ok'}]);
+          }
+        }
+        else {
+          Alert.alert('Failed', 'Something went wrong', [{text:'ok'}]);
+        }
+      } catch (e) {
+        throw e;
+      }
     }
   };
   return (

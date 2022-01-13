@@ -1,20 +1,44 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
-import { View, StyleSheet, FlatList, Text, LogBox } from 'react-native';
+import React, {useContext, useState, useEffect} from 'react';
+import { View, StyleSheet, FlatList, Text, LogBox, ActivityIndicator } from 'react-native';
 import { Searchbar, Menu } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import TeacherCard from './TeacherCard';
 import {ScreenKey} from '../../globals/constants';
-import {teachers} from '../../models/teachers';
-import {users} from '../../models/users';
+import { AuthContext } from '../../globals/context';
 
 export default function Teacher(props) {
-    const data = teachers.map(teacher =>{
-        const user = users.find(u => u.id === teacher.id);
-        return {...teacher, user};
-    });
-    const [filteredTeachers, setFilteredTeachers] = useState(data);
+    const [data, setData] = useState([]);
+    const [filteredTeachers, setFilteredTeachers] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [ascendingName, setAscendingName] = useState(true);
+    const [ascendingLevel, setAscendingLevel] = useState(true);
+    const [ascendingTopics, setAscendingTopics] = useState(true);
+    const {getToken} = useContext(AuthContext);
+    const token = getToken(props);
+    const getTeachers = async () => {
+        try {
+        const response = await fetch('https://sandbox.api.lettutor.com/tutor/more?perPage=9&page=1', {
+        method: 'GET',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`, // notice the Bearer before your token
+
+        }});
+         const json = await response.json();
+         setFilteredTeachers(json.tutors.rows);
+         setData(json.tutors.rows);
+       } catch (error) {
+         console.error(error);
+       } finally {
+           setIsLoading(false);
+       }
+     };
+     useEffect(() => {
+        getTeachers();
+      },[]);
 
     const renderItem = ({item}) => (
     <TeacherCard nav={props} item={item} onPressTeacherCard={onPressTeacherCard}/>
@@ -28,7 +52,7 @@ export default function Teacher(props) {
         if (query) {
             const newData = data.filter(
               function (item) {
-                const itemData = item.user.name.toLowerCase();
+                const itemData = item.name.toLowerCase();
                 const textData = query.toLowerCase();
                 return itemData.indexOf(textData) > -1;
             });
@@ -66,10 +90,16 @@ export default function Teacher(props) {
                         <Menu.Item onPress={
                                 () => {
                                     setFilteredTeachers(data.sort(function(a, b) {
-                                        if (a.user.name < b.user.name) { return -1; }
-                                        if (a.user.name > b.user.name) { return 1; }
+                                        if (ascendingName){
+                                            if (a.name < b.name) { return -1; }
+                                            if (a.name > b.name) { return 1; }
+                                        } else {
+                                            if (a.name < b.name) { return 1; }
+                                            if (a.name > b.name) { return -1; }
+                                        }
                                         return 0;
                                     }));
+                                    setAscendingName(!ascendingName);
                                     closeMenu();
                                 }
                             } title="Name" />
@@ -90,14 +120,18 @@ export default function Teacher(props) {
                     </Menu>
                 </View>
             </View>
-            {filteredTeachers.length === 0 ?
-                (<View style = {styles.Container2}>
-                    <Text style={styles.CenterText}>{searchQuery} is not found</Text>
-                    <Text style={styles.MiddleLeftText}>Recommended Tutors</Text>
-                    <FlatList data={data} renderItem = {renderItem} />
-                </View>
+            {isLoading === true ?
+                (<ActivityIndicator size="large" />
                 ) :
-                (<FlatList data={filteredTeachers} renderItem = {renderItem} />)
+                (filteredTeachers.length === 0 ?
+                    (<View style = {styles.Container2}>
+                        <Text style={styles.CenterText}>{searchQuery} is not found</Text>
+                        <Text style={styles.MiddleLeftText}>Recommended Tutors</Text>
+                        <FlatList data={data} renderItem = {renderItem} />
+                    </View>
+                    ) :
+                    (<FlatList data={filteredTeachers} renderItem = {renderItem} />)
+                )
             }
         </View>
     );

@@ -1,39 +1,21 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable no-shadow */
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import React from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import {courses} from '../../models/courses';
 
 export default function CourseCard(props) {
-    const [isLoved, setIsLoved] = useState(props.item.isLoved);
-
-    const getNameOfHeartIcon = (isLoved) => {
-        return isLoved ?  'heart' : 'heart-outline';
-    };
     return (
-        <TouchableOpacity style={styles.Container} onPress={()=>{props.onPressTeacherCard(props.item);}}>
+        <TouchableOpacity style={styles.Container} onPress={()=>{props.onPressTeacherCard(props.item.id);}}>
             <View style={{flexDirection:'row', width: '100%'}}>
                 <Image style={styles.Image}
-                source={{uri:props.item.imgUrl}}/>
+                source={{uri:props.item.imageUrl}}/>
                 <View style={{flex:4}}>
                     <View style={{flexDirection:'row'}}>
-                        <Text style={styles.Title}>{props.item.title}</Text>
-                        <Ionicons
-                            onPress={
-                                () => {
-                                    setIsLoved(!isLoved);
-                                    let pos = courses.findIndex(u => u.id === props.item.id);
-                                    courses[pos].isLoved = !courses[pos].isLoved;
-                                }
-                            }
-                            size={36}
-                            name={getNameOfHeartIcon(isLoved)} color="red"/>
+                        <Text style={styles.Title}>{props.item.name}</Text>
                     </View>
-                    <Text style={styles.Author}>{props.item.author}</Text>
-                    <Text style={styles.Description}>{props.item.description}</Text>
-                    <Text style={styles.Description}>Level: {props.item.levels} - {props.item.lessonCount} lesson</Text>
+                    <Text style={styles.Author}>{props.item.description}</Text>
+                    <Text style={styles.Description} numberOfLines= {2} >{props.item.purpose}</Text>
+                    <Text style={styles.Description}>Level: {props.item.level} - {props.item.topics.length} topics</Text>
                 </View>
             </View>
         </TouchableOpacity>

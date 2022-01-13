@@ -1,21 +1,52 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 
-import React, {useState} from 'react';
-import { View,  StyleSheet, FlatList, Text, LogBox } from 'react-native';
+import React, {useContext, useEffect, useState} from 'react';
+import { View,  StyleSheet, FlatList, Text, ActivityIndicator } from 'react-native';
 import { Searchbar, Menu } from 'react-native-paper';
 import CourseCard from './CourseCard';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {courses} from '../../models/courses';
 import { ScreenKey } from '../../globals/constants';
+import { AuthContext } from '../../globals/context';
 
 export default function Courses(props) {
-    const [filteredCourses, setFilteredCourses] = useState(courses);
-    const onPressTeacherCard = (item) => {
-        props.navigation.navigate(ScreenKey.CourseDetail, {item});
+    const [filteredCourses, setFilteredCourses] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [courses, setCourse] = useState([]);
+    const [ascendingName, setAscendingName] = useState(true);
+    const [ascendingLevel, setAscendingLevel] = useState(true);
+    const [ascendingTopics, setAscendingTopics] = useState(true);
+    const {getToken} = useContext(AuthContext);
+    let isFetched = false;
+    const token = getToken(props);
+    const getCourses = async () => {
+        if (isFetched === false) {
+            try {
+                const response = await fetch('https://sandbox.api.lettutor.com/course?page=1&size=100', {
+                method: 'GET',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`, // notice the Bearer before your token
+                }});
+                    const json = await response.json();
+                    setFilteredCourses(json.data.rows);
+                    setCourse(json.data.rows);
+                } catch (error) {
+                    console.error(error);
+                } finally {
+                    setIsLoading(false);
+                }
+        }
+     };
+    useEffect(() => {
+        getCourses();
+    },[]);
+    const onPressCourseCard = (id) => {
+        props.navigation.navigate(ScreenKey.CourseDetail, {id});
     };
     const renderItem = ({item}) => (
-        <CourseCard item={item} onPressTeacherCard={onPressTeacherCard}/>
+        <CourseCard item={item} onPressTeacherCard={onPressCourseCard}/>
     );
     const [searchQuery, setSearchQuery] = useState('');
     const [visible, setVisible] = useState(false);
@@ -26,10 +57,10 @@ export default function Courses(props) {
         setVisible(true);
     };
     const onChangeSearch = (query) => {
-        if (query) {
+        if (query ) {
             const newData = courses.filter(
               function (item) {
-                const itemData = item.title.toLowerCase();
+                const itemData = item.name.toLowerCase();
                 const textData = query.toLowerCase();
                 return itemData.indexOf(textData) > -1;
             });
@@ -38,7 +69,6 @@ export default function Courses(props) {
         else {setFilteredCourses(courses);}
         setSearchQuery(query);
     };
-    LogBox.ignoreLogs(['EventEmitter.removeListener']);
 
     return (
         <View style={styles.Container}>
@@ -57,31 +87,52 @@ export default function Courses(props) {
                         <Menu.Item onPress={
                                 () => {
                                     setFilteredCourses(courses.sort(function(a, b) {
-                                        if (a.title < b.title) { return -1; }
-                                        if (a.title > b.title) { return 1; }
+                                        if (ascendingName){
+                                            if (a.name < b.name) { return -1; }
+                                            if (a.name > b.name) { return 1; }
+                                        } else {
+                                            if (a.name < b.name) { return 1; }
+                                            if (a.name > b.name) { return -1; }
+                                        }
                                         return 0;
                                     }));
+                                    setAscendingName(!ascendingName);
                                     closeMenu();
                                 }
                             } title="Name" />
                         <Menu.Item
                             onPress={
                                 () => {
-                                    setFilteredCourses(courses.sort(function(a, b) { return b.lessonCount - a.lessonCount;}));
+                                    setFilteredCourses(
+                                        courses.sort(function(a, b) {
+                                            return ascendingTopics ?  (b.topics.length - a.topics.length) :
+                                            (a.topics.length - b.topics.length);
+                                        })
+                                    );
+                                    setAscendingTopics(!ascendingTopics);
                                     closeMenu();
                                 }
                             }
-                            title="Lessons" />
+                            title="Topics" />
                         <Menu.Item onPress={
                             () => {
-                                setFilteredCourses(courses.sort(function(a, b) { return b.isLoved - a.isLoved;}));
+                                setFilteredCourses(
+                                    courses.sort(function(a, b) {
+                                        return ascendingLevel ? (b.level - a.level) : (a.level - b.level);
+                                    })
+                                );
+                                setAscendingLevel(!ascendingLevel);
                                 closeMenu();
                             }
-                        } title="Loved" />
+                        } title="Level" />
                     </Menu>
                 </View>
             </View>
-            {filteredCourses.length === 0 ?
+            {isLoading ?
+            (<ActivityIndicator size="large" />
+            ) :
+            (
+                filteredCourses.length === 0 ?
                 (<View style = {styles.Container2}>
                     <Text style={styles.CenterText}>{searchQuery} is not found</Text>
                     <Text style={styles.MiddleLeftText}>Recommended Courses</Text>
@@ -89,6 +140,7 @@ export default function Courses(props) {
                 </View>
                 ) :
                 (<FlatList data={filteredCourses} renderItem = {renderItem} />)
+            )
             }
         </View>
     );

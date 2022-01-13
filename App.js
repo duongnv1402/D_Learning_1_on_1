@@ -48,8 +48,41 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export default function App() {
-  const [isSigned, setIsSigned] = useState(false);
+  const [isSigned, setIsSigned] = useState(true);
   const [isLoading, setLoading] = useState(true);
+  const [token, setToken] = useState('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmNTY5YzIwMi03YmJmLTQ2MjAtYWY3Ny1lY2MxNDE5YTZiMjgiLCJpYXQiOjE2NDE5NzE0MDUsImV4cCI6MTY0MjA1NzgwNSwidHlwZSI6ImFjY2VzcyJ9.Gs3O6ElTBRjV8_TOtBkGkNm4T8ui7pkjEn0JKJLYnw4');
+  const [user, setUser] = useState({
+    'id': 'f569c202-7bbf-4620-af77-ecc1419a6b28',
+    'email': 'student@lettutor.com',
+    'name': 'NEW NAME',
+    'avatar': 'https://sandbox.api.lettutor.com/avatar/f569c202-7bbf-4620-af77-ecc1419a6b28avatar1641966428077.jpg',
+    'country': 'VN',
+    'phone': '842499996508',
+    'roles': [
+        'student',
+        'CHANGE_PASSWORD',
+    ],
+    'language': 'English',
+    'birthday': '1999-01-13',
+    'isActivated': true,
+    'walletInfo': {
+        'id': '285396c8-2c82-4dbd-abca-af3e8d0b3a03',
+        'userId': 'f569c202-7bbf-4620-af77-ecc1419a6b28',
+        'amount': '101200000',
+        'isBlocked': false,
+        'createdAt': '2021-10-19T13:08:04.697Z',
+        'updatedAt': '2022-01-12T06:27:45.933Z',
+        'bonus': 0,
+    },
+    'courses': [],
+    'requireNote': null,
+    'level': 'HIGHER_BEGINNER',
+    'learnTopics': [],
+    'testPreparations': [],
+    'isPhoneActivated': true,
+    'timezone': 7,
+},);
+
 
   const authContext = useMemo(() => ({
     logIn: async (email, password) => {
@@ -63,28 +96,38 @@ export default function App() {
         email: email,
         password: password,
       }),
-    });
+      });
     const json = await response.json();
 
       if (response) {
-        if (response.status === 200) {setIsSigned(true);}
+        if (response.status === 200) {
+          setIsSigned(true);
+          setToken(json.tokens.access.token);
+          setUser(json.user);
+          console.log(user.avatar);
+        }
         else {
           Alert.alert('Failed', json.message, [{text:'ok'}]);
         }
       }
       else {
-        Alert.alert('ailed', 'Please try again', [{text:'ok'}]);
+        Alert.alert('Failed', 'Please try again', [{text:'ok'}]);
       }
     },
     logOut: () => {
       setIsSigned(false);
     },
+    getUser: () => {return user;},
+    getToken: () => {return token;},
   }));
 
   useEffect(() => {
-    setTimeout(() => {
+    let timer = setTimeout(() => {
       setLoading(false);
     }, 1000);
+    return () => {
+      clearTimeout(timer);
+    };
   }, []);
 
   if ( isLoading ) {
@@ -145,7 +188,7 @@ function HomeTabs() {
         iconName = 'chatbubbles';
       } else if (route.name === ScreenKey.Teachers) {
         iconName = 'people';
-      } else if (route.name === ScreenKey.Upcoming) {
+      } else if (route.name === ScreenKey.Schedule) {
         iconName = 'calendar';
       }
       return <Ionicons name={iconName} size={size} color={color} />;
@@ -155,7 +198,7 @@ function HomeTabs() {
   })}>
   <Tab.Screen name= {ScreenKey.Home} component={Home} />
   <Tab.Screen name= {ScreenKey.Message} component={Message} />
-  <Tab.Screen name= {ScreenKey.Upcoming} component={Upcoming} />
+  <Tab.Screen name= {ScreenKey.Schedule} component={Upcoming} />
   <Tab.Screen name= {ScreenKey.Teachers} component={Teacher} />
   <Tab.Screen name= {ScreenKey.Courses} component={Courses} />
 </Tab.Navigator>;

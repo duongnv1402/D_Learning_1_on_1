@@ -1,24 +1,49 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 
-import React, {useState} from 'react';
-import {ScrollView, View, Text, TouchableOpacity, StyleSheet, Alert, Image} from 'react-native';
+import React, {useContext, useState, useEffect} from 'react';
+import {ScrollView, View, Text, FlatList, TouchableOpacity, StyleSheet, Alert} from 'react-native';
 import { Button, Chip, Avatar } from 'react-native-paper';
 import {AirbnbRating} from 'react-native-ratings';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { ScreenKey } from '../../globals/constants';
-import { users } from '../../models/users';
-import {teachers} from '../../models/teachers';
-
-const EXAMPLE_TEXT = 'The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. ';
+import Video from 'react-native-video';
+import { AuthContext } from '../../globals/context';
+import FeedbackCard from '../Setting/Feedback/FeedbackCard';
 
 export default function TeacherDetail(props) {
-  const item = props.route.params.item;
-  const user = users.find(u => u.id === item.id);
-  console.log(item.id);
-  const [isLoved, setIsLoved] = useState(item.isLoved);
+  const [teacher, setTeacher] = useState(props.route.params.item);
+  const [isLoved, setIsLoved] = useState(false);
+  const {getToken} = useContext(AuthContext);
+  const token = getToken(props);
+  const renderItem = ({item}) => (
+    <FeedbackCard item={item}/>
+);
+  const getMoreData = async() => {
+    try {
+        const response = await fetch(`https://sandbox.api.lettutor.com/tutor/${teacher.userId}`, {
+        method: 'GET',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`, // notice the Bearer before your token
+
+        }});
+        const json = await response.json();
+        teacher.avgRating = json.avgRating;
+        teacher.isFavorite = json.isFavorite;
+        setIsLoved(teacher.isFavorite);
+       } catch (error) {
+         console.error(error);
+       } finally {
+       }
+};
+useEffect(() => {
+    getMoreData();
+},);
   const onPressMessage = (id) => {
-    props.navigation.navigate(ScreenKey.MessageDialog, {id});
+    // props.navigation.navigate(ScreenKey.MessageDialog, {id});
+    //console.log(teacher.feedbacks[0].firstInfo.avatar);
   };
   const getNameOfHeartIcon = () => {
     return isLoved ?  'heart' : 'heart-outline';
@@ -41,30 +66,28 @@ export default function TeacherDetail(props) {
   };
   return (
     <ScrollView>
-      <View style={styles.Cover}>
-      <Image style={styles.Cover} source={{uri:user.coverUrl}}  />
-      </View>
+      <Video source={{uri: teacher.video}}   // Can be a URL or a local file.
+       style={styles.backgroundVideo} />
       <View style={styles.Container}>
         <View style={{flexDirection: 'row', width: '100%'}}>
-        <Avatar.Image style={styles.Avatar} size={76} source={{uri:user.avatarUrl}}  />
-
+        <Avatar.Image style={styles.Avatar} size={76} source={{uri:teacher.avatar}}  />
           <View style={{flex:7}}>
             <View style={{flexDirection:'row'}}>
-              <Text style={styles.Name}>{user.name}</Text>
+              <Text style={styles.Name}>{teacher.name}</Text>
               <Ionicons
                 onPress={
                     () => {
-                      let pos = teachers.findIndex(u => u.id === user.id);
-                      teachers[pos].isLoved = !teachers[pos].isLoved;
-                      setIsLoved(!isLoved);
+                      // let pos = teachers.findIndex(u => u.id === user.id);
+                      // teachers[pos].isLoved = !teachers[pos].isLoved;
+                      // setIsLoved(!isLoved);
                     }
                 }
                 size={36}
                 name={getNameOfHeartIcon(isLoved)}
                 color="red"/>
             </View>
-            <Text style={styles.Description}>Teacher</Text>
-            <Text style={styles.Description}>{item.language}</Text>
+            <Text style={styles.Description}>{teacher.email}</Text>
+            <Text style={styles.Description}>{teacher.country}</Text>
           </View>
         </View>
         <TouchableOpacity style={styles.Button} onPress={onPressSchedule}>
@@ -73,42 +96,48 @@ export default function TeacherDetail(props) {
         <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
             <Button labelStyle={{fontSize: 30, justifyContent: 'center', alignItems: 'center'}}
                     icon="android-messages"
-                    onPress={()=>{onPressMessage(user.id);}}/>
+                    onPress={()=>{onPressMessage(teacher.id);}}/>
             <Button labelStyle={{fontSize: 30}}
                     icon="alert-circle"
                     onPress={onPressReport}/>
         </View>
         <Text style={styles.TextTitle}>Introduction</Text>
-        <Text style={styles.Description}>{EXAMPLE_TEXT}</Text>
-        <Text style={styles.TextTitle}>Language</Text>
-        <View style={{flexDirection: 'row'}}>
+        <Text style={styles.Description}>{teacher.bio}</Text>
+        <Text style={styles.TextTitle}>Birthday</Text>
+        <Text style={styles.Description}>{teacher.birthday}</Text>
+        <Text style={styles.TextTitle}>Phone</Text>
+        <Text style={styles.Description}>{teacher.phone}</Text>
+        <Text style={styles.TextTitle}>Education</Text>
+        <Text style={styles.Description}>{teacher.education}</Text>
+        <Text style={styles.TextTitle}>Experience</Text>
+        <Text style={styles.Description}>{teacher.experience}</Text>
+        <Text style={styles.TextTitle}>Profession</Text>
+        <Text style={styles.Description}>{teacher.profession}</Text>
+        <Text style={styles.TextTitle}>Target Student</Text>
+        <Text style={styles.Description}>{teacher.targetStudent}</Text>
+        <Text style={styles.TextTitle}>Interests</Text>
+        <Text style={styles.Description}>{teacher.interests}</Text>
+        {/* <View style={{flexDirection: 'row'}}>
           <Chip style={styles.Chip}>English</Chip>
           <Chip style={styles.Chip}>Vietnamese</Chip>
-        </View>
-        <Text style={styles.TextTitle}>Education</Text>
-        <Text style={styles.Description}>{EXAMPLE_TEXT}</Text>
-        <Text style={styles.TextTitle}>Experience</Text>
-        <Text style={styles.Description}>{EXAMPLE_TEXT}</Text>
-        <Text style={styles.TextTitle}>Interest</Text>
-        <Text style={styles.Description}>{EXAMPLE_TEXT}</Text>
-        <Text style={styles.TextTitle}>Profession</Text>
-        <Text style={styles.Description}>{EXAMPLE_TEXT}</Text>
+        </View> */}
         <Text style={styles.TextTitle}>Specialties</Text>
-        <Text style={styles.Description}>{EXAMPLE_TEXT}</Text>
-        <Text style={styles.TextTitle}>Courses</Text>
-        <Text style={styles.Description}>React Native</Text>
+        <Text style={styles.Description}>{teacher.specialties}</Text>
         <Text style={styles.TextTitle}>Rating and Comments</Text>
         <View style={{flexDirection:'row', marginLeft: 8 }}>
-          <AirbnbRating showRating={false} defaultRating={props.avgRating} isDisabled={false} size={20} color={'red'}/>
-          <Text style={{margin: 6}}>(1234)</Text>
+          <AirbnbRating showRating={false} defaultRating={teacher.avgRating} isDisabled={false} size={20} color={'red'}/>
+          <Text style={{margin: 6}}>({teacher.feedbacks.length})</Text>
         </View>
+          <FlatList
+            data={teacher.feedbacks}
+            renderItem={renderItem} />
       </View>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  Container: {
+     Container: {
     alignSelf: 'center',
     margin: 8,
   },
@@ -128,6 +157,11 @@ const styles = StyleSheet.create({
   Avatar: {
     alignSelf: 'center',
     margin: 8,
+  },
+  backgroundVideo: {
+    width: '100%',
+    height: 250,
+    margin:1,
   },
   Name: {
     fontWeight: 'bold',

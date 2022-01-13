@@ -25,7 +25,7 @@ export const ScreenKey = {
   Login: 'login',
   Courses: 'Courses',
   Teachers: 'Teachers',
-  Upcoming: 'Upcoming',
+  Schedule: 'Schedule',
   Message: 'Message',
   Home: 'Home',
   HomeTabs: 'homeTabs',

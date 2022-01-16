@@ -1,14 +1,16 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, ScrollView, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import { Avatar, TextInput } from 'react-native-paper';
+import { Avatar, TextInput, Chip } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { ScreenKey } from '../../../globals/constants';
+import { AuthContext } from '../../../globals/context';
 
-const TEXT = 'The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog.';
 export default function Profile(props) {
+  const {getUser} = useContext(AuthContext);
+  const user = getUser();
   const onPressEdit = ()=>{
     props.navigation.navigate(ScreenKey.EditProfile);
 
@@ -16,11 +18,11 @@ export default function Profile(props) {
   return (
     <ScrollView style={styles.Container}>
       <View style={styles.HeaderProfile}>
-        <Avatar.Image style={styles.Avatar} size={82} source={{uri:'https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/239732778_2864726213792769_9066963956251065581_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=lLviv4IdvtoAX8l3AZY&_nc_ht=scontent.fsgn2-4.fna&oh=645d6b1394d246c7af3d22001e1e4904&oe=6198D6D7'}} />
+        <Avatar.Image style={styles.Avatar} size={82} source={{uri:user.avatar}} />
         <View style={{flex:5}}>
-          <Text style={styles.Name}>Nguyễn Dương</Text>
-          <Text style={styles.SDT}>0123456789</Text>
-          <Text style={styles.Email}>Contact: example@example.com</Text>
+          <Text style={styles.Name}>{user.name}</Text>
+          <Text style={styles.SDT}>{user.phone}</Text>
+          <Text style={styles.Email}>Contact: {user.email}</Text>
         </View>
         <TouchableOpacity style={{justifyContent: 'center', marginRight:8}} onPress={onPressEdit}>
           <Ionicons size={36} name="create" color="gray"/>
@@ -30,23 +32,26 @@ export default function Profile(props) {
         <TextInput.Icon name="cake-variant" color="lightskyblue"/>
         <Text style={styles.TextTitle}>Date of Birth</Text>
       </View>
-      <Text style={styles.Description}>14-02-2000</Text>
+      <Text style={styles.Description}>{user.birthday}</Text>
       <View style={styles.RowView}>
         <TextInput.Icon name="map-marker" color="lightskyblue"/>
         <Text style={styles.TextTitle}>From</Text>
       </View>
-      <Text style={styles.Description}>Viet Nam</Text>
+      <Text style={styles.Description}>{user.country}</Text>
       <View style={styles.RowView}>
         <TextInput.Icon name="book-open-variant" color="lightskyblue"/>
-        <Text style={styles.TextTitle}>Education</Text>
+        <Text style={styles.TextTitle}>Learn Topics</Text>
       </View>
-      <Text style={styles.Description}>{TEXT}</Text>
+      <View style={styles.RowView}>
+      { user.learnTopics.length === 0 ? <Text> You have no topics.</Text> :
+      user.learnTopics.map((topic) => <Chip style={styles.Chip} key={topic.id}>{topic.name}</Chip>)}
+      </View>
       <View style={styles.RowView}>
         <TextInput.Icon name="chart-line-variant" color="lightskyblue"/>
-        <Text style={styles.TextTitle}>Experience</Text>
+        <Text style={styles.TextTitle}>Level</Text>
       </View>
-      <Text style={styles.Description}>{TEXT}</Text>
-      <View style={styles.RowView}>
+      <Text style={styles.Description}>{user.level}</Text>
+      {/* <View style={styles.RowView}>
         <TextInput.Icon name="check-circle-outline" color="lightskyblue"/>
         <Text style={styles.TextTitle}>Interest</Text>
       </View>
@@ -60,12 +65,15 @@ export default function Profile(props) {
         <TextInput.Icon name="account-box-outline" color="lightskyblue"/>
         <Text style={styles.TextTitle}>Specialties</Text>
       </View>
-      <Text style={styles.Description}>{TEXT}</Text>
+      <Text style={styles.Description}>{TEXT}</Text> */}
       <View style={styles.RowView}>
         <TextInput.Icon name="view-list" color="lightskyblue"/>
         <Text style={styles.TextTitle}>Courses</Text>
       </View>
-      <Text style={styles.Description}>{TEXT}</Text>
+      <View style={styles.RowView}>
+      { user.courses.length === 0 ? <Text> You have no courses</Text> :
+      user.courses.map( (course) => <Chip style={styles.Chip} key={course.id}>{course.name}</Chip>)}
+      </View>
     </ScrollView>
   );
 }
@@ -74,6 +82,11 @@ const styles = StyleSheet.create({
   Container:{
     height:'100%',
     margin: 16,
+  },
+  Chip: {
+    borderRadius: 36,
+    backgroundColor:'deepskyblue',
+    marginLeft: 5,
   },
   RowView: {
     flexDirection:'row',

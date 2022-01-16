@@ -12,9 +12,9 @@ export default function Teacher(props) {
     const [data, setData] = useState([]);
     const [filteredTeachers, setFilteredTeachers] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [ascendingName, setAscendingName] = useState(true);
-    const [ascendingLevel, setAscendingLevel] = useState(true);
-    const [ascendingTopics, setAscendingTopics] = useState(true);
+    const [ascendingName, setAscendingName] = useState(false);
+    const [ascendingRatings, setAscendingRatings] = useState(false);
+    const [ascendingFavorites, setAscendingFavorites] = useState(false);
     const {getToken} = useContext(AuthContext);
     const token = getToken(props);
     const getTeachers = async () => {
@@ -24,7 +24,7 @@ export default function Teacher(props) {
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`, // notice the Bearer before your token
+            'Authorization': `Bearer ${token}`,
 
         }});
          const json = await response.json();
@@ -100,23 +100,38 @@ export default function Teacher(props) {
                                         return 0;
                                     }));
                                     setAscendingName(!ascendingName);
+                                    setAscendingRatings(false);
+                                    setAscendingFavorites(false);
                                     closeMenu();
                                 }
-                            } title="Name" />
+                            } title= {ascendingName ? 'Name   ✔' : 'Name'} />
                         <Menu.Item
                             onPress={
                                 () => {
-                                    setFilteredTeachers(data.sort(function(a, b) { return b.avgRating - a.avgRating;}));
+                                    setFilteredTeachers(
+                                        data.sort(function(a, b) {
+                                            return ascendingRatings ? (b.avgRating - a.avgRating) :
+                                            (a.avgRating - b.avgRating);
+                                        }));
+                                    setAscendingRatings(!ascendingRatings);
+                                    setAscendingName(false);
+                                    setAscendingFavorites(false);
                                     closeMenu();
                                 }
                             }
-                            title="Ratings" />
+                            title={ascendingRatings ? 'Ratings    ✔' : 'Ratings'} />
                         <Menu.Item onPress={
                             () => {
-                                setFilteredTeachers(data.sort(function(a, b) { return b.isLoved - a.isLoved;}));
+                                setFilteredTeachers(
+                                    data.sort(function(a, b) {
+                                        return ascendingFavorites ? (b.isFavorite - a.isFavorite) : (a.isFavorite - b.isFavorite);
+                                    }));
+                                setAscendingFavorites(!ascendingFavorites);
+                                setAscendingRatings(false);
+                                setAscendingName(false);
                                 closeMenu();
                             }
-                        } title="Loved" />
+                        } title={ascendingFavorites ? 'Loved    ✔' : 'Loved'} />
                     </Menu>
                 </View>
             </View>

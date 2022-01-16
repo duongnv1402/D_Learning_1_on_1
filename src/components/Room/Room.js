@@ -26,8 +26,6 @@ export default function Room({route}) {
             avatar: 'https:/gravatar.com/avatar/abc123',
         };
         JitsiMeet.call(url, userInfo);
-        /* Você também pode usar o JitsiMeet.audioCall (url) para chamadas apenas de áudio */
-        /* Você pode terminar programaticamente a chamada com JitsiMeet.endCall () */
         }, 1000);
     }, []);
 

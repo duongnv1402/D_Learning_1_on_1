@@ -6,28 +6,27 @@ import { Avatar } from 'react-native-paper';
 import { users } from '../../models/users';
 
 export default function UpcomingCard(props) {
-    const user = users.find(u => u.id === props.item.id);
-
     return (
         <View style={styles.Container} >
             <View style={{flexDirection:'row'}}>
-                <Avatar.Image style={styles.Avatar} size={64} source={{uri:user.avatarUrl}} />
+                <Avatar.Image style={styles.Avatar} size={64} source={{uri:props.item.scheduleDetailInfo.scheduleInfo.tutorInfo.avatar}} />
                 <View>
-                    <Text style={styles.Name}>{user.name}</Text>
+                    <Text style={styles.Name}>{props.item.scheduleDetailInfo.scheduleInfo.tutorInfo.name}</Text>
                     <View style={styles.Description}>
-                        <Text >{props.item.date} </Text>
-                        <Text style={styles.TimeStart}>{props.item.timeStart} </Text>
+                        <Text >{props.item.scheduleDetailInfo.scheduleInfo.date} </Text>
+                        <Text style={styles.TimeStart}>{props.item.scheduleDetailInfo.scheduleInfo.startTime} </Text>
                         <Text> - </Text>
-                        <Text style={styles.TimeEnd}>{props.item.timeEnd}</Text>
+                        <Text style={styles.TimeEnd}>{props.item.scheduleDetailInfo.scheduleInfo.endTime}</Text>
                     </View>
+                    <Text style={styles.Description}>Note: {props.item.studentRequest}</Text>
                 </View>
             </View>
             <View style={styles.ViewButton}>
-                <TouchableOpacity style={styles.CancelButton} onPress={()=>{props.onPressCancel(props.item);}}>
+                <TouchableOpacity style={styles.CancelButton} onPress={()=>{props.onPressCancel(props.item.scheduleDetailId);}}>
                     <Text style={styles.ButtonText}>Cancel</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.EnterButton} onPress={props.onPressEnter}>
-                    <Text style={styles.ButtonText}>Go to the lesson room</Text>
+                    <Text style={styles.ButtonText}>Go to lesson room</Text>
                 </TouchableOpacity>
             </View>
         </View>

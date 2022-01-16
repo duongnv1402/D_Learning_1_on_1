@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
@@ -7,7 +8,6 @@ import {AirbnbRating} from 'react-native-ratings';
 import {Avatar, Chip} from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { AuthContext } from '../../globals/context';
-import { ScreenKey } from '../../globals/constants';
 
 export default function TeacherCard(props) {
     const [isLoved, setIsLoved] = useState(false);
@@ -24,8 +24,7 @@ export default function TeacherCard(props) {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`, // notice the Bearer before your token
-
+                'Authorization': `Bearer ${token}`,
             }});
             const json = await response.json();
             teacher.avgRating = json.avgRating;
@@ -36,9 +35,31 @@ export default function TeacherCard(props) {
            } finally {
            }
     };
+    const onPressFavorite = async () => {
+        try {
+            await fetch(`https://sandbox.api.lettutor.com/user/manageFavoriteTutor`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+                tutorId: teacher.userId,
+              }),
+            });
+            teacher.isFavorite = !teacher.isFavorite;
+            setIsLoved(teacher.isFavorite);
+           } catch (error) {
+             console.error(error);
+           } finally {
+           }
+    };
+
     useEffect(() => {
         getMoreData();
-    },);
+    },[isLoved]);
+
     return (
         <TouchableOpacity style={styles.Container} onPress={()=>{
             props.onPressTeacherCard(props.item);
@@ -49,11 +70,7 @@ export default function TeacherCard(props) {
                     <View style={{flexDirection:'row'}}>
                         <Text style={styles.Name}>{teacher.name}</Text>
                         <Ionicons
-                            onPress={
-                                () => {
-                                    setIsLoved(!isLoved);
-                                }
-                            }
+                            onPress={() => {onPressFavorite();}}
                             size={36}
                             name={getNameOfHeartIcon(isLoved)}
                             color="red"/>

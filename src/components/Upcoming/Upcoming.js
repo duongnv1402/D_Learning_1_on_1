@@ -45,9 +45,9 @@ export default function Upcoming(props) {
               }),
         });
      };
-     useEffect(() => {
+    useEffect(() => {
         getData();
-      },[refresh]);
+    },[refresh]);
 
     const renderItem = ({item}) => (
         <UpcomingCard nav={props} item={item} onPressCancel={onPressCancel} onPressEnter={()=>{

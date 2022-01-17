@@ -1,6 +1,6 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prettier/prettier */
 import React, {useContext, useState, useEffect}  from 'react';
 import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
@@ -35,9 +35,10 @@ export default function TeacherCard(props) {
            } finally {
            }
     };
+
     const onPressFavorite = async () => {
         try {
-            await fetch(`https://sandbox.api.lettutor.com/user/manageFavoriteTutor`, {
+            await fetch('https://sandbox.api.lettutor.com/user/manageFavoriteTutor', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -62,7 +63,7 @@ export default function TeacherCard(props) {
 
     return (
         <TouchableOpacity style={styles.Container} onPress={()=>{
-            props.onPressTeacherCard(props.item);
+            props.onPressTeacherCard(teacher);
         }}>
             <View style={{flexDirection:'row', width: '100%'}}>
                 <Avatar.Image style={styles.Avatar} size={64} source={{uri:teacher.avatar}}  />

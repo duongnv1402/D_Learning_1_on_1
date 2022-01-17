@@ -16,7 +16,7 @@ export default function EditProfile(props) {
     const [country, setCountry] = useState(user.country);
     const [phone, setPhone] = useState(user.phone);
     const {getToken} = useContext(AuthContext);
-    const token = getToken(props);
+    const token = getToken();
         const onPressChangeAvatar = () => {
         };
         const onPressCancel = () => {

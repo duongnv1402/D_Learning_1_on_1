@@ -11,7 +11,7 @@ export default function CoursesDetail(props) {
     const {getToken} = useContext(AuthContext);
     const [course, setCourse] = useState([]);
     let isFetched = false;
-    const token = getToken(props);
+    const token = getToken();
     const getCourse = async () => {
         if (isFetched === false) {
             try {

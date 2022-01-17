@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, useEffect, useContext} from 'react';
 import TeacherCard from '../Teacher/TeacherCard';
 import {StyleSheet, View, Text, TouchableOpacity, FlatList, SafeAreaView} from 'react-native';
@@ -10,7 +11,7 @@ import { AuthContext } from '../../globals/context';
 export default function Home(props) {
     const [data, setData] = useState();
     const {getToken} = useContext(AuthContext);
-    const token = getToken(props);
+    const token = getToken();
     const getTeachers = async () => {
         try {
         const response = await fetch('https://sandbox.api.lettutor.com/tutor/more?perPage=9&page=1', {
@@ -18,7 +19,7 @@ export default function Home(props) {
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`, // notice the Bearer before your token
+            'Authorization': `Bearer ${token}`,
 
         }});
          const json = await response.json();
@@ -36,7 +37,7 @@ export default function Home(props) {
     );
     const onPressTeacherCard = (item) => {
         props.navigation.navigate(ScreenKey.TeacherDetail, {item});
-        console.log(item);
+        //console.log(item);
     };
     const onPressMenu = () => {
         props.navigation.navigate(ScreenKey.Setting);

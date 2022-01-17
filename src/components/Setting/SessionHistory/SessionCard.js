@@ -2,24 +2,20 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
-import {users} from '../../../models/users';
 export default function SessionCard(props) {
-    const user = users.find(u => u.id === props.item.id);
-
+    const session = props.item;
     return (
         <TouchableOpacity style={styles.Container}  onPress={()=>{props.onPressCard(props.item);}}>
             <View style={{flexDirection:'row'}}>
                 <Image style={styles.Image}
-                source={{uri:user.avatarUrl}}/>
+                source={{uri:session.scheduleDetailInfo.scheduleInfo.tutorInfo.avatar}}/>
                 <View>
-                    <TouchableOpacity onPress={()=>{props.onPressTeacherName(props.item);}}>
-                        <Text style={styles.Name}>{user.name}</Text>
-                    </TouchableOpacity>
+                <Text style={styles.Name}>{session.scheduleDetailInfo.scheduleInfo.tutorInfo.name}</Text>
                     <View style={styles.Description}>
-                        <Text >{props.item.date} </Text>
-                        <Text style={styles.TimeStart}>{props.item.timeStart} </Text>
+                        <Text >{session.scheduleDetailInfo.scheduleInfo.date} </Text>
+                        <Text style={styles.TimeStart}>{session.scheduleDetailInfo.scheduleInfo.startTime} </Text>
                         <Text> - </Text>
-                        <Text style={styles.TimeEnd}>{props.item.timeEnd}</Text>
+                        <Text style={styles.TimeEnd}>{session.scheduleDetailInfo.scheduleInfo.endTime}</Text>
                     </View>
                 </View>
             </View>

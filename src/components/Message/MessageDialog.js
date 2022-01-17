@@ -2,17 +2,16 @@
 import React from 'react';
 import { ScrollView, View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
 import {Avatar, Button} from 'react-native-paper';
-import { users } from '../../models/users';
 export default function MessageDialog({route}) {
     const onClickSend = () => {
     };
-    const user = users.find(u => u.id === route.params.id);
+    const teacher = route.params.item;
     return (
         <View style={styles.Container}>
             <View style={styles.Header}>
-                <Avatar.Image style={styles.Avatar} size={48} source={{uri:user.avatarUrl}} />
+                <Avatar.Image style={styles.Avatar} size={48} source={{uri:teacher.avatar}} />
                 <View >
-                    <Text style={styles.TextName}>{user.name}</Text>
+                    <Text style={styles.TextName}>{teacher.name}</Text>
                     <Text style={styles.TextType}>Teacher</Text>
                 </View>
             </View>

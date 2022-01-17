@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useContext, useState, useEffect} from 'react';
 import { View, StyleSheet, FlatList, Text, LogBox, ActivityIndicator } from 'react-native';
@@ -16,7 +17,7 @@ export default function Teacher(props) {
     const [ascendingRatings, setAscendingRatings] = useState(false);
     const [ascendingFavorites, setAscendingFavorites] = useState(false);
     const {getToken} = useContext(AuthContext);
-    const token = getToken(props);
+    const token = getToken();
     const getTeachers = async () => {
         try {
         const response = await fetch('https://sandbox.api.lettutor.com/tutor/more?perPage=9&page=1', {

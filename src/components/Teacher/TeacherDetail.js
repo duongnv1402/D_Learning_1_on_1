@@ -8,42 +8,18 @@ import {AirbnbRating} from 'react-native-ratings';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { ScreenKey } from '../../globals/constants';
 import Video from 'react-native-video';
-import { AuthContext } from '../../globals/context';
 import FeedbackCard from '../Setting/Feedback/FeedbackCard';
 
 export default function TeacherDetail(props) {
   const [teacher, setTeacher] = useState(props.route.params.item);
-  const [isLoved, setIsLoved] = useState(false);
-  const {getToken} = useContext(AuthContext);
-  const token = getToken(props);
+  const [isLoved, setIsLoved] = useState(teacher.isFavorite);
   const renderItem = ({item}) => (
     <FeedbackCard item={item}/>
 );
-  const getMoreData = async() => {
-    try {
-        const response = await fetch(`https://sandbox.api.lettutor.com/tutor/${teacher.userId}`, {
-        method: 'GET',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`, // notice the Bearer before your token
 
-        }});
-        const json = await response.json();
-        teacher.avgRating = json.avgRating;
-        teacher.isFavorite = json.isFavorite;
-        setIsLoved(teacher.isFavorite);
-       } catch (error) {
-         console.error(error);
-       } finally {
-       }
-};
-useEffect(() => {
-    getMoreData();
-},);
-  const onPressMessage = (id) => {
-    // props.navigation.navigate(ScreenKey.MessageDialog, {id});
-    //console.log(teacher.feedbacks[0].firstInfo.avatar);
+  const onPressMessage = (item) => {
+    props.navigation.navigate(ScreenKey.MessageDialog, {item});
+    //console.log(teacher.video);
   };
   const getNameOfHeartIcon = () => {
     return isLoved ?  'heart' : 'heart-outline';
@@ -66,7 +42,7 @@ useEffect(() => {
   };
   return (
     <ScrollView>
-      <Video source={{uri: teacher.video}}   // Can be a URL or a local file.
+      <Video source={{uri: teacher.video}}
        style={styles.backgroundVideo} />
       <View style={styles.Container}>
         <View style={{flexDirection: 'row', width: '100%'}}>
@@ -96,7 +72,7 @@ useEffect(() => {
         <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
             <Button labelStyle={{fontSize: 30, justifyContent: 'center', alignItems: 'center'}}
                     icon="android-messages"
-                    onPress={()=>{onPressMessage(teacher.id);}}/>
+                    onPress={()=>{onPressMessage(teacher);}}/>
             <Button labelStyle={{fontSize: 30}}
                     icon="alert-circle"
                     onPress={onPressReport}/>
@@ -161,7 +137,6 @@ const styles = StyleSheet.create({
   backgroundVideo: {
     width: '100%',
     height: 250,
-    margin:1,
   },
   Name: {
     fontWeight: 'bold',

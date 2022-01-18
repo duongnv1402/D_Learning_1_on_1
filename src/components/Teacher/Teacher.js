@@ -18,6 +18,7 @@ export default function Teacher(props) {
     const [ascendingFavorites, setAscendingFavorites] = useState(false);
     const {getToken} = useContext(AuthContext);
     const token = getToken();
+    console.log(token);
     const getTeachers = async () => {
         try {
         const response = await fetch('https://sandbox.api.lettutor.com/tutor/more?perPage=9&page=1', {

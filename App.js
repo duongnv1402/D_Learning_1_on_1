@@ -32,6 +32,7 @@ import { ScreenKey } from './src/globals/constants';
 import { AuthContext } from './src/globals/context';
 import { ActivityIndicator, View, Image, Alert } from 'react-native';
 import styles from './src/globals/styles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const theme = {
   ...DefaultTheme,
@@ -48,154 +49,30 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export default function App() {
-    const [isSigned, setIsSigned] = useState(true);
+    const [isSigned, setIsSigned] = useState(false);
     const [isLoading, setLoading] = useState(true);
-    const [token, setToken] = useState('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmNTY5YzIwMi03YmJmLTQ2MjAtYWY3Ny1lY2MxNDE5YTZiMjgiLCJpYXQiOjE2NDIzNDM4ODcsImV4cCI6MTY0MjQzMDI4NywidHlwZSI6ImFjY2VzcyJ9.GrgNZUDMn3DyG8FWO7lvArRV1zavjTjYPwm6HnhpwDc');
-    const [user, setUser] = useState({
-        'id': 'f569c202-7bbf-4620-af77-ecc1419a6b28',
-        'email': 'student@lettutor.com',
-        'name': 'Moc Student',
-        'avatar': 'https://sandbox.api.lettutor.com/avatar/f569c202-7bbf-4620-af77-ecc1419a6b28avatar1642237117312.jpg',
-        'country': 'VN',
-        'phone': '842499996508',
-        'roles': [
-            'student',
-            'CHANGE_PASSWORD',
-        ],
-        'language': 'Vietnamese',
-        'birthday': '2000-03-03',
-        'isActivated': true,
-        'tutorInfo': {
-            'id': 'db37f185-399f-470d-995b-bf6143cb1a5f',
-            'userId': 'f569c202-7bbf-4620-af77-ecc1419a6b28',
-            'video': 'https://sandbox.api.lettutor.com/video/f569c202-7bbf-4620-af77-ecc1419a6b28video1642268185398.mp4',
-            'bio': "You can't Xi me ! Bing chilling ! 1",
-            'education': 'University of Science 1',
-            'experience': '3 years',
-            'profession': 'WWE, Online English teacher',
-            'accent': null,
-            'targetStudent': 'Intermediate',
-            'interests': 'I like reading book in my spare time ',
-            'languages': '+1268',
-            'specialties': 'conversational-english,movers,flyers,toefl,toeic,business-english,Business English,Conversational English,Ielts,Movers,Toeic',
-            'resume': null,
-            'isActivated': false,
-            'isNative': false,
-            'createdAt': '2021-12-28T14:11:54.006Z',
-            'updatedAt': '2022-01-15T17:36:25.535Z',
-        },
-        'walletInfo': {
-            'id': '285396c8-2c82-4dbd-abca-af3e8d0b3a03',
-            'userId': 'f569c202-7bbf-4620-af77-ecc1419a6b28',
-            'amount': '100500000',
-            'isBlocked': false,
-            'createdAt': '2021-10-19T13:08:04.697Z',
-            'updatedAt': '2022-01-16T15:03:41.587Z',
-            'bonus': 0,
-        },
-        'feedbacks': [
-            {
-                'id': 'a5aaea0f-c69c-4d09-b94c-cff9d00444c5',
-                'bookingId': '661d4fa8-b67f-43b8-aa42-c52dc6adb0fd',
-                'firstId': 'f569c202-7bbf-4620-af77-ecc1419a6b28',
-                'secondId': 'f569c202-7bbf-4620-af77-ecc1419a6b28',
-                'rating': 5,
-                'content': 'So greate !',
-                'createdAt': '2022-01-07T10:53:01.541Z',
-                'updatedAt': '2022-01-07T10:53:01.541Z',
-                'firstInfo': {
-                    'id': 'f569c202-7bbf-4620-af77-ecc1419a6b28',
-                    'level': 'INTERMEDIATE',
-                    'email': 'student@lettutor.com',
-                    'google': null,
-                    'facebook': null,
-                    'apple': null,
-                    'avatar': 'https://sandbox.api.lettutor.com/avatar/f569c202-7bbf-4620-af77-ecc1419a6b28avatar1642237117312.jpg',
-                    'name': 'Moc Student',
-                    'country': 'VN',
-                    'phone': '842499996508',
-                    'language': 'Vietnamese',
-                    'birthday': '2000-03-03',
-                    'requestPassword': true,
-                    'isActivated': true,
-                    'isPhoneActivated': true,
-                    'requireNote': null,
-                    'timezone': 7,
-                    'phoneAuth': null,
-                    'isPhoneAuthActivated': false,
-                    'createdAt': '2021-10-19T13:08:04.242Z',
-                    'updatedAt': '2022-01-16T02:56:39.735Z',
-                    'deletedAt': null,
-                },
-                'secondInfo': {
-                    'id': 'f569c202-7bbf-4620-af77-ecc1419a6b28',
-                    'level': 'INTERMEDIATE',
-                    'email': 'student@lettutor.com',
-                    'google': null,
-                    'facebook': null,
-                    'apple': null,
-                    'avatar': 'https://sandbox.api.lettutor.com/avatar/f569c202-7bbf-4620-af77-ecc1419a6b28avatar1642237117312.jpg',
-                    'name': 'Moc Student',
-                    'country': 'VN',
-                    'phone': '842499996508',
-                    'language': 'Vietnamese',
-                    'birthday': '2000-03-03',
-                    'requestPassword': true,
-                    'isActivated': true,
-                    'isPhoneActivated': true,
-                    'requireNote': null,
-                    'timezone': 7,
-                    'phoneAuth': null,
-                    'isPhoneAuthActivated': false,
-                    'createdAt': '2021-10-19T13:08:04.242Z',
-                    'updatedAt': '2022-01-16T02:56:39.735Z',
-                    'deletedAt': null,
-                },
-            },
-        ],
-        'courses': [],
-        'requireNote': null,
-        'level': 'INTERMEDIATE',
-        'learnTopics': [
-            {
-                'id': 4,
-                'key': 'business-english',
-                'name': 'Business English',
-            },
-        ],
-        'testPreparations': [
-            {
-                'id': 6,
-                'key': 'ielts',
-                'name': 'IELTS',
-            },
-        ],
-        'isPhoneActivated': true,
-        'timezone': 7,
-        'referralInfo': {
-            'id': 1,
-            'referralCode': 'RSJYDZYQLE',
-            'userId': 'f569c202-7bbf-4620-af77-ecc1419a6b28',
-            'referralPackId': 1,
-            'createdAt': '2021-10-19T13:08:04.708Z',
-            'updatedAt': '2021-10-19T13:08:04.708Z',
-            'referralPackInfo': {
-                'id': 1,
-                'earnPercent': 5,
-                'isActive': true,
-                'createdAt': '2021-10-13T16:13:35.606Z',
-                'updatedAt': '2021-10-13T16:13:35.606Z',
-            },
-        },
-        'avgRating': 5,
-        'priceOfEachSession': {
-            'id': '0e5574d5-922f-4809-8af1-a06ed3205188',
-            'key': 'pricePerSession',
-            'price': '100000',
-            'createdAt': '2021-06-10T14:53:56.032Z',
-            'updatedAt': '2021-06-10T14:53:56.032Z',
-    },
-    },);
+    const [token, setToken] = useState('');
+    const [refreshToken, setRefreshToken] = useState('');
+    const [user, setUser] = useState({});
+    const getRefreshToken = async () => {
+        try {
+            const value = await AsyncStorage.getItem('refreshToken');
+            if (value !== null) {
+              setRefreshToken(value);
+            }
+          } catch (e) {
+            // error reading value
+          }
+    };
+
+    const storeToken = async (rft) => {
+        try {
+            await AsyncStorage.setItem('refreshToken', rft);
+        } catch (e) {
+            console.log(e);
+        }
+      };
+
     const authContext = useMemo(() => ({
         logIn: async (email, password) => {
         const response = await fetch('https://sandbox.api.lettutor.com/auth/login', {
@@ -209,13 +86,14 @@ export default function App() {
             password: password,
         }),
         });
-        const json = await response.json();
 
+        const json = await response.json();
         if (response) {
             if (response.status === 200) {
-            setIsSigned(true);
+            storeToken(json.tokens.refresh.token);
             setToken(json.tokens.access.token);
             setUser(json.user);
+            setIsSigned(true);
             }
             else {
             Alert.alert('Failed', json.message, [{text:'ok'}]);
@@ -226,21 +104,46 @@ export default function App() {
         }
         },
         logOut: () => {
-        setIsSigned(false);
+            setRefreshToken('');
+            storeToken('');
+            setToken('');
+            setIsSigned(false);
         },
-        getUser: () => {return user;},
         getToken: () => {return token;},
-        setUser: (u) => {setUser(u);},
+        getUser: () => {return user;},
     }));
 
-    useEffect(() => {
-        let timer = setTimeout(() => {
+    const loginByRefreshToken = async () => {
+        getRefreshToken();
+        if (refreshToken !== '')
+        {
+            try {
+                const response = await fetch('https://sandbox.api.lettutor.com/auth/refresh-token?', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    refreshToken: refreshToken,
+                }),
+                });
+                const json = await response.json();
+                if (response.status === 200) {
+                    storeToken(json.tokens.refresh.token);
+                    setToken(json.tokens.access.token);
+                    setUser(json.user);
+                    setIsSigned(true);
+                }
+            } catch (e) {
+            } finally {
+            }
+        }
         setLoading(false);
-        }, 1000);
-        return () => {
-        clearTimeout(timer);
-        };
-    }, []);
+    };
+    useEffect(() => {
+        loginByRefreshToken();
+    }, [refreshToken]);
 
     if ( isLoading ) {
         return (

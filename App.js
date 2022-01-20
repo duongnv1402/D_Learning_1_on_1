@@ -33,6 +33,7 @@ import { AuthContext } from './src/globals/context';
 import { ActivityIndicator, View, Image, Alert } from 'react-native';
 import styles from './src/globals/styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import TeacherFeedbacks from './src/components/Teacher/TeacherFeedbacks';
 
 const theme = {
   ...DefaultTheme,
@@ -71,37 +72,51 @@ export default function App() {
         } catch (e) {
             console.log(e);
         }
-      };
+    };
+    const storeUser = async (email, password) => {
+        try {
+            await AsyncStorage.setItem('email', email);
+            await AsyncStorage.setItem('password', password);
+        } catch (e) {
+            console.log(e);
+        }
+    };
 
     const authContext = useMemo(() => ({
         logIn: async (email, password) => {
-        const response = await fetch('https://sandbox.api.lettutor.com/auth/login', {
-        method: 'POST',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            email: email,
-            password: password,
-        }),
-        });
+            try {
+                const response = await fetch('https://sandbox.api.lettutor.com/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password,
+                    }),
+                    });
 
-        const json = await response.json();
-        if (response) {
-            if (response.status === 200) {
-            storeToken(json.tokens.refresh.token);
-            setToken(json.tokens.access.token);
-            setUser(json.user);
-            setIsSigned(true);
+                    const json = await response.json();
+                    if (response) {
+                        if (response.status === 200) {
+                        storeToken(json.tokens.refresh.token);
+                        storeUser(email, password);
+                        setToken(json.tokens.access.token);
+                        setUser(json.user);
+                        }
+                        else {
+                        Alert.alert('Failed', json.message, [{text:'ok'}]);
+                        }
+                    }
+                    else {
+                        Alert.alert('Failed', 'Please try again', [{text:'ok'}]);
+                    }
+            } catch (e) {
+                console.log(e);
+            } finally {
+                setIsSigned(true);
             }
-            else {
-            Alert.alert('Failed', json.message, [{text:'ok'}]);
-            }
-        }
-        else {
-            Alert.alert('Failed', 'Please try again', [{text:'ok'}]);
-        }
         },
         logOut: () => {
             setRefreshToken('');
@@ -136,21 +151,25 @@ export default function App() {
                     setIsSigned(true);
                 }
             } catch (e) {
-            } finally {
             }
         }
-        setLoading(false);
     };
     useEffect(() => {
         loginByRefreshToken();
+        let timer = setTimeout(() => {
+            setLoading(false);
+        }, 1000);
+        return () => {
+            clearTimeout(timer);
+        };
     }, [refreshToken]);
 
-    if ( isLoading ) {
+    if ( isLoading === true) {
         return (
         <View style={styles.splashScreen}>
             <Image style={styles.imageLogoLogin}
             source={require('./assets/logo-removedbackground.png')}/>
-            <ActivityIndicator />
+            <ActivityIndicator color = "lightskyblue"/>
         </View>
         );
     }
@@ -166,6 +185,7 @@ export default function App() {
                 <Stack.Screen name= {ScreenKey.Setting} component={SettingsStack} />
                 <Stack.Screen name= {ScreenKey.TeacherDetail} component={TeacherDetail} />
                 <Stack.Screen name= {ScreenKey.TeacherSchedule} component={TeacherSchedule} />
+                <Stack.Screen name= {ScreenKey.TeacherFeedbacks} component={TeacherFeedbacks} />
                 <Stack.Screen name= {ScreenKey.MessageScreen} component={Message} />
                 <Stack.Screen name= {ScreenKey.MessageDialog} component={MessageDialog} />
                 <Stack.Screen name= {ScreenKey.UpcomingScreen} component={Upcoming} />

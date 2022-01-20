@@ -29,4 +29,5 @@ export const ScreenKey = {
   Message: 'Message',
   Home: 'Home',
   HomeTabs: 'homeTabs',
+  TeacherFeedbacks: 'teacherFeedbacks',
 };

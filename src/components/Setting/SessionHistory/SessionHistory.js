@@ -22,7 +22,6 @@ export default function SessionHistory(props) {
             'Authorization': `Bearer ${token}`,
         }});
         const json = await response.json();
-        //console.log(json.data.rows);
         setData(json.data.rows);
         } catch (error) {
          console.error(error);

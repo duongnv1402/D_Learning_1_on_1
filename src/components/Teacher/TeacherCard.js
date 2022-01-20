@@ -59,6 +59,9 @@ export default function TeacherCard(props) {
 
     useEffect(() => {
         getMoreData();
+        return () => {
+            setTeacher(props.item);
+        }
     },[isLoved]);
 
     return (

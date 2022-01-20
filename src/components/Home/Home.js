@@ -7,15 +7,21 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { ScreenKey } from '../../globals/constants';
 import {Chip} from 'react-native-paper';
 import { AuthContext } from '../../globals/context';
+import moment from 'moment';
 
 export default function Home(props) {
-    const [data, setData] = useState();
+    const [data, setData] = useState({});
+    const [schedule, setSchedule] = useState({});
     const [isLoading, setIsLoading] = useState(true);
-    const [token, setToken] = useState('');
+    const [scheduleInfo, setScheduleInfo] = useState({});
+    const [isExist, setIsExist] = useState(false);
     const {getToken} = useContext(AuthContext);
-    const getTeachers = async () => {
-        if (token !== '')
-        {
+    const [token, setToken] = useState('');
+    // const token = getToken();
+    const today = new Date(Date.now()).getTime();
+    const getData = async () => {
+        setIsLoading(true);
+        if (token !== '') {
             try {
                 const response = await fetch('https://sandbox.api.lettutor.com/tutor/more?perPage=9&page=1', {
                 method: 'GET',
@@ -25,24 +31,45 @@ export default function Home(props) {
                     'Authorization': `Bearer ${token}`,
                 }});
                 const json = await response.json();
-                setData(json.tutors.rows);
-                } catch (error) {
-                    console.error(error);
-                } finally {
-                setIsLoading(false);
+                if (response.status === 200) {
+                    setData(json.tutors.rows);
+                }
+            } catch (error) {
+                console.error(error);
             }
+            try {
+                const response = await fetch(`https://sandbox.api.lettutor.com/booking/list/student?page=1&perPage=20&dateTimeGte=${today}&orderBy=time&sortBy=time`, {
+                    method: 'GET',
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    }});
+                    const json = await response.json();
+                    if (response.status === 200 && json.data.count !== 0) {
+                        setSchedule(json.data.rows[0]);
+                        setIsExist(true);
+                    }
+            } catch (error) {
+                console.error(error);
+            }
+            setIsLoading(false);
         }
-     };
-     useEffect(() => {
+    };
+    useEffect(() => {
         setToken(getToken());
-        getTeachers();
-      },[token]);
+        getData();
+        return () => {
+            setData([]);
+            setSchedule({});
+            setToken('');
+        };
+    },[token]);
     const renderItem = ({item}) => (
     <TeacherCard item={item} onPressTeacherCard={onPressTeacherCard}/>
     );
     const onPressTeacherCard = (item) => {
         props.navigation.navigate(ScreenKey.TeacherDetail, {item});
-        //console.log(item);
     };
     const onPressMenu = () => {
         props.navigation.navigate(ScreenKey.Setting);
@@ -50,8 +77,8 @@ export default function Home(props) {
     const onPressSeeAllButton = () => {
         props.navigation.navigate(ScreenKey.Teachers);
     };
-    const onPressEnterRoom = () => {
-        props.navigation.navigate(ScreenKey.Room,{startDate: '2021-12-23 08:00:00'});
+    const onPressEnterRoom = (url, startDate) => {
+        props.navigation.navigate(ScreenKey.Room,{extendUrl: url, startDate: startDate});
     };
   return (
     <View>
@@ -67,23 +94,40 @@ export default function Home(props) {
             <View style={styles.Container}>
                 <SafeAreaView>
                     <FlatList
-                        ListHeaderComponent={<View>
-                            <View style={styles.Box}>
-                                <Text style={styles.TextBox}>Up coming lesson</Text>
-                                <Text style={styles.TextBox}>Sat, 16 Oct 2021, 16:00 - 18:00</Text>
-                                <TouchableOpacity onPress={onPressEnterRoom} style={styles.Button}>
-                                    <Chip style={styles.Chip}>Enter lesson Room</Chip>
-                                </TouchableOpacity>
-                            </View>
-                            <View style={styles.MiddleView}>
-                                <Text style={styles.MiddleLeftText}>Recommended Tutors</Text>
-                                <TouchableOpacity onPress={onPressSeeAllButton}>
-                                    <Text style={styles.MiddleRightText}>See all </Text>
-                                </TouchableOpacity>
-                            </View>
-                            </View>}
-                            data={data}
-                            renderItem={renderItem} />
+                        ListHeaderComponent={
+                            isExist === true ?
+                            (<View>
+                                <View style={styles.Box}>
+                                    <Text style={styles.TextBox}>Up coming lesson</Text>
+                                    <Text style={styles.TextBox}>{moment(schedule.scheduleDetailInfo.startPeriodTimestamp).format('LLL')} - {moment(schedule.scheduleDetailInfo.endPeriodTimestamp).format('LT')}</Text>
+                                    {(schedule.studentRequest !== null) ?
+                                    <Text style={styles.TextBox}>Your note: {schedule.studentRequest}</Text> : null}
+                                    <TouchableOpacity onPress={()=>{onPressEnterRoom(schedule.studentMeetingLink, `${scheduleInfo.date} ${scheduleInfo.startTime}`);}} style={styles.Button}>
+                                        <Chip style={styles.Chip}>Enter lesson Room</Chip>
+                                    </TouchableOpacity>
+                                </View>
+                                <View style={styles.MiddleView}>
+                                    <Text style={styles.MiddleLeftText}>Recommended Tutors</Text>
+                                    <TouchableOpacity onPress={onPressSeeAllButton}>
+                                        <Text style={styles.MiddleRightText}>See all </Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>) : (
+                                <View>
+                                    <View style={styles.Box}>
+                                        <Text style={styles.TextBox}>You don't have upcoming class</Text>
+                                    </View>
+                                    <View style={styles.MiddleView}>
+                                        <Text style={styles.MiddleLeftText}>Recommended Tutors</Text>
+                                        <TouchableOpacity onPress={onPressSeeAllButton}>
+                                            <Text style={styles.MiddleRightText}>See all </Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
+                            )
+                        }
+                        data={data}
+                        renderItem={renderItem} />
                 </SafeAreaView>
         </View>
         )}
@@ -132,7 +176,6 @@ const styles = StyleSheet.create({
     Button:{
         borderRadius:25,
         alignSelf: 'center',
-        marginTop:20,
     },
     Container: {
         height:'93%',

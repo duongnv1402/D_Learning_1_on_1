@@ -1,8 +1,9 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 
 import React, {useContext, useEffect, useState} from 'react';
-import { View,  StyleSheet, FlatList, Text, ActivityIndicator } from 'react-native';
+import { View,  StyleSheet, FlatList, Text, ActivityIndicator, LogBox } from 'react-native';
 import { Searchbar, Menu } from 'react-native-paper';
 import CourseCard from './CourseCard';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -12,36 +13,35 @@ import { AuthContext } from '../../globals/context';
 export default function Courses(props) {
     const [filteredCourses, setFilteredCourses] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [size, setSize] = useState(5);
     const [courses, setCourse] = useState([]);
     const [ascendingName, setAscendingName] = useState(true);
     const [ascendingLevel, setAscendingLevel] = useState(true);
     const [ascendingTopics, setAscendingTopics] = useState(true);
     const {getToken} = useContext(AuthContext);
-    let isFetched = false;
     const token = getToken();
     const getCourses = async () => {
-        if (isFetched === false) {
-            try {
-                const response = await fetch('https://sandbox.api.lettutor.com/course?page=1&size=100', {
-                method: 'GET',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`, // notice the Bearer before your token
-                }});
-                    const json = await response.json();
-                    setFilteredCourses(json.data.rows);
-                    setCourse(json.data.rows);
-                } catch (error) {
-                    console.error(error);
-                } finally {
-                    setIsLoading(false);
-                }
+        setIsLoading(true);
+        try {
+            const response = await fetch(`https://sandbox.api.lettutor.com/course?size=${size}`, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`, // notice the Bearer before your token
+            }});
+                const json = await response.json();
+                setFilteredCourses(json.data.rows);
+                setCourse(json.data.rows);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setIsLoading(false);
         }
      };
     useEffect(() => {
         getCourses();
-    },[]);
+    },[size]);
     const onPressCourseCard = (id) => {
         props.navigation.navigate(ScreenKey.CourseDetail, {id});
     };
@@ -69,6 +69,10 @@ export default function Courses(props) {
         else {setFilteredCourses(courses);}
         setSearchQuery(query);
     };
+    const handleLoadMore = () => {
+        setSize(size + 5);
+    };
+    LogBox.ignoreLogs(['EventEmitter.removeListener']);
 
     return (
         <View style={styles.Container}>
@@ -128,20 +132,22 @@ export default function Courses(props) {
                     </Menu>
                 </View>
             </View>
-            {isLoading ?
-            (<ActivityIndicator size="large" />
-            ) :
-            (
-                filteredCourses.length === 0 ?
+            {filteredCourses.length === 0 && isLoading === false ?
                 (<View style = {styles.Container2}>
                     <Text style={styles.CenterText}>{searchQuery} is not found</Text>
                     <Text style={styles.MiddleLeftText}>Recommended Courses</Text>
                     <FlatList data={courses} renderItem = {renderItem} />
                 </View>
                 ) :
-                (<FlatList data={filteredCourses} renderItem = {renderItem} />)
-            )
+                (<FlatList
+                    data={filteredCourses}
+                    renderItem = {renderItem}
+                    onEndReached={handleLoadMore}
+                    keyExtractor={(item) => {return item.id;}}/>
+                )
             }
+            {isLoading ? <ActivityIndicator size="large" /> : <View />}
+
         </View>
     );
 }

@@ -18,7 +18,6 @@ export default function Teacher(props) {
     const [ascendingFavorites, setAscendingFavorites] = useState(false);
     const {getToken} = useContext(AuthContext);
     const token = getToken();
-    console.log(token);
     const getTeachers = async () => {
         try {
         const response = await fetch('https://sandbox.api.lettutor.com/tutor/more?perPage=9&page=1', {
@@ -37,7 +36,7 @@ export default function Teacher(props) {
        } finally {
            setIsLoading(false);
        }
-     };
+    };
      useEffect(() => {
         getTeachers();
       },[]);
@@ -126,7 +125,7 @@ export default function Teacher(props) {
                             () => {
                                 setFilteredTeachers(
                                     data.sort(function(a, b) {
-                                        return ascendingFavorites ? (b.isFavorite - a.isFavorite) : (a.isFavorite - b.isFavorite);
+                                        return ascendingFavorites ? (a.isFavorite - b.isFavorite) : (b.isFavorite - a.isFavorite);
                                     }));
                                 setAscendingFavorites(!ascendingFavorites);
                                 setAscendingRatings(false);

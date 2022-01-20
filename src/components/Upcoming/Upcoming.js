@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, useContext, useEffect} from 'react';
 import { FlatList, StyleSheet, View, Text, Alert, ActivityIndicator, TouchableOpacity } from 'react-native';
 import UpcomingCard from './UpcomingCard';
@@ -11,20 +12,20 @@ export default function Upcoming(props) {
     const [refresh, setRefresh] = useState(false);
     const {getToken} = useContext(AuthContext);
     const token = getToken();
-    const today = new Date(Date.now() + 7 * 3600 * 1000).getTime();
+    const today = new Date(Date.now()).getTime();
     const getData = async () => {
         try {
-        const response = await fetch(`https://sandbox.api.lettutor.com/booking/list/student?page=1&perPage=20&dateTimeGte=${today}&orderBy=time&sortBy=time`, {
+        const response = await fetch(`https://sandbox.api.lettutor.com/booking/list/student?page=1&perPage=20&dateTimeGte=${today}&sortBy=time`, {
         method: 'GET',
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`, // notice the Bearer before your token
-
+            'Authorization': `Bearer ${token}`,
         }});
         const json = await response.json();
-        //console.log(json.data.rows);
-        setData(json.data.rows);
+        if (response.status === 200){
+            setData(json.data.rows);
+        }
         } catch (error) {
          console.error(error);
         } finally {
@@ -91,8 +92,7 @@ export default function Upcoming(props) {
                             <Text style={styles.CenterTextLink}>Go to book?</Text>
                         </TouchableOpacity>
                         <FlatList data={data} renderItem = {renderItem} />
-                    </View>
-                    ) :
+                    </View>) :
                     (<FlatList style={styles.Container}
                         data={data}
                         renderItem={renderItem} />)

@@ -3,7 +3,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Avatar } from 'react-native-paper';
-import { users } from '../../models/users';
+import moment from 'moment';
 
 export default function UpcomingCard(props) {
     return (
@@ -13,10 +13,10 @@ export default function UpcomingCard(props) {
                 <View>
                     <Text style={styles.Name}>{props.item.scheduleDetailInfo.scheduleInfo.tutorInfo.name}</Text>
                     <View style={styles.Description}>
-                        <Text >{props.item.scheduleDetailInfo.scheduleInfo.date} </Text>
-                        <Text style={styles.TimeStart}>{props.item.scheduleDetailInfo.scheduleInfo.startTime} </Text>
+                        <Text >{moment(props.item.scheduleDetailInfo.startPeriodTimestamp).format('LL')} </Text>
+                        <Text style={styles.TimeStart}>{moment(props.item.scheduleDetailInfo.startPeriodTimestamp).format('LT')} </Text>
                         <Text> - </Text>
-                        <Text style={styles.TimeEnd}>{props.item.scheduleDetailInfo.scheduleInfo.endTime}</Text>
+                        <Text style={styles.TimeEnd}>{moment(props.item.scheduleDetailInfo.endPeriodTimestamp).format('LT')}</Text>
                     </View>
                     <Text style={styles.Description}>Note: {props.item.studentRequest}</Text>
                 </View>
@@ -25,7 +25,7 @@ export default function UpcomingCard(props) {
                 <TouchableOpacity style={styles.CancelButton} onPress={()=>{props.onPressCancel(props.item.scheduleDetailId);}}>
                     <Text style={styles.ButtonText}>Cancel</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.EnterButton} onPress={props.onPressEnter}>
+                <TouchableOpacity style={styles.EnterButton} onPress={()=>{props.onPressEnter();}}>
                     <Text style={styles.ButtonText}>Go to lesson room</Text>
                 </TouchableOpacity>
             </View>

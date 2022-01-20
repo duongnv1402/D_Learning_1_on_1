@@ -2,6 +2,7 @@
 import React from 'react';
 import { ScrollView, View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
 import {Avatar, Button} from 'react-native-paper';
+
 export default function MessageDialog({route}) {
     const onClickSend = () => {
     };
